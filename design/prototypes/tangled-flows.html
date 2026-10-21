@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tangled Flows</title>
+<style>
+  :root{ --bg:#050505; --panel:#0f0f0f; --line:#2b2b2b; --text:#f2f2f2; --mute:#8a8a8a; --ok:#4ade80; --warn:#fbbf24; --bad:#f87171; }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg)}
+  body{display:flex;align-items:center;justify-content:center;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  svg{width:100%;height:100%;max-width:1300px;max-height:100vh;display:block}
+  text{font-family:inherit}
+
+  /* ---------- flow lines ---------- */
+  .ln{fill:none;stroke:#f2f2f2;stroke-linecap:round;stroke-width:1.5;stroke-dasharray:1 2;stroke-dashoffset:1;opacity:.92}
+  .ln.dash{stroke-dasharray:4 5;stroke-dashoffset:0;opacity:0;stroke-width:1.2}
+  .fl{fill:none;stroke:#fff;stroke-linecap:round;stroke-width:2;stroke-dasharray:2 16;opacity:0}
+  .arr{fill:#f2f2f2;opacity:0;transform-box:fill-box;transform-origin:center}
+  .chip,.tag,.note,.warn{opacity:0;transform-box:fill-box;transform-origin:center}
+  .chip rect{fill:#191919;stroke:#f2f2f2;stroke-width:1.4}
+  .chip text{fill:#f2f2f2;font-size:8px;font-weight:600;text-anchor:start;letter-spacing:.2px}
+  .chip .ic{fill:none;stroke:#f2f2f2;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+  .chip.start .ic{stroke:#050505}
+  .chip.start rect{fill:#f2f2f2}
+  .chip.start text{fill:#050505;font-weight:800}
+  .tag rect{fill:#1f1f1f;stroke:none}
+  .note rect,.warn rect{fill:#0a0a0a;stroke:#4a4a4a;stroke-width:.8}
+  .tag text{fill:#d4d4d4;font-size:6px;font-weight:600;letter-spacing:.3px;text-anchor:middle}
+  .note text{fill:#d0d0d0;font-size:8.5px;font-style:italic;font-family:"Segoe Print","Bradley Hand","Chalkboard SE","Comic Sans MS",cursive;text-anchor:middle}
+  .warn polygon{fill:none;stroke:#f2f2f2;stroke-width:1.2;stroke-linejoin:round}
+  .warn text{fill:#f2f2f2;font-size:7px;font-weight:800;text-anchor:middle}
+  .ring{fill:none;stroke:#fff;stroke-width:1.5;opacity:0;transform-box:fill-box;transform-origin:center}
+
+  .run .ln{animation:draw var(--dur) var(--d) cubic-bezier(.45,.05,.4,1) forwards}
+  .run .ln.dash{animation:dashIn .5s var(--d) forwards}
+  .run .fl{animation:flIn .6s var(--d2) forwards, flow 1.6s linear infinite}
+  .run .arr{animation:pop .3s var(--d) forwards}
+  .run .chip{animation:chipPop .5s var(--d) cubic-bezier(.2,1.5,.4,1) forwards}
+  .run .tag,.run .note,.run .warn{animation:chipIn .35s var(--d) cubic-bezier(.2,1.4,.4,1) forwards}
+  .run .ring{animation:ring 1.8s var(--d) ease-out 2}
+
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes dashIn{to{opacity:.7}}
+  @keyframes flIn{to{opacity:.55}}
+  @keyframes flow{to{stroke-dashoffset:-36}}
+  @keyframes pop{0%{opacity:0;transform:scale(0)}100%{opacity:1;transform:scale(1)}}
+  @keyframes chipIn{0%{opacity:0;transform:scale(.4)}100%{opacity:1;transform:scale(1)}}
+  @keyframes chipPop{
+    0%{opacity:0;transform:scale(0)}
+    40%{opacity:1}
+    100%{opacity:1;transform:scale(1)}
+  }
+  @keyframes ring{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(9)}}
+
+  .out #lines,.out #arrows,.out #tags,.out #notes,.out #chips{transition:opacity .9s;opacity:0}
+  .out .it,.out .ux{transition:opacity .9s;opacity:0 !important;animation:none}
+
+  /* ---------- AI panel (compact) ---------- */
+  .panel{fill:var(--panel);stroke:var(--line);stroke-width:1.2}
+  .ai-title{fill:#fff;font-size:17px;font-weight:800;letter-spacing:1px}
+  .ai-sub{fill:var(--mute);font-size:7.5px}
+  .it,.ux{opacity:0}
+  .it text,.ux text.lbl{fill:var(--text);font-size:8.5px}
+  .run .it,.run .ux{animation:rowIn .5s var(--t) forwards}
+  @keyframes rowIn{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:none}}
+
+  .spin{transform-box:fill-box;transform-origin:center;fill:none;stroke:var(--warn);stroke-width:1.8;stroke-linecap:round;stroke-dasharray:11 24;opacity:0}
+  .run .spin{animation:rot .8s linear infinite, vis var(--w) var(--t) forwards}
+  @keyframes rot{to{transform:rotate(360deg)}}
+  @keyframes vis{0%{opacity:1}99%{opacity:1}100%{opacity:0}}
+  .tick{fill:none;stroke:var(--ok);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:0}
+  .run .tick{animation:fadeFull .3s var(--c) forwards}
+  @keyframes fadeFull{to{opacity:1}}
+
+  .pill rect{stroke-width:1}
+  .pill text{font-size:7.5px;font-weight:700}
+  .p-proc{opacity:0}
+  .p-proc rect{fill:rgba(251,191,36,.12);stroke:var(--warn)} .p-proc text{fill:var(--warn)}
+  .p-fail{opacity:0}
+  .p-fail rect{fill:rgba(248,113,113,.14);stroke:var(--bad)} .p-fail text{fill:var(--bad)}
+  .run .p-proc{animation:vis3 3.4s var(--t) forwards}
+  @keyframes vis3{0%{opacity:1}97%{opacity:1}100%{opacity:0}}
+  .run .p-fail{animation:failIn .4s var(--f) forwards, pulse 1.3s calc(var(--f) + .5s) ease-in-out infinite}
+  @keyframes failIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+  @keyframes pulse{50%{filter:drop-shadow(0 0 5px rgba(248,113,113,.9))}}
+  .p-proc,.p-fail{transform-box:fill-box;transform-origin:center}
+  .xmark{fill:none;stroke:var(--bad);stroke-width:1.8;stroke-linecap:round;opacity:0}
+  .run .xmark{animation:fadeFull .3s var(--f) forwards}
+
+  @media (prefers-reduced-motion:reduce){ .run *{animation-duration:.01s !important;animation-iteration-count:1 !important} }
+</style>
+</head>
+<body>
+<svg id="stage" viewBox="0 -12 1000 584" preserveAspectRatio="xMidYMid meet" role="img" aria-label="App and game flows spreading chip to chip while AI builds and checks them">
+  <g id="lines"></g>
+  <g id="arrows"></g>
+  <g id="tags"></g>
+  <g id="notes"></g>
+  <g id="chips"></g>
+
+  <!-- AI panel -->
+  <rect class="panel" x="832" y="150" width="158" height="250" rx="10"/>
+  <text class="ai-title" x="844" y="176">AI</text>
+  <text class="ai-sub" x="844" y="188">building &amp; checking flows</text>
+  <line x1="844" y1="196" x2="978" y2="196" stroke="#2b2b2b"/>
+  <g id="items"></g>
+</svg>
+
+<script>
+(function(){
+  const NS='http://www.w3.org/2000/svg';
+  const $=(t,a={},p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e};
+  const G=id=>document.getElementById(id);
+  const lines=G('lines'), arrows=G('arrows'), tags=G('tags'), notes=G('notes'), chips=G('chips'), items=G('items'), stage=G('stage');
+
+  let seed=5; const rnd=()=>{seed=(seed*16807)%2147483647;return (seed-1)/2147483646};
+  const rr=(a,b)=>a+rnd()*(b-a);
+  const fx=n=>n.toFixed(1), ft=n=>n.toFixed(2);
+
+  const labels=['Splash','Onboarding','Sign In','Sign Up','Reset Pass','Permissions','Notifications','Home','Settings','Profile','Search','Filters','Shop','Item Details','Payment','Cancellation','Subscription','Manage Plan','Offer','Map','Level Select','Level','Pause','Daily Reward','Achievements','Leaderboard','Friends','Social','Events','Roadmap','News','Tooltip','Support','FAQ','Contact','Transaction','Paywall','Checkout','Inventory','Matchmaking','Lobby','Avatar','Chat','Referral','Wallet','Receipts','Season Pass','Promo Codes'];
+  const tagsTxt=['auth','token','retry','cache','webhook','consent','A/B test','push','deeplink','sync','validate','redirect','OTP','session','rate limit','fallback','analytics','queue','refresh','2FA','promo','invoice','receipt','ads','cooldown','save','merge','verify','email','timeout','offline','rollback','cohort','flag','restore','claim','unlock'];
+  const notesTxt=['Needed?','Back?','Too many options?','Extra step…','No results?',"Didn't receive?",'Confusing…','Need to unlock first?','Payment failed?','Still trying to cancel?','Not loading?','Where was this again?'];
+
+  // ---- tiny line icons (24x24 grid), one per chip ----
+  const ICONS={
+    game:'<path d="M6 8h12a4 4 0 0 1 4 4v2a3 3 0 0 1-5 2l-1-2H8l-1 2a3 3 0 0 1-5-2v-2a4 4 0 0 1 4-4z"/><path d="M8 10.5v3M6.5 12h3M16 11.5v.5M18 13v.5"/>',
+    star:'<path d="M12 3l2.5 6 6.5.5-5 4.5 1.5 6.5-5.5-3.5-5.5 3.5L8 14 3 9.5 9.5 9z"/>',
+    next:'<path d="M4 12h14M13 6l6 6-6 6"/>',
+    login:'<path d="M10 17l5-5-5-5M15 12H3M14 4h6v16h-6"/>',
+    userplus:'<circle cx="10" cy="7" r="4"/><path d="M3 20c0-4 3-6 7-6s7 2 7 6M19 8v6M16 11h6"/>',
+    refresh:'<path d="M20 12a8 8 0 1 1-3-6.2M20 4v5h-5"/>',
+    shield:'<path d="M12 3l8 3v6c0 5-4 8-8 9-4-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+    bell:'<path d="M6 17v-6a6 6 0 0 1 12 0v6l2 2H4z"/><path d="M10 21h4"/>',
+    home:'<path d="M3 11l9-8 9 8M5 10v11h14V10M10 21v-6h4v6"/>',
+    gear:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/>',
+    user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',
+    search:'<circle cx="10" cy="10" r="6"/><path d="M15 15l6 6"/>',
+    filter:'<path d="M3 5h18l-7 8v6l-4-2v-4z"/>',
+    bag:'<path d="M5 8h14l-1 13H6z"/><path d="M9 8a3 3 0 0 1 6 0"/>',
+    info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>',
+    card:'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>',
+    cancel:'<circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/>',
+    crown:'<path d="M3 8l4 4 5-7 5 7 4-4v11H3z"/>',
+    sliders:'<circle cx="16" cy="7" r="2.5"/><circle cx="8" cy="17" r="2.5"/><path d="M3 7h10.5M18.5 7H21M3 17h2.5M10.5 17H21"/>',
+    percent:'<circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/><path d="M19 5L5 19"/>',
+    map:'<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>',
+    layers:'<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>',
+    play:'<path d="M7 4v16l13-8z"/>',
+    pause:'<path d="M8 5v14M16 5v14"/>',
+    gift:'<rect x="3" y="10" width="18" height="11"/><path d="M3 7h18v3H3zM12 7v14M12 7c-3-4-6-1-4 0M12 7c3-4 6-1 4 0"/>',
+    trophy:'<path d="M8 4h8v6a4 4 0 0 1-8 0z"/><path d="M8 6H4v2a4 4 0 0 0 4 4M16 6h4v2a4 4 0 0 1-4 4M12 14v4M8 21h8"/>',
+    podium:'<path d="M3 21v-7h6v7M9 21V8h6v13M15 21v-9h6v9"/>',
+    users:'<circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="9" r="3"/><path d="M2 20c0-3.5 3-5.5 7-5.5s7 2 7 5.5M17 14.5c3 0 5 1.5 5 4.5"/>',
+    heart:'<path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-3 4.5 4.5 0 0 1 8 3c0 6-8 11-8 11z"/>',
+    calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+    flag:'<path d="M5 21V4M5 5h12l-3 4 3 4H5"/>',
+    mega:'<path d="M3 10v4h4l8 4V6L7 10z"/><path d="M18 9a4 4 0 0 1 0 6"/>',
+    bulb:'<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10c1 1 1 2 1 3h6c0-1 0-2 1-3a6 6 0 0 0-4-10z"/>',
+    headset:'<path d="M4 14v-2a8 8 0 0 1 16 0v2M4 14h3v5H4zM17 14h3v5h-3z"/>',
+    help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 5 0c0 2-2.5 2-2.5 4M12 17v.5"/>',
+    mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+    swap:'<path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4"/>',
+    lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+    check:'<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/>',
+    box:'<path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/>',
+    vs:'<circle cx="6" cy="12" r="3"/><circle cx="18" cy="12" r="3"/><path d="M9 12h6"/>',
+    door:'<path d="M5 21V3h10v18M3 21h18M12 12v.5"/>',
+    smile:'<circle cx="12" cy="12" r="9"/><path d="M9 10v.5M15 10v.5M8 14a5 5 0 0 0 8 0"/>',
+    chat:'<path d="M4 5h16v11H9l-5 4z"/>',
+    link:'<path d="M10 14a4 4 0 0 0 5.6 0l3-3a4 4 0 0 0-5.6-5.6l-1 1M14 10a4 4 0 0 0-5.6 0l-3 3a4 4 0 0 0 5.6 5.6l1-1"/>',
+    wallet:'<path d="M3 7h16a2 2 0 0 1 2 2v10H5a2 2 0 0 1-2-2z"/><path d="M3 7l12-3v3M16 14h2"/>',
+    receipt:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',
+    ticket:'<path d="M3 8h18v3a2 2 0 0 0 0 4v3H3v-3a2 2 0 0 0 0-4z"/><path d="M13 8v10"/>',
+    tag:'<path d="M3 12V4h8l10 10-8 8z"/><path d="M7 8v.5"/>'
+  };
+  const ICON_OF={'Game/App':'game','Splash':'star','Onboarding':'next','Sign In':'login','Sign Up':'userplus','Reset Pass':'refresh','Permissions':'shield','Notifications':'bell','Home':'home','Settings':'gear','Profile':'user','Search':'search','Filters':'filter','Shop':'bag','Item Details':'info','Payment':'card','Cancellation':'cancel','Subscription':'crown','Manage Plan':'sliders','Offer':'percent','Map':'map','Level Select':'layers','Level':'play','Pause':'pause','Daily Reward':'gift','Achievements':'trophy','Leaderboard':'podium','Friends':'users','Social':'heart','Events':'calendar','Roadmap':'flag','News':'mega','Tooltip':'bulb','Support':'headset','FAQ':'help','Contact':'mail','Transaction':'swap','Paywall':'lock','Checkout':'check','Inventory':'box','Matchmaking':'vs','Lobby':'door','Avatar':'smile','Chat':'chat','Referral':'link','Wallet':'wallet','Receipts':'receipt','Season Pass':'ticket','Promo Codes':'tag'};
+
+  // ---- shuffle labels; spread chips over a round blob, Game/App in the centre ----
+  const L=labels.slice();
+  for(let i=L.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[L[i],L[j]]=[L[j],L[i]]}
+  const CX=395, CY=275, CENTER=0, RX=335, RY=250;
+  const nodes=[{i:0,label:'Game/App',x:CX,y:CY,w:54,h:16}];
+  L.forEach((label,k)=>{
+    const r=Math.sqrt((k+1.5)/(L.length+1.5)), th=k*2.399963+rr(-.25,.25);
+    nodes.push({i:k+1,label,
+      x:CX+RX*r*Math.cos(th)+rr(-12,12), y:CY+RY*r*Math.sin(th)+rr(-12,12),
+      w:Math.max(54,label.length*4.5+26), h:16});
+  });
+  // relax: push overlapping chips apart, keep everything inside the oval
+  for(let it=0;it<400;it++){
+    for(let a=0;a<nodes.length;a++)for(let b=a+1;b<nodes.length;b++){
+      const A=nodes[a], B=nodes[b], dx=B.x-A.x, dy=B.y-A.y;
+      const ox=(A.w+B.w)/2+10-Math.abs(dx), oy=(A.h+B.h)/2+13-Math.abs(dy);
+      if(ox>0&&oy>0){
+        const ma=a===0?0:.5, mb=a===0?1:.5; // centre chip stays put
+        if(ox<oy){const s=(dx>=0?1:-1)*ox; A.x-=s*ma; B.x+=s*mb}
+        else{const s=(dy>=0?1:-1)*oy; A.y-=s*ma; B.y+=s*mb}
+      }
+    }
+    nodes.forEach(n=>{
+      if(n.i===0)return;
+      const ux=(n.x-CX)/RX, uy=(n.y-CY)/RY, d=Math.hypot(ux,uy);
+      if(d>1){n.x=CX+(n.x-CX)/d; n.y=CY+(n.y-CY)/d}
+    });
+  }
+  const N=nodes.length;
+
+  // occupied boxes: chip text areas + every scribble placed later, so nothing overlaps
+  const occ=nodes.map(n=>({x:n.x,y:n.y,w:n.w+8,h:n.h+8}));
+  const free=r=>r.x-r.w/2>4&&r.x+r.w/2<796&&r.y-r.h/2>-10&&r.y+r.h/2<570&&
+    occ.every(o=>Math.abs(o.x-r.x)*2>=(o.w+r.w)||Math.abs(o.y-r.y)*2>=(o.h+r.h));
+  const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+
+  // ---- edges: nearest neighbours + a few long links ----
+  const ekeys=new Set(), edges=[];
+  function addEdge(a,b){ if(a===b)return false; const k=a<b?a+'-'+b:b+'-'+a; if(ekeys.has(k))return false; ekeys.add(k); edges.push({a,b}); return true; }
+  nodes.forEach(n=>{
+    const near=nodes.filter(m=>m!==n).sort((p,q)=>dist(n,p)-dist(n,q));
+    const k=3+(rnd()<.6?1:0);
+    for(let q=0;q<k;q++)addEdge(n.i,near[q].i);
+  });
+  for(let q=0,added=0;q<500&&added<50;q++){
+    const a=Math.floor(rnd()*N), b=Math.floor(rnd()*N), d=dist(nodes[a],nodes[b]);
+    if(d>130&&d<460&&addEdge(a,b))added++;
+  }
+
+  const adj=nodes.map(()=>[]);
+  edges.forEach(e=>{adj[e.a].push(e.b);adj[e.b].push(e.a)});
+
+  // ---- BFS from the centre: the tree decides when each chip appears ----
+  const tn=new Array(N).fill(null), done=[], plan=[];
+  const used=new Set();
+  const key=(a,b)=>a<b?a+'-'+b:b+'-'+a;
+  const durFor=(a,b)=>+(0.45+dist(nodes[a],nodes[b])/420+rnd()*.25).toFixed(2);
+  const arr=[]; arr[CENTER]={start:.1,dur:.95};
+  tn[CENTER]=1.1; const queue=[CENTER];
+  let visited=1;
+  while(visited<N){
+    if(!queue.length){ // safety: connect any stranded node to its nearest visited one
+      let best=null;
+      for(let v=0;v<N;v++)if(tn[v]===null)for(let u=0;u<N;u++)if(tn[u]!==null){const d=dist(nodes[u],nodes[v]); if(!best||d<best.d)best={u,v,d}}
+      addEdge(best.u,best.v); adj[best.u].push(best.v); adj[best.v].push(best.u); queue.push(best.u);
+    }
+    const u=queue.shift();
+    const nb=adj[u].filter(v=>tn[v]===null).sort((p,q)=>dist(nodes[u],nodes[p])-dist(nodes[u],nodes[q]));
+    nb.forEach(v=>{
+      const start=tn[u]+rr(.05,.35), dur=durFor(u,v);
+      tn[v]=start+dur; arr[v]={start,dur}; visited++; queue.push(v);
+      used.add(key(u,v)); plan.push({a:u,b:v,start,dur,tree:true});
+    });
+  }
+  // remaining links bloom later -> chaos
+  edges.forEach(e=>{
+    if(used.has(key(e.a,e.b)))return;
+    let a=e.a,b=e.b; if(tn[a]>tn[b]){[a,b]=[b,a]}
+    const start=Math.min(9.4,Math.max(tn[a],tn[b])+rr(.1,1.5));
+    plan.push({a,b,start,dur:durFor(a,b),tree:false});
+  });
+
+  // ---- geometry helpers ----
+  function clip(n,dx,dy){
+    const hw=n.w/2+3, hh=n.h/2+4;
+    const kx=dx===0?Infinity:hw/Math.abs(dx), ky=dy===0?Infinity:hh/Math.abs(dy);
+    const k=Math.min(kx,ky); return {x:n.x+dx*k,y:n.y+dy*k};
+  }
+  const bz=(P,t)=>{const u=1-t;return{
+    x:u*u*u*P.x0+3*u*u*t*P.c1x+3*u*t*t*P.c2x+t*t*t*P.x1,
+    y:u*u*u*P.y0+3*u*u*t*P.c1y+3*u*t*t*P.c2y+t*t*t*P.y1}};
+
+  // ---- draw edges ----
+  const mids=[];
+  plan.forEach((e,idx)=>{
+    const A=nodes[e.a], B=nodes[e.b];
+    const dx=B.x-A.x, dy=B.y-A.y, len=Math.hypot(dx,dy);
+    const p0=clip(A,dx,dy), p1=clip(B,-dx,-dy);
+    const vx=p1.x-p0.x, vy=p1.y-p0.y, vl=Math.hypot(vx,vy)||1, nx=-vy/vl, ny=vx/vl;
+    const sgn=rnd()<.5?-1:1, o1=sgn*vl*rr(.1,.34), o2=(rnd()<.3?-1:1)*sgn*vl*rr(.05,.3);
+    const P={x0:p0.x,y0:p0.y,x1:p1.x,y1:p1.y,
+      c1x:p0.x+vx/3+nx*o1,c1y:p0.y+vy/3+ny*o1,
+      c2x:p0.x+vx*2/3+nx*o2,c2y:p0.y+vy*2/3+ny*o2};
+    const d=`M${fx(P.x0)},${fx(P.y0)} C${fx(P.c1x)},${fx(P.c1y)} ${fx(P.c2x)},${fx(P.c2y)} ${fx(P.x1)},${fx(P.y1)}`;
+    const dashed=!e.tree&&rnd()<.5; rnd(); // (keeps the layout identical to before)
+    const st=`--d:${ft(e.start)}s;--dur:${e.dur}s;--d2:${ft(e.start+e.dur)}s`;
+    $('path',{class:'ln'+(dashed?' dash':''),d,pathLength:1,style:st},lines);
+    if(!dashed)$('path',{class:'fl',d,style:st},lines);
+
+    mids.push({P,nx,ny,delay:e.start+e.dur*.55});
+    if(rnd()<(e.tree?.9:.6)){
+      const txt=tagsTxt[(idx*7+3)%tagsTxt.length], w=txt.length*3.7+9;
+      for(const tm of [.5,.42,.58,.35,.65,.3,.7]){
+        const mp=bz(P,tm), rect={x:mp.x,y:mp.y,w:w+3,h:12};
+        if(!free(rect))continue;
+        occ.push(rect);
+        const o=$('g',{transform:`translate(${fx(mp.x)},${fx(mp.y)})`},tags);
+        const g=$('g',{class:'tag',style:`--d:${ft(e.start+e.dur*tm+.1)}s`},o);
+        const i2=$('g',{},g);
+        $('rect',{x:-w/2,y:-4.5,width:w,height:9,rx:4.5},i2);
+        $('text',{x:0,y:2.1},i2).textContent=txt;
+        break;
+      }
+    }
+  });
+
+  // ---- handwritten notes and warning marks scattered over the mess ----
+  // find a free spot beside some line: never on a chip's text or on another scribble
+  function spot(w,h,offs){
+    const ms=[...mids].sort(()=>rnd()-.5);
+    for(const m of ms)for(const t of [.5,.4,.6,.32,.68])for(const off of offs)for(const sd of [1,-1]){
+      const p=bz(m.P,t), x=p.x+m.nx*off*sd, y=p.y+m.ny*off*sd, r={x,y,w:w+3,h:h+3};
+      if(free(r)){occ.push(r);return{x,y,m}}
+    }
+    return null;
+  }
+  notesTxt.forEach(t=>{
+    const nw=t.length*4.7+10; const s=spot(nw,14,[12,18]); if(!s)return;
+    const o=$('g',{transform:`translate(${fx(s.x)},${fx(s.y)}) rotate(${fx(rr(-8,8))})`},notes);
+    const g=$('g',{class:'note',style:`--d:${ft(Math.max(s.m.delay,3)+rr(.5,2.5))}s`},o);
+    $('rect',{x:-nw/2,y:-7,width:nw,height:14,rx:4},g);
+    $('text',{x:0,y:3},g).textContent=t;
+  });
+  for(let i=0;i<8;i++){
+    const s=spot(20,19,[0,10]); if(!s)break;
+    const o=$('g',{transform:`translate(${fx(s.x)},${fx(s.y)})`},notes);
+    const g=$('g',{class:'warn',style:`--d:${ft(Math.max(s.m.delay,4)+rr(.5,3))}s`},o);
+    $('rect',{x:-10,y:-9.5,width:20,height:19,rx:5},g);
+    $('polygon',{points:'0,-7 7.5,6 -7.5,6'},g);
+    $('text',{x:0,y:4.2},g).textContent='!';
+  }
+
+  // ---- chips on top ----
+  nodes.forEach(n=>{
+    const isC=n.i===CENTER;
+    const o=$('g',{transform:`translate(${fx(n.x)},${fx(n.y)})`},chips);
+    const a=arr[n.i]||{start:.1,dur:1};
+    const g=$('g',{class:'chip'+(isC?' start':''),style:`--d:${ft(a.start+a.dur)}s`},o);
+    const inner=$('g',{},g);
+    $('rect',{x:-n.w/2,y:-n.h/2,width:n.w,height:n.h,rx:n.h/2},inner);
+    if(isC){
+      $('text',{x:0,y:2.9,style:'text-anchor:middle'},inner).textContent=n.label;
+    }else{
+      const ic=$('g',{class:'ic',transform:`translate(${fx(-n.w/2+7)},-4.2) scale(.35)`},inner);
+      ic.innerHTML=ICONS[ICON_OF[n.label]]||'';
+      $('text',{x:fx(-n.w/2+18),y:2.9},inner).textContent=n.label;
+    }
+  });
+  $('circle',{class:'ring',cx:CX,cy:CY,r:10,style:'--d:1.0s'},chips);
+
+  // ---- AI list: app & game development steps ----
+  const checks=['Concept & game design doc','Wireframes & screen map','UI / art design','Prototype','Core loop & gameplay','Backend & APIs','Monetization & IAP','QA & playtesting'];
+  const y0=214, gap=21;
+  // every row is drawn in the top slot and slid down by its own keyframes (built below)
+  const slots=[];
+  const mkWrap=start=>{const el=$('g',{class:'slot'},items); slots.push({el,start}); return el};
+  checks.forEach((txt,i)=>{
+    const t=(1.6+i*.8).toFixed(2), w=1.2, c=(1.6+i*.8+w).toFixed(2), y=y0;
+    const g=$('g',{class:'it',style:`--t:${t}s;--w:${w}s;--c:${c}s`},mkWrap(1.6+i*.8));
+    $('circle',{cx:846,cy:y,r:4.5,fill:'none',stroke:'#333','stroke-width':1},g);
+    $('circle',{class:'spin',cx:846,cy:y,r:4.5},g);
+    $('path',{class:'tick',d:`M843.2,${y} l2,2.2 l3.4,-4.2`},g);
+    $('text',{x:856,y:y+3},g).textContent=txt;
+  });
+  (function(){
+    const y=y0, t=0.8, f=t+3.4;
+    const g=$('g',{class:'ux',style:`--t:${t.toFixed(2)}s;--f:${f.toFixed(2)}s;--w:3.4s`},mkWrap(0.8));
+    $('rect',{x:838,y:y-9.5,width:146,height:19,rx:6,fill:'rgba(255,255,255,.03)',stroke:'#333'},g);
+    $('circle',{cx:850,cy:y,r:4.5,fill:'none',stroke:'#333','stroke-width':1},g);
+    $('circle',{class:'spin',cx:850,cy:y,r:4.5},g);
+    $('path',{class:'xmark',d:`M847.5,${y-2.5} l5,5 M852.5,${y-2.5} l-5,5`},g);
+    $('text',{class:'lbl',x:861,y:y+3,style:'font-weight:800'},g).textContent='UX';
+    const pp=$('g',{class:'pill p-proc',style:`--t:${t.toFixed(2)}s`},g);
+    $('rect',{x:912,y:y-7,width:66,height:14,rx:7},pp); $('text',{x:945,y:y+2.6,'text-anchor':'middle'},pp).textContent='Processing…';
+    const pf=$('g',{class:'pill p-fail',style:`--f:${f.toFixed(2)}s`},g);
+    $('rect',{x:930,y:y-7,width:48,height:14,rx:7},pf); $('text',{x:954,y:y+2.6,'text-anchor':'middle'},pf).textContent='Failed';
+  })();
+
+  // ---- each new step lands on top and pushes everything below it down one slot ----
+  (function(){
+    const P=checks.map((_,j)=>1.6+j*.8), D=P[P.length-1]+.6;
+    let css='';
+    slots.forEach((s,idx)=>{
+      let kf='0%{transform:translateY(0)}', k=0;
+      P.filter(p=>p>s.start+.01).forEach(p=>{
+        kf+=`${(p/D*100).toFixed(2)}%{transform:translateY(${k*gap}px)}${((p+.35)/D*100).toFixed(2)}%{transform:translateY(${(k+1)*gap}px)}`;
+        k++;
+      });
+      kf+=`100%{transform:translateY(${k*gap}px)}`;
+      css+=`@keyframes mv${idx}{${kf}}.run .slot.s${idx}{animation:mv${idx} ${D.toFixed(2)}s cubic-bezier(.4,0,.2,1) forwards}`;
+      s.el.setAttribute('class','slot s'+idx);
+    });
+    const st=document.createElement('style'); st.textContent=css; document.head.appendChild(st);
+  })();
+
+  // ---- replay loop ----
+  const CYCLE=19000;
+  function start(){
+    stage.classList.remove('run','out'); void stage.getBoundingClientRect();
+    stage.classList.add('run');
+    setTimeout(()=>stage.classList.add('out'),CYCLE-1000);
+    setTimeout(start,CYCLE);
+  }
+  start();
+})();
+</script>
+</body>
+</html>

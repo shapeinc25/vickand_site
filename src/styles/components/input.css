@@ -1,0 +1,84 @@
+/* ---------- Input ----------
+   <div class="input input-md is-error">
+     <label class="input-field"><svg class="icon">…</svg><input class="input-control" placeholder="Email"><svg class="icon">…</svg></label>
+     <p class="input-message">Enter a valid email address</p>
+   </div>
+   Sizes: input-sm (36) | input-md (48, default) | input-lg (56). States: hover, focus-within, .is-error. */
+.input {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 320px;
+  max-width: 100%;
+}
+.input-field {
+  --in-h: 48px;
+  --in-fs: 18px;
+  --in-lh: 28px;
+  --in-ring: var(--c-border);
+  --in-w: 1px;
+  box-sizing: border-box;
+  height: var(--in-h);
+  padding: 0 16px;
+  gap: 4px;
+  display: flex;
+  align-items: center;
+  background: var(--c-surface);
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 var(--in-w) var(--in-ring);
+  color: var(--c-text);
+  cursor: text;
+  transition: box-shadow 0.15s ease;
+}
+.input-sm .input-field {
+  --in-h: 36px;
+  --in-fs: 16px;
+  --in-lh: 24px;
+}
+.input-lg .input-field {
+  --in-h: 56px;
+}
+.input-field.is-hover {
+  --in-ring: var(--c-input-hover);
+}
+@media (hover: hover) {
+  .input-field:hover {
+    --in-ring: var(--c-input-hover);
+  }
+}
+.input-field:focus-within,
+.input-field.is-focus {
+  --in-ring: var(--c-accent);
+  --in-w: 2px;
+}
+.input.is-error .input-field {
+  --in-ring: var(--c-error);
+  --in-w: 2px;
+}
+.input-control {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: 400 var(--in-fs)/var(--in-lh) var(--font-body, "Zilla Slab", serif);
+  color: var(--c-text);
+}
+.input-control::placeholder {
+  color: var(--c-text-2);
+  opacity: 1;
+}
+.input-field .icon {
+  color: var(--c-text-2);
+}
+.input-message {
+  margin: 0;
+  font: 500 14px/20px var(--font-body, "Zilla Slab", serif);
+  color: var(--c-error);
+}
+.input-control:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+} /* proposed */

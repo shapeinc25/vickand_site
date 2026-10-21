@@ -1,0 +1,19 @@
+# dependencies and build output
+node_modules/
+dist/
+
+# local reference copy of the original single-file site
+legacy/
+
+# environment
+.env
+.env.*
+!.env.example
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.log

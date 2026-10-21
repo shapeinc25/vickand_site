@@ -1,0 +1,115 @@
+/* ---------- Tokens ---------- */
+:root {
+  /* Theme (light) */
+  --surface-default: #e5e2df;
+  --surface-raised: #ffffff;
+  --text-primary: #2c2929;
+  --text-secondary: #5a5454;
+  --border-default: #d3cfcf;
+  --accent-default: #3d529d;
+  --accent-hover: #4b64c0;
+  --accent-pressed: #2e3e76;
+  --accent-subtle: #e4e8f9;
+  --primary-default: #5572da;
+  --primary-hover: #4b64c0;
+  --primary-pressed: #3d529d;
+  --text-on-primary: #ffffff;
+  --auxiliary-fill: #f3f2f2;
+  --auxiliary-fill-hover: #e6e5e5;
+  --auxiliary-fill-pressed: #d3cfcf;
+  --secondary-fill-hover: #e4e8f9;
+  --secondary-fill-pressed: #cfd8f5;
+  --input-stroke-hover: #797171;
+  --input-error: #a5282a;
+  --status-error: #7c1e20;
+  --pill-bg: #2c2929;
+  --pill-fg: #ffffff;
+
+  /* Brand */
+  --orange-500: #ff5c00;
+  --yellow-500: #e9e037;
+  --green-500: #2ecf49;
+  --blue-500: #2f9de1;
+  --purple-500: #7a47d3;
+  --gradient-brand: conic-gradient(from 90deg, #ff5c00 0%, #e9e037 23%, #2ecf49 47%, #2f9de1 74%, #7a47d3 100%);
+
+  /* Typography */
+  --font-display: "Changa One", "Arial Black", sans-serif;
+  --font-body: "Zilla Slab", Georgia, serif;
+
+  /* Layout */
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 999px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --gutter: 16px;
+  --max-width: 1200px;
+
+  /* Motion (use these for every animation so timing stays consistent) */
+  --motion-fast: 150ms;
+  --motion-base: 300ms;
+  --motion-slow: 600ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  --pill-bg: #ffffff;
+  --pill-fg: #2c2929;
+  --surface-default: #2c2929;
+  --surface-raised: #3f3b3b;
+  --text-primary: #ffffff;
+  --text-secondary: #d3cfcf;
+  --border-default: #5a5454;
+  --accent-default: #8599e4;
+  --accent-hover: #aab8ec;
+  --accent-pressed: #6983de;
+  --accent-subtle: #1f294e;
+  --primary-default: #5572da;
+  --primary-hover: #6983de;
+  --primary-pressed: #4b64c0;
+  --text-on-primary: #ffffff;
+  --auxiliary-fill: #5a5454;
+  --auxiliary-fill-hover: #797171;
+  --auxiliary-fill-pressed: #3f3b3b;
+  --secondary-fill-hover: #1f294e;
+  --secondary-fill-pressed: #2e3e76;
+  --input-stroke-hover: #bab5b5;
+  --input-error: #e85053;
+  --status-error: #ec7072;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --pill-bg: #ffffff;
+    --pill-fg: #2c2929;
+    --surface-default: #2c2929;
+    --surface-raised: #3f3b3b;
+    --text-primary: #ffffff;
+    --text-secondary: #d3cfcf;
+    --border-default: #5a5454;
+    --accent-default: #8599e4;
+    --accent-hover: #aab8ec;
+    --accent-pressed: #6983de;
+    --accent-subtle: #1f294e;
+    --auxiliary-fill: #5a5454;
+    --auxiliary-fill-hover: #797171;
+    --auxiliary-fill-pressed: #3f3b3b;
+    --secondary-fill-hover: #1f294e;
+    --secondary-fill-pressed: #2e3e76;
+    --input-stroke-hover: #bab5b5;
+    --input-error: #e85053;
+    --status-error: #ec7072;
+  }
+}

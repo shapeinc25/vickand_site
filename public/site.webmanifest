@@ -1,0 +1,10 @@
+{
+  "name": "Vickand",
+  "short_name": "Vickand",
+  "description": "Vickand creates apps and games, and helps developers improve the UX of their own.",
+  "start_url": "./",
+  "display": "browser",
+  "background_color": "#e5e2df",
+  "theme_color": "#e5e2df",
+  "icons": [{ "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

@@ -1,0 +1,1979 @@
+/* ---------- Section 2: Apps & Games (Figma 1:329) ---------- */
+.section-games {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0; /* heading to mockups: tightened (the phone artwork also adds ~20px of its own margin) */
+  padding: var(--space-16) var(--space-6);
+  background: var(--surface-default);
+}
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+  color: var(--text-primary);
+}
+.section-head h2 {
+  margin: 0;
+  font: 400 48px/56px var(--font-display);
+  letter-spacing: -0.24px;
+}
+.section-head p {
+  margin: 0;
+  font: 400 18px/28px var(--font-body);
+}
+
+.section-games {
+  --prod-gap: 200px;
+}
+.section-lead {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.products {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--prod-gap) - var(--phone-lead, -8px));
+  margin-top: calc(var(--prod-gap) - var(--phone-lead, -8px));
+  width: 100%;
+}
+.product {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  width: min(850px, 100%);
+}
+.product-mocks {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: min(850px, 100%);
+  translate: calc(100% / 84) 0;
+} /* the phone art sits 10px left of its 280px canvas centre: shift the row so the phones themselves are centred */
+/* Same phone as the hero mockups (280x518 artwork, built-in 20px margin), at the hero size on desktop and shrinking to fit */
+.product-mock {
+  --mock-k: 1.008;
+  position: relative;
+  flex: 0 1 calc(280px * var(--mock-k));
+  min-width: 0;
+  aspect-ratio: 280 / 518;
+  margin-top: calc(33px * var(--mock-k));
+}
+.product-mock.is-raised {
+  margin-top: 0;
+}
+.product[data-reveal] .product-mocks {
+  margin-top: -28px;
+}
+.product-mock .mock-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.product-mock .mock-screen p {
+  position: relative;
+  margin: 0;
+  font: 400 12px/normal var(--font-body);
+  color: var(--text-secondary);
+  text-align: center;
+}
+.product-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+.product-title {
+  margin: 0;
+  font: 400 28px/normal var(--font-display);
+  color: var(--text-primary);
+}
+.product-desc {
+  margin: 0;
+  font: 400 18px/normal var(--font-body);
+  color: var(--text-secondary);
+}
+.store-ctas {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.store-badge {
+  display: block;
+  width: 120px;
+  height: 40px;
+  border-radius: 6px;
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.store-badge:focus-visible {
+  transform: scale(1.15);
+}
+@media (hover: hover) {
+  .store-badge:hover {
+    transform: scale(1.15);
+  }
+}
+.store-badge img {
+  display: block;
+  width: 120px;
+  height: 40px;
+}
+.store-badge:focus-visible {
+  outline: 2px solid var(--accent-default);
+  outline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+  .section-head h2 {
+    font-size: 36px;
+    line-height: 44px;
+  }
+}
+
+/* ---------- Responsive sections ---------- */
+/* Hero carousel: keep about three cards in view as the screen narrows (desktop values live on .hero-window) */
+@media (max-width: 1100px) {
+  .hero-window {
+    --mock-k: 0.86;
+    --mock-gap: 56px;
+    --mock-shift: 52px;
+  }
+  .hero-stage {
+    height: 640px;
+  }
+}
+@media (max-width: 820px) {
+  .hero-window {
+    --mock-k: 0.66;
+    --mock-gap: 40px;
+    --mock-shift: 38px;
+  }
+  .hero-stage {
+    height: 560px;
+  }
+}
+@media (max-width: 520px) {
+  .hero-window {
+    --mock-k: 0.784;
+    --mock-gap: 48px;
+    --mock-shift: 42px;
+  }
+  .hero-stage {
+    height: 500px;
+  }
+}
+
+/* Section 2 */
+@media (max-width: 900px) {
+  .section-games {
+    padding: var(--space-12) var(--space-6);
+  }
+  .section-games {
+    --prod-gap: 100px;
+  }
+}
+@media (max-width: 520px) {
+  .section-games {
+    padding: var(--space-10) var(--space-4);
+  }
+  .section-head h2 {
+    font-size: 32px;
+    line-height: 40px;
+  }
+  .section-head p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .product {
+    gap: 3px;
+  }
+  .product-title {
+    font-size: 24px;
+  }
+  .product-desc {
+    font-size: 16px;
+  }
+}
+
+/* Section 2 on mobile: one big mockup per game, swipe sideways for the others, dots show the page */
+.product-dots {
+  display: none;
+}
+@media (max-width: 600px) {
+  .product-mocks {
+    --mw: min(78vw, 330px);
+    /* full width of the screen (breaks out of the section padding) so neighbouring mockups are not cut off early */
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    translate: none;
+    /* the phone art sits 1/28 of its width left of the canvas centre: offset the start padding and snap area so the phone itself is centred */
+    padding-left: calc((100vw - var(--mw)) / 2 + var(--mw) / 28);
+    padding-right: calc((100vw - var(--mw)) / 2 - var(--mw) / 28);
+    scroll-padding-left: calc(var(--mw) / 14);
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .product-mocks::-webkit-scrollbar {
+    display: none;
+  }
+  .product-mock,
+  .product-mock.is-raised {
+    --mock-k: 1;
+    flex: 0 0 var(--mw);
+    margin-top: 0;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+  .product[data-reveal] .product-mocks {
+    margin-top: -12px;
+  }
+  .product-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 4px 0 12px;
+  }
+  .product-dots button {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--text-secondary);
+    opacity: 0.35;
+    cursor: pointer;
+    transition:
+      opacity 200ms ease,
+      transform 200ms ease;
+  }
+  .product-dots button.is-active {
+    opacity: 1;
+    transform: scale(1.25);
+    background: var(--text-primary);
+  }
+  /* Larger download buttons, stacked with 20px between */
+  .store-ctas {
+    align-items: center;
+    gap: 12px;
+  }
+  .store-badge,
+  .store-badge img {
+    width: 180px;
+    height: 60px;
+  }
+  .store-badge {
+    border-radius: 9px;
+  }
+}
+
+/* Tighter vertical rhythm on tablets and phones (desktop keeps the full spacing) */
+@media (max-width: 1100px) {
+  .hero-stage {
+    height: 580px;
+    margin-top: var(--space-4);
+  }
+  .section-games {
+    padding: var(--space-12) var(--space-6) var(--space-10);
+  }
+  .section-games {
+    --prod-gap: 100px;
+  }
+}
+@media (max-width: 820px) {
+  .hero-stage {
+    height: 480px;
+    margin-top: 0;
+  }
+  .section-games {
+    padding: var(--space-10) var(--space-6) var(--space-8);
+  }
+  .section-games {
+    --prod-gap: 100px;
+  }
+}
+@media (max-width: 520px) {
+  .hero-stage {
+    height: 440px;
+  }
+  .section-games {
+    padding: var(--space-8) var(--space-4) var(--space-6);
+  }
+  .section-games {
+    --prod-gap: 88px;
+  }
+  .product-dots {
+    margin: 0 0 8px;
+  }
+  .product-info {
+    gap: 12px;
+  }
+}
+@media (max-width: 1100px) {
+  .hero {
+    padding-bottom: var(--space-6);
+  }
+}
+@media (max-width: 820px) {
+  .hero {
+    padding-bottom: var(--space-3);
+  }
+}
+
+/* Download buttons: side by side down to small phones, stacked only when two big ones no longer fit in a row */
+@media (max-width: 430px) {
+  .store-ctas {
+    flex-direction: column;
+  }
+}
+
+/* ---------- Section 2 scroll animation (first product only: [data-reveal]) ---------- */
+/* The title block pins at the middle of the viewport; the first product slides up over it like a sheet. */
+.section-head {
+  position: sticky;
+  top: calc(50vh - 44px);
+  z-index: 0;
+}
+.section-lead .product[data-reveal] {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+}
+.section-lead .product[data-reveal]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--surface-default);
+}
+@media (max-width: 520px) {
+  .section-head {
+    top: calc(50vh - 40px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Title and description: slide up and fade in */
+  .js-anim .section-head {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+      opacity 700ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .js-anim .section-head.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Mockups: scale up once at least 30% of a card is in view */
+  .js-anim [data-reveal] .product-mock {
+    opacity: 0;
+    transform: scale(0.8);
+    transition:
+      opacity 600ms ease,
+      transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .js-anim [data-reveal] .product-mock.is-in {
+    opacity: 1;
+    transform: none;
+  }
+  .js-anim [data-reveal] .product-mock:nth-child(2) {
+    transition-delay: 120ms;
+  }
+  .js-anim [data-reveal] .product-mock:nth-child(3) {
+    transition-delay: 240ms;
+  }
+  .js-anim [data-reveal] .product-dots {
+    opacity: 0;
+    transition: opacity 500ms ease 400ms;
+  }
+  .js-anim [data-reveal].is-revealed .product-dots {
+    opacity: 1;
+  }
+
+  /* Then the text fades in, and a little later the buttons */
+  .js-anim [data-reveal] .product-title,
+  .js-anim [data-reveal] .product-desc {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+      opacity 700ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .js-anim [data-reveal] .store-ctas {
+    opacity: 0;
+    transition: opacity 600ms ease;
+  }
+  /* Each part appears when it is at least 30% in view; small delays keep the order text, then buttons when several show at once */
+  .js-anim [data-reveal] .product-title.is-in,
+  .js-anim [data-reveal] .product-desc.is-in {
+    opacity: 1;
+    transform: none;
+    transition-delay: 100ms;
+  }
+  .js-anim [data-reveal] .product-desc.is-in {
+    transition-delay: 250ms;
+  } /* description follows the title */
+  .js-anim [data-reveal] .store-ctas.is-in {
+    opacity: 1;
+    transition-delay: 450ms;
+  }
+}
+
+/* Large gap between the title block and the first showcase (the title pins in this space before the showcase slides over it) */
+.section-lead .product[data-reveal] {
+  margin-top: 320px;
+}
+@media (max-width: 1100px) {
+  .section-lead .product[data-reveal] {
+    margin-top: 260px;
+  }
+}
+@media (max-width: 820px) {
+  .section-lead .product[data-reveal] {
+    margin-top: 200px;
+  }
+}
+@media (max-width: 520px) {
+  .section-lead .product[data-reveal] {
+    margin-top: 160px;
+  }
+}
+
+/* Mobile slider: the neighbouring mockups are always visible at the screen edges (only the first one animates in) */
+@media (max-width: 600px) {
+  .js-anim [data-reveal] .product-mock:not(:first-child) {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0ms;
+  }
+}
+
+/* Mobile slider: room above and below so the phone shadows are not clipped by the scroll container */
+@media (max-width: 600px) {
+  .product-mocks {
+    padding-block: 72px;
+    margin-block: -72px;
+  }
+  .product[data-reveal] .product-mocks {
+    margin-top: -84px;
+  }
+}
+
+@media (max-width: 600px) {
+  .section-games {
+    --prod-gap: 88px;
+  }
+}
+
+/* The phone artwork has ~20px of canvas above its visible frame and the first phone sits above its container top: compensate so the visible space (buttons to the top edge of the next phone frame) equals --prod-gap */
+@media (max-width: 1100px) {
+  .section-games {
+    --phone-lead: -8px;
+  }
+}
+@media (max-width: 600px) {
+  .section-games {
+    --phone-lead: 10px;
+  }
+}
+
+/* ---------- Section 3: Coming Soon (Figma 65:4003) ---------- */
+.section-soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-20, 80px) var(--space-6);
+  background: var(--surface-default);
+}
+.soon-title {
+  margin: 0;
+  font: 400 48px/56px var(--font-display);
+  letter-spacing: -0.24px;
+  color: var(--text-primary);
+  text-align: center;
+}
+.soon-content {
+  display: flex;
+  gap: var(--space-6);
+  align-items: stretch;
+  width: min(933px, 100%);
+  height: 369px;
+}
+.soon-mock {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: 24px;
+}
+.soon-mock p {
+  margin: 0;
+  font: 400 16px/normal var(--font-body);
+  color: var(--text-secondary);
+  text-align: center;
+}
+.soon-wait {
+  flex: none;
+  width: 387px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.soon-counter {
+  flex: 1 1 0;
+  min-height: 0;
+  position: relative;
+  perspective: 1100px;
+}
+.soon-count {
+  margin: 0;
+  font: 400 64px/72px var(--font-display);
+  letter-spacing: -0.64px;
+  color: inherit;
+}
+.soon-count-label {
+  margin: 0;
+  font: 400 18px/28px var(--font-body);
+  color: inherit;
+}
+.soon-notify {
+  margin: 0;
+  font: 400 22px/30px var(--font-display);
+  color: var(--text-primary);
+}
+.soon-form {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+}
+.soon-form .input {
+  flex: 1 1 0;
+  min-width: 0;
+  width: auto;
+}
+.soon-form .btn {
+  flex: none;
+}
+/* The error message hangs below the field so the layout does not move */
+.soon-form .input {
+  position: relative;
+}
+.soon-form .input-message {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 6px;
+  white-space: nowrap;
+}
+@media (max-width: 900px) {
+  .section-soon {
+    padding: var(--space-12) var(--space-6);
+  }
+  .soon-title {
+    font-size: 40px;
+    line-height: 48px;
+  }
+  .soon-content {
+    flex-direction: column;
+    height: auto;
+  }
+  .soon-mock {
+    flex: none;
+    height: 260px;
+  }
+  .soon-wait {
+    width: 100%;
+  }
+  .soon-counter {
+    flex: none;
+    height: 320px;
+  }
+}
+@media (max-width: 430px) {
+  .soon-form .input-message {
+    position: static;
+    white-space: normal;
+  }
+  .soon-form {
+    flex-direction: column;
+  }
+  .soon-form .btn {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .soon-form .input {
+    width: 100%;
+  }
+}
+
+/* Error shake: the field and the button wobble a little, the button slightly later */
+@keyframes soon-shake {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  15% {
+    translate: -6px 0;
+  }
+  30% {
+    translate: 5px 0;
+  }
+  45% {
+    translate: -4px 0;
+  }
+  60% {
+    translate: 3px 0;
+  }
+  75% {
+    translate: -2px 0;
+  }
+  90% {
+    translate: 1px 0;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .soon-form.is-shake .input-field {
+    animation: soon-shake 480ms cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  }
+  .soon-form.is-shake .btn {
+    animation: soon-shake 480ms cubic-bezier(0.36, 0.07, 0.19, 0.97) 60ms both;
+  }
+}
+
+/* ---------- Subscribe success ---------- */
+.soon-submit .tick {
+  width: 0;
+  margin-right: -8px;
+  overflow: hidden;
+  flex: none;
+}
+.soon-submit .tick path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.soon-form.is-done .soon-submit {
+  --btn-bg: var(--c-success-fill);
+  cursor: default;
+  pointer-events: none;
+}
+.soon-form.is-done .soon-submit .tick {
+  width: 20px;
+  margin-right: 0;
+  transition:
+    width 0.3s ease,
+    margin 0.3s ease;
+}
+.soon-form.is-done .soon-submit .tick path {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.45s ease-out 0.25s;
+}
+.soon-form .input.is-success .input-message {
+  color: var(--c-success);
+}
+.soon-form .input-control[readonly] {
+  cursor: default;
+}
+@keyframes soon-pop {
+  0% {
+    scale: 1;
+  }
+  35% {
+    scale: 1.16;
+  }
+  65% {
+    scale: 0.96;
+  }
+  100% {
+    scale: 1;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .soon-form.is-done .soon-submit {
+    animation: soon-pop 520ms cubic-bezier(0.3, 1.2, 0.5, 1) 80ms;
+  }
+}
+/* Mechanical counter: digit drums */
+.soon-count.is-odo {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.odo {
+  display: block;
+  height: 72px;
+  overflow: hidden;
+}
+.odo-col {
+  display: block;
+}
+.odo-col > span {
+  display: block;
+  height: 72px;
+  line-height: 72px;
+  text-align: center;
+}
+
+/* Nothing (phone shadow canvases, confetti) may widen the page: no sideways dragging */
+html,
+body {
+  overflow-x: clip;
+  max-width: 100%;
+}
+.section-games,
+.section-soon {
+  overflow-x: clip;
+}
+
+/* Counter: brand-coloured confetti keeps falling into the dark box and sinks away like particles in water. Pure CSS. */
+.soon-front > :not(.soon-rain):not(.soon-tint) {
+  position: relative;
+  z-index: 1;
+}
+.soon-rain {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  container-type: size;
+}
+.soon-rain i {
+  position: absolute;
+  left: var(--x);
+  top: 0;
+  width: var(--w);
+  height: var(--h);
+  border-radius: var(--r);
+  background: var(--c);
+  opacity: 0;
+}
+@keyframes soon-sink {
+  0% {
+    translate: 0 -8cqh;
+    rotate: 0deg;
+    opacity: 0;
+    scale: 1;
+  }
+  6% {
+    opacity: 0.95;
+  }
+  32% {
+    translate: calc(var(--sw) * 0.3) 34cqh;
+    rotate: 140deg;
+    opacity: 0.95;
+    scale: 1;
+  } /* fast fall, then it hits the surface */
+  100% {
+    translate: var(--sw) 104cqh;
+    rotate: 420deg;
+    opacity: 0;
+    scale: 0.55;
+  } /* slow, swaying sink, fading out */
+}
+@media (prefers-reduced-motion: no-preference) {
+  .soon-rain i {
+    animation: soon-sink var(--t) var(--d) infinite cubic-bezier(0.25, 0.1, 0.4, 1);
+  }
+  .soon-rain i:nth-child(3n) {
+    animation-timing-function: cubic-bezier(0.2, 0.4, 0.3, 1);
+  }
+}
+
+/* Title swaps every 3 seconds between two lines (pure CSS): both lines share one grid cell and cross-fade with a small slide */
+.soon-notify {
+  display: grid;
+}
+.soon-notify > span {
+  grid-area: 1 / 1;
+}
+@keyframes soon-line {
+  0% {
+    opacity: 0;
+    translate: 0 10px;
+  }
+  8% {
+    opacity: 1;
+    translate: 0 0;
+  }
+  42% {
+    opacity: 1;
+    translate: 0 0;
+  }
+  50% {
+    opacity: 0;
+    translate: 0 -10px;
+  }
+  100% {
+    opacity: 0;
+    translate: 0 -10px;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .soon-notify > span {
+    opacity: 0;
+    animation: soon-line 6s ease-in-out infinite;
+  }
+  .soon-notify > span:nth-child(2) {
+    animation-delay: 3s;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .soon-notify > span:nth-child(2) {
+    visibility: hidden;
+  }
+}
+
+/* Coming Soon appearing animation (same motion as Section 2) */
+@media (prefers-reduced-motion: no-preference) {
+  .js-anim .soon-title,
+  .js-anim .soon-notify {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+      opacity 700ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .js-anim .soon-title.is-in,
+  .js-anim .soon-notify.is-in {
+    opacity: 1;
+    transform: none;
+  }
+  .js-anim .soon-mock,
+  .js-anim .soon-counter {
+    opacity: 0;
+    transform: scale(0.8);
+    transition:
+      opacity 600ms ease,
+      transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .js-anim .soon-mock.is-in,
+  .js-anim .soon-counter.is-in {
+    opacity: 1;
+    transform: none;
+  }
+  .js-anim .soon-counter {
+    transition-delay: 120ms;
+  }
+  .js-anim .soon-notify.is-in {
+    transition-delay: 150ms;
+  }
+  .js-anim .soon-form {
+    opacity: 0;
+    transition: opacity 600ms ease;
+  }
+  .js-anim .soon-form.is-in {
+    opacity: 1;
+    transition-delay: 300ms;
+  }
+}
+
+/* ---------- Counter card: 3D tilt on hover, brand colours, flip to a mini game ---------- */
+.soon-card {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(calc(var(--ry, 0deg) + var(--flip, 0deg)));
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.soon-card.is-tilting {
+  transition: transform 0.12s ease-out;
+}
+.soon-counter.is-flipped .soon-card {
+  --flip: 180deg;
+  transition: transform 0.8s cubic-bezier(0.3, 1.25, 0.4, 1);
+}
+.soon-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.soon-front {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+  text-align: center;
+  cursor: pointer;
+  isolation: isolate;
+  outline: none;
+  transition: box-shadow 0.3s ease;
+}
+.soon-front:focus-visible {
+  box-shadow:
+    0 0 0 3px var(--surface-default),
+    0 0 0 5px var(--primary-default);
+}
+@media (hover: hover) {
+  .soon-counter:not(.is-flipped) .soon-front:hover {
+    box-shadow: 0 24px 40px -12px rgba(44, 41, 41, 0.35);
+  }
+}
+.soon-tint {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+.soon-tint.is-on {
+  opacity: 1;
+}
+.soon-front {
+  transition:
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.soon-back {
+  transform: rotateY(180deg);
+  background: #2c2929;
+  color: #fff;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Lives: 15 lines, 1px wide, 24px high, 2px apart, centred at the top */
+.soon-lives {
+  display: flex;
+  gap: 2px;
+  height: 24px;
+  flex: none;
+}
+.soon-lives i {
+  display: block;
+  width: 1px;
+  height: 24px;
+  background: #fff;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  transform-origin: bottom;
+}
+.soon-lives i.is-lost {
+  opacity: 0.15;
+  transform: scaleY(0.35);
+}
+.soon-grid {
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+  display: grid;
+  gap: 6px;
+}
+.soon-cell {
+  position: relative;
+  display: block;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition:
+    background-color 0.35s ease,
+    box-shadow 0.35s ease,
+    transform 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.soon-cell.is-lit {
+  background: var(--lit);
+  box-shadow: 0 0 18px 2px var(--lit);
+  transition-duration: 0.1s;
+  transform: scale(1.06);
+}
+.soon-cell.is-ok {
+  background: var(--lit);
+  transition-duration: 0.1s;
+}
+.soon-cell.is-bad {
+  animation: soon-bad 0.35s ease;
+  background: rgba(232, 80, 83, 0.55);
+}
+@keyframes soon-bad {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  25% {
+    translate: -4px 0;
+  }
+  50% {
+    translate: 4px 0;
+  }
+  75% {
+    translate: -2px 0;
+  }
+}
+.soon-chip {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #fff;
+  color: #2c2929;
+  font: 500 13px/20px var(--font-body);
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  animation: soon-chip 0.35s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+}
+@keyframes soon-chip {
+  from {
+    scale: 0.4;
+    opacity: 0;
+  }
+  to {
+    scale: 1;
+    opacity: 1;
+  }
+}
+.soon-over {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  background: rgba(44, 41, 41, 0.9);
+  backdrop-filter: blur(3px);
+  animation: soon-fade 0.4s ease both;
+}
+.soon-over[hidden] {
+  display: none;
+}
+@keyframes soon-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.soon-over {
+  gap: 4px;
+}
+.soon-over-title {
+  margin: 0;
+  font: 400 22px/30px var(--font-display);
+  color: #fff;
+}
+.soon-over-score {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.soon-score-num {
+  font: 400 64px/64px var(--font-display);
+  letter-spacing: -0.64px;
+  color: #fff;
+}
+.soon-score-cap {
+  font: 400 16px/22px var(--font-body);
+  color: rgba(255, 255, 255, 0.7);
+}
+.soon-over-best {
+  margin: 0 0 8px;
+  font: 400 16px/22px var(--font-body);
+  color: rgba(255, 255, 255, 0.7);
+}
+.soon-over-best[hidden] {
+  display: none;
+}
+.soon-over-best b {
+  font: 400 18px/22px var(--font-display);
+  color: #fff;
+  margin-left: 4px;
+}
+.soon-over-btns {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .soon-card,
+  .soon-counter.is-flipped .soon-card {
+    transition: none;
+  }
+}
+
+/* ---------- Mini game 2: tic-tac-toe (the games take turns on every click) ---------- */
+.soon-mem,
+.soon-ttt {
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.soon-back[data-game="mem"] .soon-ttt,
+.soon-back[data-game="ttt"] .soon-mem {
+  display: none;
+}
+.soon-status {
+  margin: 0;
+  height: 24px;
+  flex: none;
+  font: 400 16px/24px var(--font-body);
+  color: rgba(255, 255, 255, 0.75);
+}
+.soon-board {
+  flex: 1 1 0;
+  min-height: 0;
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  gap: 6px;
+}
+.soon-tcell {
+  position: relative;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+@media (hover: hover) {
+  .soon-tcell:not(.is-x):not(.is-o):hover {
+    background: rgba(255, 255, 255, 0.16);
+  }
+}
+.soon-tcell svg {
+  position: absolute;
+  inset: 14%;
+  width: 72%;
+  height: 72%;
+  fill: none;
+  stroke-width: 3.4;
+  stroke-linecap: round;
+}
+.soon-tcell.is-x svg {
+  stroke: #2f9de1;
+}
+.soon-tcell.is-o svg {
+  stroke: #ff5c00;
+}
+.soon-tcell svg path,
+.soon-tcell svg circle {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: soon-draw 0.35s ease-out both;
+}
+@keyframes soon-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.soon-tcell.is-win {
+  background: rgba(46, 207, 73, 0.28);
+  box-shadow: 0 0 16px rgba(46, 207, 73, 0.5);
+}
+.soon-over-tally {
+  margin: 0 0 8px;
+  font: 400 16px/22px var(--font-body);
+  color: rgba(255, 255, 255, 0.7);
+}
+.soon-over-tally[hidden],
+.soon-over-score[hidden] {
+  display: none;
+}
+
+/* ---------- Mini game 3: falling balls and a see-saw ---------- */
+.soon-balls {
+  position: absolute;
+  inset: 0;
+  display: none;
+}
+.soon-back[data-game="balls"] .soon-balls {
+  display: block;
+}
+.soon-back[data-game="balls"] .soon-mem,
+.soon-back[data-game="balls"] .soon-ttt {
+  display: none;
+}
+.soon-balls canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: ew-resize;
+}
+.soon-bhud {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 16px;
+  display: flex;
+  justify-content: space-between;
+  font: 400 16px/24px var(--font-body);
+  color: rgba(255, 255, 255, 0.75);
+  pointer-events: none;
+}
+.soon-b-time {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Small "Play while waiting" button at the bottom centre of the card, 16px from the edge */
+.soon-front .soon-play {
+  position: absolute !important;
+  left: 50%;
+  bottom: 16px;
+  translate: -50% 0;
+  z-index: 2;
+  --btn-fg: var(--soon-fg, var(--pill-fg));
+  --btn-bg: color-mix(in srgb, var(--btn-fg) 16%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--btn-fg) 45%, transparent);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* Close button (Ghost, smallest, icon only) in the top right corner of the game card; the round timer moved to the centre */
+.soon-back .soon-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 4;
+}
+.soon-b-time {
+  position: absolute;
+  left: 50%;
+  translate: -50% 0;
+}
+
+/* Show only the side that faces the viewer (in addition to backface-visibility), so the front can never stay hidden */
+.soon-back {
+  visibility: hidden;
+  transition: visibility 0s 0.35s;
+}
+.soon-counter.is-flipped .soon-back {
+  visibility: visible;
+  transition-delay: 0s;
+}
+.soon-counter.is-flipped .soon-front {
+  visibility: hidden;
+  transition:
+    visibility 0s 0.35s,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Statement screen (Figma "display" 65:4117): dark screen that slides over Coming Soon, one sentence "typed" like code */
+.section-soon {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.section-statement {
+  position: relative;
+  z-index: 2;
+  background: var(--pill-bg, #2c2929);
+  min-height: 900px;
+  padding: 80px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.statement-text {
+  margin: 0;
+  width: 544px;
+  max-width: 100%;
+  font: 400 48px/56px var(--font-display);
+  letter-spacing: -0.24px;
+  color: var(--text-on-primary, #fff);
+  text-align: center;
+  overflow-wrap: break-word;
+}
+.statement-type {
+  display: block;
+}
+.statement-line {
+  display: block;
+}
+.statement-text .c-purple {
+  color: #bca3e9;
+}
+.statement-text .c-yellow {
+  color: #efe96f;
+}
+.statement-text .c-green {
+  color: #69dc7c;
+}
+.statement-text .c-orange {
+  color: #ff8a47;
+}
+.statement-word {
+  white-space: nowrap;
+}
+.statement-ch {
+  visibility: hidden;
+}
+.statement-ch.is-on {
+  visibility: visible;
+}
+.statement-caret {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+  vertical-align: baseline;
+}
+.statement-caret::after {
+  content: "";
+  position: absolute;
+  left: 1px;
+  bottom: -0.14em;
+  width: 0.09em;
+  min-width: 3px;
+  height: 0.98em;
+  background: #fff;
+  border-radius: 1px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .statement-caret.is-idle::after {
+    animation: statement-blink 1.06s steps(1) infinite;
+  }
+}
+@keyframes statement-blink {
+  50% {
+    opacity: 0;
+  }
+}
+@media (max-width: 600px) {
+  .section-statement {
+    min-height: 640px;
+    padding: 64px 24px;
+  }
+  .statement-text {
+    font-size: 36px;
+    line-height: 44px;
+  }
+}
+
+/* Hero carousel driven by script (auto-move + swipe/drag). Without script the CSS animation above keeps running. */
+.hero-track.is-js {
+  animation: none;
+  transform: translate3d(var(--cx, 0px), -50%, 0);
+  touch-action: pan-y;
+}
+.hero-track.is-js .mock {
+  touch-action: pan-y;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+.hero-track.is-js.is-dragging {
+  cursor: grabbing;
+}
+.hero-track.is-js.is-dragging .mock {
+  cursor: grabbing;
+}
+
+/* Statement: words start white and are lit in their colour by dots flying in (script); .statement-fx holds the dots */
+.section-statement {
+  overflow: hidden;
+}
+.statement-fx {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.statement-fx i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  will-change: transform, opacity;
+}
+.statement-text {
+  position: relative;
+  z-index: 2;
+}
+.statement-type .is-pending {
+  color: inherit;
+}
+.statement-type .is-pending .statement-ch.is-lit {
+  color: var(--seg-col);
+  animation: statement-glow 1s ease-out;
+}
+@keyframes statement-glow {
+  from {
+    text-shadow: 0 0 0.55em var(--seg-col);
+  }
+  to {
+    text-shadow: 0 0 0 transparent;
+  }
+}
+.statement-ch {
+  transition:
+    color 0.3s ease,
+    text-shadow 0.6s ease;
+}
+
+/* CTA screen (Figma 120:6007 / 120:6024): a white dot grows from the centre and turns the screen light, the text is revealed,
+   the first sentence is large and its words lit, then the second grows past it. Default markup = the finished state (no script). */
+.section-cta {
+  position: relative;
+  z-index: 3;
+  background: var(--pill-bg, #2c2929);
+  min-height: 900px;
+  padding: 80px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.cta-light {
+  position: absolute;
+  inset: 0;
+  background: var(--surface-default, #e5e2df);
+}
+.cta-fx {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+.cta-fx i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  will-change: transform, opacity;
+}
+.cta-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+}
+.cta-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 544px;
+  max-width: 100%;
+  text-align: center;
+  font-family: var(--font-display);
+  overflow-wrap: break-word;
+}
+.cta-text p {
+  margin: 0;
+  width: 100%;
+  font-size: 36px;
+  line-height: 44px;
+  letter-spacing: 0;
+  transition:
+    font-size 0.8s cubic-bezier(0.65, 0, 0.25, 1),
+    line-height 0.8s cubic-bezier(0.65, 0, 0.25, 1),
+    letter-spacing 0.8s ease;
+}
+.cta-text .cta-s1 {
+  font-size: 48px;
+  line-height: 56px;
+  letter-spacing: -0.24px;
+  color: #2c2929;
+}
+.cta-text .cta-s2 {
+  font-size: 36px;
+  line-height: 44px;
+  letter-spacing: 0;
+  color: #5a5454;
+}
+.section-cta.is-b .cta-s1 {
+  font-size: 36px;
+  line-height: 44px;
+  letter-spacing: 0;
+  color: #5a5454;
+}
+.section-cta.is-b .cta-s2 {
+  font-size: 48px;
+  line-height: 56px;
+  letter-spacing: -0.24px;
+  color: #2c2929;
+}
+.cta-text p {
+  transition-property: font-size, line-height, letter-spacing, color;
+}
+.cta-seg.c-green {
+  color: #219535;
+}
+.cta-seg.is-pending {
+  color: inherit;
+}
+.cta-ch {
+  transition: color 0.35s ease;
+}
+.cta-seg.is-pending .cta-ch.is-lit {
+  color: var(--seg-col);
+  animation: statement-glow 1s ease-out;
+}
+
+/* armed (script): dark screen, white dot in the centre */
+
+.section-cta.is-armed .cta-btn-wrap {
+  opacity: 0;
+  transform: translateY(12px);
+}
+.section-cta.is-armed.is-btn .cta-btn-wrap {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* button: scales up and down, a sparkle twinkles on its top right corner */
+.cta-btn-wrap {
+  position: relative;
+  display: inline-block;
+}
+.cta-btn-wrap .btn {
+  display: inline-flex;
+}
+.cta-spark {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  right: -13px;
+  top: -15px;
+  fill: #ffb800;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px rgba(255, 184, 0, 0.55));
+}
+.cta-spark-b {
+  width: 13px;
+  height: 13px;
+  right: -24px;
+  top: 6px;
+  fill: #ff5c00;
+  filter: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .section-cta.is-pulse .cta-btn-wrap {
+    animation: cta-pulse 2.4s ease-in-out infinite;
+  }
+  .section-cta.is-pulse .cta-spark-a {
+    animation: cta-spark 2.4s ease-in-out infinite;
+  }
+  .section-cta.is-pulse .cta-spark-b {
+    animation: cta-spark 2.4s ease-in-out 0.35s infinite;
+  }
+}
+@keyframes cta-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.09);
+  }
+  70% {
+    transform: scale(0.98);
+  }
+}
+@keyframes cta-spark {
+  0%,
+  12% {
+    transform: scale(0) rotate(-40deg);
+    opacity: 0;
+  }
+  36% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+  56% {
+    transform: scale(0.55) rotate(25deg);
+    opacity: 0.8;
+  }
+  78%,
+  100% {
+    transform: scale(0) rotate(60deg);
+    opacity: 0;
+  }
+}
+@media (max-width: 600px) {
+  .section-cta {
+    min-height: 640px;
+    padding: 64px 24px;
+  }
+  .cta-text .cta-s1,
+  .section-cta.is-b .cta-s2 {
+    font-size: 36px;
+    line-height: 44px;
+  }
+  .cta-text .cta-s2,
+  .section-cta.is-b .cta-s1 {
+    font-size: 28px;
+    line-height: 36px;
+  }
+}
+
+/* Coming Soon is a full screen: at least 900px tall, content centred */
+.section-soon {
+  min-height: 900px;
+  justify-content: center;
+}
+
+/* the CTA screen slides over the statement screen, which stays pinned */
+.section-statement {
+  position: sticky;
+  top: 0;
+}
+
+/* the sentence is centred in the screen, both vertically and horizontally, whatever its number of lines */
+.section-statement .statement-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.section-statement .statement-type {
+  width: 100%;
+}
+
+/* ONE scroll-driven section: the stage stays pinned while you scroll; first the sentence is typed on the dark screen, then a white dot
+   grows from the centre as an overlay (driven by the scroll) and turns the screen light, revealing the CTA text and button */
+.section-story {
+  position: relative;
+  z-index: 3;
+  height: 300vh;
+}
+.story-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+}
+.story-stage .section-statement {
+  position: absolute;
+  inset: 0;
+  top: 0;
+  min-height: 0;
+  z-index: 1;
+}
+.story-stage .section-cta {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  min-height: 0;
+  background: #fff;
+  will-change: mask-image;
+}
+.story-stage .cta-light {
+  display: none;
+}
+
+/* CTA text: sizes and colours change linearly and dissolve into each other */
+.cta-text p {
+  transition:
+    font-size 0.9s linear,
+    line-height 0.9s linear,
+    letter-spacing 0.9s linear,
+    color 0.9s linear;
+}
+.cta-ch {
+  transition: color 0.9s linear;
+}
+.cta-seg.is-pending .cta-ch.is-lit {
+  animation: none;
+}
+
+/* faster scaling with a bezier curve (colour keeps its slow linear dissolve) */
+.cta-text p {
+  transition:
+    font-size 0.5s cubic-bezier(0.65, 0, 0.25, 1),
+    line-height 0.5s cubic-bezier(0.65, 0, 0.25, 1),
+    letter-spacing 0.5s cubic-bezier(0.65, 0, 0.25, 1),
+    color 0.9s linear;
+}
+
+/* typing screen: the highlight colour also dissolves in linearly (no glow flash) */
+.statement-ch {
+  transition: color 0.9s linear;
+}
+.statement-type .is-pending .statement-ch.is-lit {
+  animation: none;
+}
+
+/* CTA sentences: large and small versions stacked in one slot; scaling + dissolving between them (no re-wrapping, so no jumping) */
+.cta-text {
+  --w: 574px;
+  --kd: 0.75;
+  --ku: 1.3333;
+  --l1a: 112px;
+  --l1b: 88px;
+  --l2a: 88px;
+  --l2b: 112px;
+  --t2a: 136px;
+  --t2b: 112px;
+  --big: 48px;
+  --bigl: 56px;
+  --sm: 36px;
+  --sml: 44px;
+  position: relative;
+  display: block;
+  width: var(--w);
+  max-width: 100%;
+  height: 224px;
+  gap: 0;
+}
+.cta-text .cta-l {
+  position: absolute;
+  left: 0;
+  right: 0;
+  transition:
+    top 0.5s cubic-bezier(0.65, 0, 0.25, 1),
+    height 0.5s cubic-bezier(0.65, 0, 0.25, 1);
+}
+.cta-text .cta-l1 {
+  top: 0;
+  height: var(--l1a);
+}
+.cta-text .cta-l2 {
+  top: var(--t2a);
+  height: var(--l2a);
+}
+.section-cta.is-b .cta-l1 {
+  height: var(--l1b);
+}
+.section-cta.is-b .cta-l2 {
+  top: var(--t2b);
+  height: var(--l2b);
+}
+.cta-text .cta-l > p {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max-content;
+  max-width: none;
+  margin: 0;
+  white-space: nowrap;
+  text-align: center;
+  letter-spacing: 0;
+  transform: translate(-50%, -50%) scale(var(--s, 1));
+  transform-origin: 50% 50%;
+  transition:
+    transform 0.5s cubic-bezier(0.65, 0, 0.25, 1),
+    opacity 0.5s linear,
+    color 0.9s linear;
+}
+.cta-text .cta-big {
+  font-size: var(--big);
+  line-height: var(--bigl);
+  letter-spacing: -0.24px;
+  color: #2c2929;
+}
+.cta-text .cta-small {
+  font-size: var(--sm);
+  line-height: var(--sml);
+  color: #5a5454;
+}
+/* state A: first sentence large, second small */
+.cta-l1 .cta-big {
+  --s: 1;
+  opacity: 1;
+}
+.cta-l1 .cta-small {
+  --s: var(--ku);
+  opacity: 0;
+}
+.cta-l2 .cta-small {
+  --s: 1;
+  opacity: 1;
+}
+.cta-l2 .cta-big {
+  --s: var(--kd);
+  opacity: 0;
+}
+/* state B: second sentence large, first small */
+.section-cta.is-b .cta-l1 .cta-big {
+  --s: var(--kd);
+  opacity: 0;
+}
+.section-cta.is-b .cta-l1 .cta-small {
+  --s: 1;
+  opacity: 1;
+}
+.section-cta.is-b .cta-l2 .cta-small {
+  --s: var(--ku);
+  opacity: 0;
+}
+.section-cta.is-b .cta-l2 .cta-big {
+  --s: 1;
+  opacity: 1;
+}
+@media (max-width: 600px) {
+  .cta-text {
+    --w: 342px;
+    --kd: 0.7778;
+    --ku: 1.2857;
+    --l1a: 132px;
+    --l1b: 108px;
+    --l2a: 72px;
+    --l2b: 88px;
+    --t2a: 156px;
+    --t2b: 132px;
+    --big: 36px;
+    --bigl: 44px;
+    --sm: 28px;
+    --sml: 36px;
+    height: 228px;
+  }
+  .cta-text .cta-l > p {
+    white-space: normal;
+    width: 100%;
+  }
+  .cta-text .cta-l > p br {
+    display: none;
+  }
+}
+
+/* "Smart animate" words: one element per word moves, scales and recolours from its state-A place to its state-B place */
+.cta-text .cta-w {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  transform-origin: 0 0;
+  font-family: var(--font-display);
+  font-size: 48px;
+  line-height: 56px;
+  letter-spacing: -0.24px;
+  white-space: nowrap;
+  transition:
+    transform 0.5s cubic-bezier(0.65, 0, 0.25, 1),
+    color 0.5s linear;
+  will-change: transform;
+}
+.cta-text .cta-w1 {
+  color: #2c2929;
+}
+.cta-text .cta-w2 {
+  color: #5a5454;
+}
+.section-cta.is-b .cta-text .cta-w1 {
+  color: #5a5454;
+}
+.section-cta.is-b .cta-text .cta-w2 {
+  color: #2c2929;
+}
+.cta-text .cta-ch.is-lit {
+  color: var(--seg-col);
+}
+.cta-text .cta-ch {
+  transition: color 0.9s linear;
+}
+.cta-text .cta-w .cta-ch.is-lit {
+  animation: none;
+}
+.cta-text {
+  height: 224px;
+}
+@media (max-width: 600px) {
+  .cta-text .cta-w {
+    font-size: 36px;
+    line-height: 44px;
+  }
+}
+
+.cta-btn-wrap {
+  width: max-content;
+  max-width: 100%;
+}
+.cta-btn-wrap .btn {
+  width: auto !important;
+  max-width: none;
+}
+
+/* small and large are the very same glyphs (one element per word, scaled), with proportional spacing and no pre-rasterised scale */
+.cta-text .cta-w {
+  will-change: auto;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+}
+@media (max-width: 600px) {
+  .cta-text .cta-w {
+    font-size: inherit;
+  }
+}
+
+/* faster scaling, swapping and highlighting on the light screen */
+.cta-text .cta-w {
+  transition:
+    transform 0.3s cubic-bezier(0.65, 0, 0.25, 1),
+    color 0.3s linear;
+}
+.cta-text .cta-ch {
+  transition: color 0.3s linear;
+}
+
+/* the whole hero window takes swipes and drags (not only the cards): horizontal gestures move the carousel, vertical ones still scroll the page */
+.hero-window.is-draggable {
+  pointer-events: auto;
+  touch-action: pan-y;
+  cursor: grab;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+.hero-window.is-draggable:active {
+  cursor: grabbing;
+}
+.hero-window.is-draggable img {
+  -webkit-user-drag: none;
+}
+
+/* no inherited section padding: the pinned stage must end exactly at the end of the story, so nothing behind it shows */
+.section-story {
+  padding: 0 !important;
+  margin: 0;
+  background: var(--surface-default, #e5e2df);
+}

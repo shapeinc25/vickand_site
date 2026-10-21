@@ -1,0 +1,176 @@
+/* ---------- Icons ---------- */
+.icon {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* ---------- Button ----------
+   <button class="btn btn-secondary btn-sm"><svg class="icon">…</svg> Label</button>
+   Types: btn-primary | btn-secondary | btn-ghost | btn-auxiliary | btn-label
+   Sizes: btn-lg | (default medium) btn-md | btn-sm */
+.btn {
+  --btn-pad-y: 10px;
+  --btn-pad-x: 16px;
+  --btn-radius: 12px;
+  --btn-icon: 20px;
+  --btn-fs: 18px;
+  --btn-lh: 28px;
+  --btn-bg: transparent;
+  --btn-fg: var(--c-text);
+  --btn-stroke: transparent;
+  box-sizing: content-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: var(--btn-pad-y) var(--btn-pad-x);
+  border-radius: var(--btn-radius);
+  font: 400 var(--btn-fs)/var(--btn-lh) var(--font-body, "Zilla Slab", serif);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  color: var(--btn-fg);
+  background: var(--btn-bg);
+  border: 0;
+  box-shadow: none;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.btn .icon,
+.btn > svg {
+  width: var(--btn-icon);
+  height: var(--btn-icon);
+  flex: none;
+}
+.btn-lg {
+  --btn-pad-y: 14px;
+  --btn-pad-x: 24px;
+  --btn-radius: 16px;
+  --btn-icon: 24px;
+}
+.btn-sm {
+  --btn-pad-y: 6px;
+  --btn-pad-x: 12px;
+  --btn-radius: 8px;
+  --btn-icon: 16px;
+  --btn-fs: 16px;
+  --btn-lh: 24px;
+}
+.btn-icon-only {
+  --btn-pad-x: var(--btn-pad-y);
+} /* icon button: square, padding = vertical padding of the size */
+
+/* Primary */
+.btn-primary {
+  --btn-bg: var(--c-primary);
+  --btn-fg: var(--c-on-primary);
+}
+.btn-primary.is-hover {
+  --btn-bg: var(--c-primary-hover);
+}
+@media (hover: hover) {
+  .btn-primary:hover {
+    --btn-bg: var(--c-primary-hover);
+  }
+}
+.btn-primary:active,
+.btn-primary.is-pressed {
+  --btn-bg: var(--c-primary-pressed);
+}
+
+/* Secondary: 1px outline drawn outside the box, like the Figma stroke (+2px to the size) */
+.btn-secondary {
+  --btn-bg: var(--c-surface);
+  --btn-fg: var(--c-text);
+  --btn-stroke: var(--c-border);
+  box-shadow: 0 0 0 1px var(--btn-stroke);
+  margin: 1px;
+}
+.btn-secondary.is-hover {
+  --btn-bg: var(--c-sec-fill-hover);
+  --btn-fg: var(--c-sec-text-hover);
+  --btn-stroke: var(--c-sec-stroke-hover);
+}
+@media (hover: hover) {
+  .btn-secondary:hover {
+    --btn-bg: var(--c-sec-fill-hover);
+    --btn-fg: var(--c-sec-text-hover);
+    --btn-stroke: var(--c-sec-stroke-hover);
+  }
+}
+.btn-secondary:active,
+.btn-secondary.is-pressed {
+  --btn-bg: var(--c-sec-fill-pressed);
+  --btn-fg: var(--c-sec-text-pressed);
+  --btn-stroke: var(--c-sec-stroke-pressed);
+}
+
+/* Ghost */
+.btn-ghost {
+  --btn-fg: var(--c-accent);
+}
+.btn-ghost.is-hover {
+  --btn-bg: var(--c-accent-subtle);
+  --btn-fg: var(--c-accent-hover);
+}
+@media (hover: hover) {
+  .btn-ghost:hover {
+    --btn-bg: var(--c-accent-subtle);
+    --btn-fg: var(--c-accent-hover);
+  }
+}
+.btn-ghost:active,
+.btn-ghost.is-pressed {
+  --btn-bg: var(--c-accent-subtle);
+  --btn-fg: var(--c-ghost-pressed);
+}
+
+/* Auxiliary */
+.btn-auxiliary {
+  --btn-bg: var(--c-aux-fill);
+  --btn-fg: var(--c-aux-text);
+}
+.btn-auxiliary.is-hover {
+  --btn-bg: var(--c-aux-hover);
+}
+@media (hover: hover) {
+  .btn-auxiliary:hover {
+    --btn-bg: var(--c-aux-hover);
+  }
+}
+.btn-auxiliary:active,
+.btn-auxiliary.is-pressed {
+  --btn-bg: var(--c-aux-pressed);
+}
+
+/* Label: text only */
+.btn-label.is-hover {
+  --btn-fg: var(--c-label-hover);
+}
+@media (hover: hover) {
+  .btn-label:hover {
+    --btn-fg: var(--c-label-hover);
+  }
+}
+.btn-label:active,
+.btn-label.is-pressed {
+  --btn-fg: var(--c-label-pressed);
+}
+
+/* Proposed: focus ring and disabled */
+.btn:focus-visible,
+.btn.is-focus {
+  outline: 2px solid var(--c-focus);
+  outline-offset: 3px;
+}
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}

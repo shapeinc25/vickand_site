@@ -1,0 +1,124 @@
+/* ---------- Footer ----------
+   Figma: footer (node 55:1830), 53px bar: copyright left, logo centred, Privacy / Terms ghost buttons right.
+   Two versions: light (default, page background #e5e2df) and dark. The page theme picks one automatically;
+   add .is-light or .is-dark to the footer to force a version. */
+.site-footer {
+  --footer-bg: #e5e2df;
+  --footer-text: #2c2929;
+  --footer-text-secondary: #5a5454;
+  --footer-hover: #4b64c0;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  min-height: 53px;
+  padding: 0 24px;
+  /* 24px gap under the footer that shows the page's main background (light on light pages, dark on dark pages) */
+  margin-bottom: 24px;
+  background: var(--footer-bg);
+  color: var(--footer-text);
+}
+
+/* Dark version: follows the page theme, or force it with .is-dark */
+[data-theme="dark"] .site-footer,
+.site-footer.is-dark {
+  --footer-bg: #2c2929;
+  --footer-text: #ffffff;
+  --footer-text-secondary: #d3cfcf;
+  --footer-hover: #aab8ec;
+}
+
+/* Light version forced on a dark page (declared after the dark rules so it wins) */
+.site-footer.is-light {
+  --footer-bg: #e5e2df;
+  --footer-text: #2c2929;
+  --footer-text-secondary: #5a5454;
+  --footer-hover: #4b64c0;
+}
+
+.footer-copy {
+  margin: 0;
+  justify-self: start;
+  font-family: "Zilla Slab", Georgia, serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.36px;
+  color: var(--footer-text-secondary);
+  white-space: nowrap;
+}
+
+.footer-logo {
+  display: block;
+  justify-self: center;
+}
+.footer-logo img {
+  display: block;
+  height: 53px;
+  width: auto;
+  max-width: none;
+}
+
+/* Black logo on the light version, white logo on the dark version */
+.site-footer .logo-dark {
+  display: none;
+}
+[data-theme="dark"] .site-footer .logo-light,
+.site-footer.is-dark .logo-light {
+  display: none;
+}
+[data-theme="dark"] .site-footer .logo-dark,
+.site-footer.is-dark .logo-dark {
+  display: block;
+}
+.site-footer.is-light .logo-light {
+  display: block;
+}
+.site-footer.is-light .logo-dark {
+  display: none;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-self: end;
+}
+
+/* Ghost buttons, small: padding 6/12, Zilla Slab 16/24 */
+.footer-links a {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-family: "Zilla Slab", Georgia, serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--footer-text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+@media (hover: hover) {
+  .footer-links a:hover {
+    color: var(--footer-hover);
+  }
+}
+.footer-links a:focus-visible,
+.footer-logo:focus-visible {
+  outline: 2px solid var(--footer-hover);
+  outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+  .site-footer {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 8px;
+    padding: 16px 24px;
+  }
+  .footer-copy,
+  .footer-links {
+    justify-self: center;
+  }
+  .footer-logo img {
+    height: 44px;
+  }
+}

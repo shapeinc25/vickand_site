@@ -1,0 +1,268 @@
+/* Top page toggle — matches the Figma "main toggle" (pill 248x74, mark 68px, Changa One 22) */
+.page-toggle {
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 74px;
+  padding: 3px 20px 3px 5px;
+  border-radius: var(--radius-full);
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: opacity var(--motion-fast) var(--ease-standard);
+}
+@media (hover: hover) {
+  .page-toggle:hover {
+    opacity: 0.9;
+  }
+}
+.page-toggle:focus-visible {
+  outline: 2px solid var(--accent-default);
+  outline-offset: 4px;
+}
+.page-toggle img {
+  width: 68px;
+  height: 68px;
+  flex: none;
+}
+.page-toggle .mark-dark {
+  display: none;
+}
+[data-theme="dark"] .page-toggle .mark-light {
+  display: none;
+}
+[data-theme="dark"] .page-toggle .mark-dark {
+  display: block;
+}
+@media (max-width: 520px) {
+  .page-toggle {
+    height: 60px;
+    font-size: 18px;
+    padding: 3px 16px 3px 4px;
+    gap: 6px;
+  }
+  .page-toggle img {
+    width: 54px;
+    height: 54px;
+  }
+}
+
+/* Header = the page toggle. Figma "main toggle": 248 x 74, mark 68, padding 3 / 20 / 3 / 5, gap 10 */
+/* Fixed so its real height can shrink on scroll without moving the page: the next element carries the full-height offset. */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: var(--space-6) 0 var(--space-4);
+  transition: padding 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.site-header + * {
+  margin-top: 120px;
+}
+/* glass bar: no solid background, content blurs through */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: color-mix(in srgb, var(--surface-default) 30%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  backdrop-filter: blur(18px) saturate(1.5);
+}
+.site-header .container {
+  transform-origin: top center;
+  transition:
+    transform 350ms cubic-bezier(0.4, 0, 0.2, 1),
+    margin 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.legal-header .container {
+  transform-origin: top left;
+}
+/* Scrolled down (anywhere but the very top): the pill is half size and the header is half as tall. */
+.is-scrolled .site-header {
+  padding: 10px 0;
+}
+.is-scrolled .site-header .container {
+  transform: scale(0.5);
+  margin-bottom: -40px;
+}
+@media (max-width: 520px) {
+  .site-header + * {
+    margin-top: 108px;
+  }
+  .is-scrolled .site-header .container {
+    margin-bottom: -34px;
+  }
+}
+.site-header .container {
+  display: flex;
+  justify-content: center;
+}
+.page-toggle {
+  width: 248px;
+  height: 74px;
+  padding: 3px 20px 3px 5px;
+  justify-content: flex-start;
+  gap: 10px;
+  flex: none;
+}
+.page-toggle > span {
+  width: 145px;
+  text-align: left;
+  white-space: nowrap;
+}
+@media (max-width: 520px) {
+  .page-toggle {
+    height: 74px;
+    font-size: 22px;
+    padding: 3px 20px 3px 5px;
+    gap: 10px;
+  }
+  .page-toggle img {
+    width: 68px;
+    height: 68px;
+  }
+}
+
+/* Dark state of the toggle = Figma "dark mode on": 238 x 74, label first, mark on the right, no gap */
+[data-theme="dark"] .page-toggle {
+  width: 248px;
+  padding: 3px 5px 3px 25px;
+  gap: 5px;
+}
+[data-theme="dark"] .page-toggle > span {
+  order: 1;
+}
+[data-theme="dark"] .page-toggle .mark-dark {
+  order: 2;
+}
+
+/* Toggle label: "Apps’n’Games" in light, "UX & Design" in dark (Figma dark mode on) */
+.page-toggle .label-dark {
+  display: none;
+}
+[data-theme="dark"] .page-toggle .label-light {
+  display: none;
+}
+[data-theme="dark"] .page-toggle .label-dark {
+  display: block;
+}
+
+/* Theme switch: the mark slides across the pill with a slight bounce; the label slides the opposite way with a slight bounce.
+   The pill has a fixed width and overflow hidden, so the mark moves only inside it. */
+.page-toggle.to-dark .mark-dark {
+  --from: -170px;
+  --over: 6px;
+  animation: mark-bounce 400ms both;
+}
+.page-toggle.to-light .mark-light {
+  --from: 170px;
+  --over: -6px;
+  animation: mark-bounce 400ms both;
+}
+.page-toggle.to-dark .label-dark {
+  --from: 58px;
+  --over: -4px;
+  animation: label-bounce 400ms both;
+}
+.page-toggle.to-light .label-light {
+  --from: -58px;
+  --over: 4px;
+  animation: label-bounce 400ms both;
+}
+@keyframes mark-bounce {
+  0% {
+    transform: translateX(var(--from));
+    animation-timing-function: cubic-bezier(0.3, 0.7, 0.4, 1);
+  }
+  70% {
+    transform: translateX(var(--over));
+    animation-timing-function: ease-in-out;
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes label-bounce {
+  0% {
+    transform: translateX(var(--from));
+    animation-timing-function: cubic-bezier(0.3, 0.7, 0.4, 1);
+  }
+  70% {
+    transform: translateX(var(--over));
+    animation-timing-function: ease-in-out;
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-toggle.to-dark .mark-dark,
+  .page-toggle.to-light .mark-light,
+  .page-toggle.to-dark .label-dark,
+  .page-toggle.to-light .label-light {
+    animation: none;
+  }
+}
+
+/* Layers: the mark sits above the label while the two overlap during a switch */
+.page-toggle img {
+  position: relative;
+  z-index: 2;
+}
+.page-toggle > span {
+  position: relative;
+  z-index: 1;
+}
+
+/* Legal pages (Terms of Use, Privacy Policy): always light */
+.legal {
+  padding: var(--space-10) 0 var(--space-12);
+}
+.legal h1 {
+  margin: 0 0 var(--space-6);
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.1;
+}
+.legal p {
+  max-width: 680px;
+}
+
+/* Header toggle while it animates to the other page: the pill takes that page's look.
+   main.js sets data-theme on the toggle's container; this beats the dark rules above */
+.site-header .container[data-theme="light"] .page-toggle {
+  --pill-bg: #2c2929;
+  --pill-fg: #ffffff;
+  width: 248px;
+  padding: 3px 20px 3px 5px;
+  gap: 10px;
+}
+.site-header .container[data-theme="light"] .page-toggle > span {
+  order: 0;
+}
+.site-header .container[data-theme="light"] .page-toggle .mark-light {
+  display: block;
+  order: 0;
+}
+.site-header .container[data-theme="light"] .page-toggle .mark-dark {
+  display: none;
+}
+.site-header .container[data-theme="light"] .page-toggle .label-light {
+  display: block;
+}
+.site-header .container[data-theme="light"] .page-toggle .label-dark {
+  display: none;
+}
+
+/* Legal pages: a back button instead of the toggle */
+.legal-header .container {
+  justify-content: flex-start;
+}

@@ -1,0 +1,10 @@
+/* ---------- Motion hooks ----------
+   Elements marked [data-animate] start in the "pre" state and get .is-visible
+   from main.js (IntersectionObserver). Add real animations to these classes later. */
+[data-animate] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--motion-slow) var(--ease-standard),
+    transform var(--motion-slow) var(--ease-standard);
+}

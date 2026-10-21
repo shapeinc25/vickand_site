@@ -1,0 +1,29 @@
+{
+  "name": "vickand-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Vickand website: apps, games and UX & Design services.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint:js": "eslint .",
+    "lint:css": "stylelint \"src/**/*.css\"",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.30.0",
+    "eslint": "^9.30.0",
+    "globals": "^16.3.0",
+    "prettier": "^3.6.0",
+    "stylelint": "^16.21.0",
+    "stylelint-config-recommended": "^16.0.0",
+    "vite": "^7.1.0"
+  }
+}

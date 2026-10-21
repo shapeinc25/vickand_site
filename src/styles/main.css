@@ -1,0 +1,22 @@
+/* Vickand — global stylesheet.
+   The order of the imports is the cascade order of the original single-file site: keep it. */
+@import "./base/fonts.css";
+@import "./base/tokens.css";
+@import "./base/base.css";
+@import "./components/header.css";
+@import "./pages/apps.css";
+@import "./components/footer.css";
+@import "./base/motion.css";
+@import "./base/responsive.css";
+@import "./base/reduced-motion.css";
+@import "./pages/apps-hero.css";
+@import "./components/page-toggle.css";
+@import "./pages/apps-sections.css";
+@import "./components/component-tokens.css";
+@import "./components/button.css";
+@import "./components/input.css";
+@import "./components/dropdown.css";
+@import "./pages/ux-hero.css";
+@import "./pages/ux.css";
+@import "./pages/overrides.css";
+@import "./pages/legal.css";

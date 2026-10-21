@@ -1,0 +1,465 @@
+/* =========================================================
+   HERO — page switch, logo/text morph
+   ========================================================= */
+
+/* Page switch (segmented pill at the top of the hero) */
+.hero {
+  padding-top: var(--space-8);
+  overflow: visible;
+} /* visible so the mockup hover shadow is never cut off */
+
+.page-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--radius-full);
+  background: var(--text-primary);
+  margin: 0 auto;
+  width: max-content;
+  max-width: 100%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.page-switch a {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 var(--space-6);
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 18px;
+  text-decoration: none;
+  color: var(--surface-default);
+  white-space: nowrap;
+  transition:
+    background-color var(--motion-fast) var(--ease-standard),
+    color var(--motion-fast) var(--ease-standard);
+}
+
+@media (hover: hover) {
+  .page-switch a:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+}
+
+.page-switch a[aria-current="page"] {
+  background: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+/* Stage: logo/text morph */
+.hero-stage {
+  position: relative;
+  height: clamp(600px, 72vh, 780px);
+  margin-top: var(--space-8);
+}
+
+/* Mockups: the Figma default frame. Hover (CSS only) deepens the shadow and shows the Explore pill. */
+/* Window: three mockups fully visible with the fourth peeking in at the edge. Both edges fade softly. */
+.hero-window {
+  --mock-k: 1.008; /* 40% larger than the previous 0.72 */
+  --mock-gap: 72px; /* space between mockups (was 48px) */
+  --mock-shift: 62px; /* extra space opened beside a hovered card: hovered space stays 134px */
+  --mock-card: calc(280px * var(--mock-k));
+  --mock-slot: calc(var(--mock-card) + var(--mock-gap));
+  position: absolute;
+  /* Taller than the stage on purpose: the hover drop shadow reaches ~84px below a card, so the window
+     leaves room above and below it (96px, small enough not to add scroll height below the footer). The window ignores the pointer; only the cards take hover. */
+  top: -96px;
+  bottom: -96px;
+  left: 50%;
+  z-index: 4; /* mockups sit above the logo, headline and particles */
+  width: min(calc(3 * var(--mock-slot) + var(--mock-card) * 0.4), 100%);
+  transform: translateX(-50%);
+  overflow: hidden;
+  pointer-events: none;
+  /* Soft side fades. Shorter than the peek of the fourth card, so that card stays visible. */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
+}
+
+.hero-track {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: flex;
+  gap: var(--mock-gap);
+  width: max-content;
+  transform: translate3d(0, -50%, 0);
+  animation: hero-carousel 55s linear infinite;
+  will-change: transform;
+}
+
+/* Alternate heights so the row reads as a wave */
+.hero-track > .mock:nth-child(even) {
+  margin-top: 64px;
+}
+
+/* Pause the carousel while the pointer is on a card or a card has keyboard focus. Not on mouse-click focus:
+   a clicked card keeps focus, and pausing on that would leave the carousel stopped after the pointer leaves. */
+.hero-track:has(.mock:focus-visible) {
+  animation-play-state: paused;
+}
+@media (hover: hover) {
+  .hero-track:hover {
+    animation-play-state: paused;
+  }
+}
+
+/* Endless carousel, moving left to right. The track holds two identical sets of six cards, so moving it
+   exactly one set (6 slots) and starting over is seamless. */
+@keyframes hero-carousel {
+  from {
+    transform: translate3d(calc(-6 * var(--mock-slot)), -50%, 0);
+  }
+  to {
+    transform: translate3d(0, -50%, 0);
+  }
+}
+
+.mock {
+  position: relative;
+  display: block;
+  flex: none;
+  width: calc(280px * var(--mock-k));
+  height: calc(518px * var(--mock-k));
+  border-radius: var(--radius-2xl);
+  outline: none;
+  pointer-events: auto;
+  transition: translate 450ms cubic-bezier(0.4, 0, 0.2, 1); /* settling back: plain ease, no overshoot */
+}
+
+/* Hit area reaches halfway into the gap on each side, so there is no dead zone between cards.
+   It sits on the card itself, which never moves while hovered, so the pointer cannot flip hover on and off. */
+.mock::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--mock-gap) / -2);
+  right: calc(var(--mock-gap) / -2);
+}
+
+/* The hovered card stays put. The cards on each side slide away from it by one gap (48px) with `translate`,
+   so the space beside the hovered card doubles to 96px without moving the card under the pointer.
+   One continuous curve does the whole job: it starts slowly (a little traction), pulls through,
+   overshoots by about 6px at ~73% of the time and settles. No separate wobble, so no jumps. */
+.mock:has(~ :is(.mock:focus-visible, .mock.is-active)) {
+  translate: calc(var(--mock-shift) * -1) 0;
+  transition: translate 800ms cubic-bezier(0.4, 0, 0.3, 1.55);
+}
+@media (hover: hover) {
+  .mock:has(~ :is(.mock:hover, .mock:focus-visible, .mock.is-active)) {
+    translate: calc(var(--mock-shift) * -1) 0;
+    transition: translate 800ms cubic-bezier(0.4, 0, 0.3, 1.55);
+  }
+}
+.mock:is(:focus-visible, .is-active) ~ .mock {
+  translate: var(--mock-shift) 0;
+  transition: translate 800ms cubic-bezier(0.4, 0, 0.3, 1.55);
+}
+@media (hover: hover) {
+  .mock:is(:hover, :focus-visible, .is-active) ~ .mock {
+    translate: var(--mock-shift) 0;
+    transition: translate 800ms cubic-bezier(0.4, 0, 0.3, 1.55);
+  }
+}
+
+/* The artwork canvas is padded by 60 units on every side (400x638 around the 280x518 phone box) so its soft shadow is never clipped */
+.mock-default {
+  display: block;
+  position: absolute;
+  left: calc(-100% * 60 / 280);
+  top: calc(-100% * 60 / 518);
+  width: calc(100% * 400 / 280);
+  height: calc(100% * 638 / 518);
+  max-width: none;
+  pointer-events: none;
+  transition: filter var(--motion-base) var(--ease-standard);
+}
+
+.mock.is-active .mock-default,
+.mock:focus-visible .mock-default {
+  filter: drop-shadow(0 calc(24px * var(--mock-k)) calc(60px * var(--mock-k)) rgba(44, 41, 41, 0.38));
+}
+@media (hover: hover) {
+  .mock:hover .mock-default {
+    filter: drop-shadow(0 calc(24px * var(--mock-k)) calc(60px * var(--mock-k)) rgba(44, 41, 41, 0.38));
+  }
+}
+
+/* Game banner area: the phone's display (x 26-234, y 32-486 of the 280x518 artwork). The banner (.mock-bg)
+   fills it and scales up 10% on hover, clipped by the rounded display. Set it per card: style="--banner: url(...)". */
+.mock-screen {
+  position: absolute;
+  left: calc(100% * 26 / 280);
+  top: calc(100% * 32 / 518);
+  width: calc(100% * 208 / 280);
+  height: calc(100% * 454 / 518);
+  border-radius: calc(16px * var(--mock-k));
+  overflow: hidden;
+  pointer-events: none;
+}
+.mock-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #000000;
+  opacity: 0; /* overlay #000000 at 20%, shown on hover */
+  transition: opacity 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+.mock.is-active .mock-screen::after,
+.mock:focus-visible .mock-screen::after {
+  opacity: 0.2;
+}
+@media (hover: hover) {
+  .mock:hover .mock-screen::after {
+    opacity: 0.2;
+  }
+}
+.mock-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--banner, url(../../assets/images/game-banner.webp)) center / cover no-repeat;
+  transform: scale(1);
+  transform-origin: center;
+  transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+.mock.is-active .mock-bg,
+.mock:focus-visible .mock-bg {
+  transform: scale(1.1);
+}
+@media (hover: hover) {
+  .mock:hover .mock-bg {
+    transform: scale(1.1);
+  }
+}
+
+.mock-explore {
+  position: absolute;
+  /* Centred on the phone frame, not on the SVG canvas: the frame is drawn from x=20 to x=240 of a 280-wide
+     canvas, so its centre is at 130/280 (46.43%) of the width. Vertically the frame is centred (259/518 = 50%). */
+  left: calc(100% * 130 / 280);
+  top: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #d3cfcf;
+  background: #ffffff;
+  color: #2c2929;
+  font-family: "Zilla Slab", Georgia, serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  white-space: nowrap;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--motion-base) var(--ease-standard),
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.mock-explore svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+/* Figma: Button / Size=Small, Type=Secondary, Theme=Light (node 22:335). Also used for the legal back button. */
+.btn-small-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #d3cfcf;
+  background: #ffffff;
+  color: #2c2929;
+  font-family: "Zilla Slab", Georgia, serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+.btn-small-secondary svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+.btn-small-secondary:focus-visible {
+  outline: 2px solid var(--accent-default);
+  outline-offset: 3px;
+}
+
+.mock.is-active .mock-explore,
+.mock:focus-visible .mock-explore {
+  opacity: 1;
+}
+@media (hover: hover) {
+  .mock:hover .mock-explore {
+    opacity: 1;
+  }
+}
+@media (hover: hover) {
+  .mock:hover .mock-explore {
+    pointer-events: auto;
+    cursor: pointer;
+  }
+}
+
+/* Figma Button / Small / Secondary / Light: Hover (fill #e4e8f9, stroke #5572da, text #3d529d) and Pressed (fill #cfd8f5, stroke #3d529d, text #2e3e76) */
+@media (hover: hover) {
+  .btn-small-secondary:hover,
+  .mock-explore:hover {
+    background: #e4e8f9;
+    border-color: #5572da;
+    color: #3d529d;
+  }
+}
+.btn-small-secondary:active,
+.mock-explore:active {
+  background: #cfd8f5;
+  border-color: #3d529d;
+  color: #2e3e76;
+}
+
+@media (max-width: 520px) {
+  .hero-window {
+    --mock-k: 0.784;
+    --mock-gap: 48px;
+    --mock-shift: 42px;
+  } /* 40% larger than the previous 0.56 */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-track {
+    animation: none;
+  }
+}
+
+/* Logo / text morph: the logo and the headline take turns. main.js breaks each shape into particles
+   for the switch; the resting states are the real logo and headline. data-state is set by main.js. */
+.hero-morph {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  pointer-events: none;
+  text-align: center;
+  padding: 0 var(--gutter);
+}
+
+.hero-morph > * {
+  grid-area: 1 / 1;
+}
+
+.morph-logo {
+  width: min(300px, 70vw);
+  height: auto;
+  opacity: 0;
+  transform: scale(1.06); /* bigger when hidden: scales down as it appears, scales up as it leaves */
+  transition:
+    opacity 240ms var(--ease-standard),
+    transform 300ms var(--ease-standard);
+}
+
+.morph-text {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: clamp(44px, 7vw, 84px);
+  line-height: 1.05;
+  opacity: 0;
+  transform: scale(1.06);
+  transition:
+    opacity 240ms var(--ease-standard),
+    transform 300ms var(--ease-standard);
+  text-wrap: balance;
+}
+
+.morph-text span {
+  display: block;
+}
+.morph-text .accent {
+  color: var(--primary-default);
+}
+
+.morph-canvas {
+  grid-area: auto; /* full hero area, not the grid cell */
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 240ms var(--ease-standard);
+  z-index: 3; /* particles sit above the logo and headline */
+}
+
+.hero-morph[data-state="logo"] .morph-logo {
+  opacity: 1;
+  transform: scale(1);
+}
+.hero-morph[data-state="text"] .morph-text {
+  opacity: 1;
+  transform: scale(1);
+}
+.hero-morph[data-state="to-text"] .morph-canvas,
+.hero-morph[data-state="to-logo"] .morph-canvas {
+  opacity: 1;
+}
+.morph-canvas.is-holding {
+  opacity: 1;
+}
+
+/* Reduced motion: no particles, show the logo, keep the heading for screen readers */
+@media (prefers-reduced-motion: reduce) {
+  .morph-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+}
+
+/* Responsive: the stage keeps its height */
+@media (max-width: 520px) {
+  .hero-stage {
+    height: 500px;
+  }
+  .page-switch a {
+    padding: 0 var(--space-4);
+    font-size: 16px;
+  }
+}
+
+/* Center the page switch inside the hero container */
+.hero .container:has(> .page-switch) {
+  display: flex;
+  justify-content: center;
+}
+.page-switch {
+  left: auto;
+  transform: none;
+  margin: 0;
+}

@@ -1,0 +1,7 @@
+dist/
+legacy/
+design/
+node_modules/
+package-lock.json
+*.html
+src/assets/

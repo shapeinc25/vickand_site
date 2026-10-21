@@ -1,0 +1,74 @@
+/* Vickand components: Button, Input, Dropdown.
+   Values come from the Figma UI-kit (Button 22:359, Input 41:291, Dropdown Item 48:231, Dropdown Menu 48:334).
+   Theme: follows the page (:root / [data-theme="dark"]) and can be forced on any container
+   with .is-light or .is-dark. States: real (:hover, :active, :focus-visible) or forced with
+   .is-hover / .is-pressed / .is-focus so a showcase can display them.
+   Marked "proposed" = not in Figma yet (focus ring on buttons, disabled). */
+
+/* ---------- Component tokens ---------- */
+:root,
+.is-light {
+  --c-surface: #ffffff;
+  --c-text: #2c2929;
+  --c-text-2: #5a5454;
+  --c-border: #d3cfcf;
+  --c-accent: #3d529d;
+  --c-accent-hover: #3d529d;
+  --c-accent-pressed: #2e3e76;
+  --c-accent-subtle: #e4e8f9;
+  --c-primary: #5572da;
+  --c-primary-hover: #4b64c0;
+  --c-primary-pressed: #3d529d;
+  --c-on-primary: #ffffff;
+  --c-sec-fill-hover: #e4e8f9;
+  --c-sec-fill-pressed: #cfd8f5;
+  --c-sec-stroke-hover: #5572da;
+  --c-sec-stroke-pressed: #3d529d;
+  --c-sec-text-hover: #3d529d;
+  --c-sec-text-pressed: #2e3e76;
+  --c-ghost-pressed: #2e3e76;
+  --c-label-hover: #3d529d;
+  --c-label-pressed: #2e3e76;
+  --c-aux-fill: #f3f2f2;
+  --c-aux-hover: #e6e5e5;
+  --c-aux-pressed: #d3cfcf;
+  --c-aux-text: #2c2929;
+  --c-input-hover: #797171;
+  --c-error: #a5282a;
+  --c-success: #166f3d;
+  --c-success-fill: #1b8a4b;
+  --c-success-fill-hover: #166f3d; /* System success/700 and /600 */
+  --c-focus: #3d529d;
+}
+[data-theme="dark"],
+.is-dark {
+  --c-surface: #3f3b3b;
+  --c-text: #ffffff;
+  --c-text-2: #d3cfcf;
+  --c-border: #5a5454;
+  --c-accent: #8599e4;
+  --c-accent-hover: #aab8ec;
+  --c-accent-pressed: #6983de;
+  --c-accent-subtle: #1f294e;
+  --c-primary-hover: #6983de;
+  --c-primary-pressed: #4b64c0;
+  --c-sec-fill-hover: #1f294e;
+  --c-sec-fill-pressed: #1f294e;
+  --c-sec-stroke-hover: #8599e4;
+  --c-sec-stroke-pressed: #6983de;
+  --c-sec-text-hover: #8599e4;
+  --c-sec-text-pressed: #6983de;
+  --c-ghost-pressed: #8599e4;
+  --c-label-hover: #8599e4;
+  --c-label-pressed: #8599e4;
+  --c-aux-fill: #5a5454;
+  --c-aux-hover: #797171;
+  --c-aux-pressed: #3f3b3b;
+  --c-aux-text: #ffffff;
+  --c-input-hover: #bab5b5;
+  --c-error: #e85053;
+  --c-success: #3aa969;
+  --c-success-fill: #1f9d55;
+  --c-success-fill-hover: #1b8a4b; /* System success/400 and /500 */
+  --c-focus: #8599e4;
+}

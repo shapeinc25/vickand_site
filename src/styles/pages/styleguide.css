@@ -1,0 +1,133 @@
+.lib {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+  color: var(--text-primary);
+}
+.lib h1 {
+  font: 400 40px/1.1 var(--font-display);
+  margin: 8px 0 8px;
+}
+.lib h2 {
+  font: 600 28px/1.2 var(--font-body);
+  margin: 56px 0 8px;
+}
+.lib p.lead {
+  color: var(--text-secondary);
+  margin: 0 0 20px;
+  max-width: 70ch;
+}
+.lib-back {
+  display: inline-flex;
+  margin-bottom: 8px;
+}
+.panels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.panel {
+  background: var(--c-panel-bg);
+  color: var(--c-text);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid var(--c-border);
+  overflow-x: auto;
+}
+.panel.is-light {
+  --c-panel-bg: #e5e2df;
+}
+.panel.is-dark {
+  --c-panel-bg: #2c2929;
+}
+.panel-title {
+  margin: 0 0 12px;
+  font: 600 14px/1 var(--font-body);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-text-2);
+}
+.row-label {
+  margin: 16px 0 6px;
+  font: 600 16px/1 var(--font-body);
+}
+.matrix {
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  gap: 14px 20px;
+  align-items: start;
+}
+.matrix.inputs {
+  grid-template-columns: repeat(2, max-content);
+}
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+.cap {
+  font: 400 12px/1 var(--font-body);
+  color: var(--c-text-2);
+}
+.item-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 240px;
+}
+.code {
+  margin: 12px 0 0;
+  padding: 14px 16px;
+  background: #2c2929;
+  color: #e5e2df;
+  border-radius: 12px;
+  font:
+    13px/1.5 ui-monospace,
+    Menlo,
+    monospace;
+  overflow-x: auto;
+}
+.icons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.icon-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  min-width: 150px;
+  font-size: 13px;
+}
+.icon-tile .icon {
+  width: 32px;
+  height: 32px;
+}
+.matrix.inputs .input {
+  width: 240px;
+}
+.matrix.dd {
+  grid-template-columns: repeat(2, max-content);
+}
+.cell:has(.dropdown) {
+  min-height: 250px;
+}
+.note {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-top: 10px;
+}
+@media (max-width: 900px) {
+  .panels {
+    grid-template-columns: 1fr;
+  }
+  .matrix {
+    grid-template-columns: repeat(2, max-content);
+  }
+}

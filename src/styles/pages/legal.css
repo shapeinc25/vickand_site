@@ -1,0 +1,33 @@
+/* Legal pages (Terms of Use, Privacy Policy): back button header */
+.legal-header {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: auto;
+  padding: 0;
+  z-index: 10;
+}
+.legal-header::before {
+  display: none;
+}
+.legal-header .container {
+  padding: 0;
+  margin: 0;
+  display: block;
+  height: auto;
+  min-height: 0;
+  max-width: none;
+  width: auto;
+  transform: none !important;
+}
+.is-scrolled .legal-header {
+  padding: 0;
+}
+.legal-header + * {
+  margin-top: 72px;
+}
+@media (max-width: 520px) {
+  .legal-header + * {
+    margin-top: 72px;
+  }
+}

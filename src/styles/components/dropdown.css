@@ -1,0 +1,78 @@
+/* ---------- Dropdown ----------
+   <div class="dropdown" data-dropdown>
+     <button class="btn btn-secondary dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+       <span class="dropdown-value">Choose</span><svg class="icon icon-closed">…</svg><svg class="icon icon-open">…</svg></button>
+     <ul class="dropdown-menu" role="listbox" hidden>
+       <li class="dropdown-item" role="option" aria-selected="true">Label</li>…</ul>
+   </div> */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-trigger .icon-open,
+.dropdown-trigger[aria-expanded="true"] .icon-closed {
+  display: none;
+}
+.dropdown-trigger[aria-expanded="true"] .icon-open {
+  display: inline-block;
+}
+.dropdown-menu {
+  box-sizing: border-box;
+  min-width: 256px;
+  margin: 0;
+  padding: 8px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  color: var(--c-text);
+}
+.dropdown > .dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 20;
+}
+.dropdown-menu[hidden] {
+  display: none;
+}
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font: 400 16px/normal var(--font-body, "Zilla Slab", serif);
+  color: var(--c-text);
+  cursor: pointer;
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease;
+}
+.dropdown-item .icon {
+  width: 24px;
+  height: 24px;
+}
+.dropdown-item.is-hover,
+.dropdown-item:focus-visible,
+.dropdown-item.is-active,
+.dropdown-item[aria-selected="true"],
+.dropdown-item.is-selected {
+  background: var(--c-accent-subtle);
+  color: var(--c-accent);
+  outline: 0;
+}
+@media (hover: hover) {
+  .dropdown-item:hover {
+    background: var(--c-accent-subtle);
+    color: var(--c-accent);
+    outline: 0;
+  }
+}
+.dropdown-item[aria-disabled="true"] {
+  opacity: 0.45;
+  pointer-events: none;
+} /* proposed */
