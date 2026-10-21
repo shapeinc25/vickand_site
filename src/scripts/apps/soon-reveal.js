@@ -1,7 +1,9 @@
+import { reducedMotion } from "../common/motion.js";
+
 // Coming Soon: same appearing animation as Section 2 (each part reveals once at least 30% of it is in view)
 (function () {
   if (!("IntersectionObserver" in window)) return;
-  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (reducedMotion) return;
   var parts = document.querySelectorAll(
     ".section-soon .soon-title, .section-soon .soon-mock, .section-soon .soon-counter, .section-soon .soon-notify, .section-soon .soon-form",
   );

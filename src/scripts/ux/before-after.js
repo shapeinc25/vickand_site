@@ -1,3 +1,5 @@
+import { reducedMotion } from "../common/motion.js";
+
 /* Before / After slider: drag anywhere on it, use the arrow buttons or the keyboard. One gentle sweep hints at it the first time it is seen. */
 (function () {
   "use strict";
@@ -5,7 +7,7 @@
     box = document.getElementById("ux-cmp-box"),
     handle = document.getElementById("ux-cmp-handle");
   if (!sec || !box || !handle) return;
-  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var reduce = reducedMotion;
   var pos = 50,
     dragging = false,
     tween = 0,
@@ -46,7 +48,7 @@
     fromX(e.clientX);
     try {
       box.setPointerCapture(e.pointerId);
-    } catch (_) {}
+    } catch {}
   });
   box.addEventListener("pointermove", function (e) {
     if (dragging) fromX(e.clientX);

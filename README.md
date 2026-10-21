@@ -27,69 +27,122 @@ npm run dev
 
 ## Страницы
 
-| URL            | Файл                    | Скрипт-точка входа                                                                  |
-| -------------- | ----------------------- | ----------------------------------------------------------------------------------- |
-| `/`            | `index.html`            | `src/scripts/entries/apps.js`                                                       |
-| `/ux/`         | `ux/index.html`         | `src/scripts/entries/ux.js`                                                         |
-| `/terms/`      | `terms/index.html`      | `src/scripts/entries/legal.js`                                                      |
-| `/privacy/`    | `privacy/index.html`    | `src/scripts/entries/legal.js`                                                      |
-| `/styleguide/` | `styleguide/index.html` | `src/scripts/entries/styleguide.js` — библиотека компонентов, закрыта от индексации |
-| 404            | `404.html`              | `src/scripts/entries/legal.js`                                                      |
+Страницы лежат в `src/pages/`, их адреса повторяют папки.
+
+| URL            | Файл (в `src/pages/`)   | Скрипт (в `src/scripts/entries/`) | Стили (в `src/styles/`) |
+| -------------- | ----------------------- | --------------------------------- | ----------------------- |
+| `/`            | `index.html`            | `apps.js`                         | `apps.css`              |
+| `/ux/`         | `ux/index.html`         | `ux.js`                           | `ux.css`                |
+| `/terms/`      | `terms/index.html`      | `legal.js`                        | `legal.css`             |
+| `/privacy/`    | `privacy/index.html`    | `legal.js`                        | `legal.css`             |
+| `/styleguide/` | `styleguide/index.html` | `styleguide.js`                   | `styleguide.css`        |
+| 404            | `404.html`              | `legal.js`                        | `legal.css`             |
+
+`/styleguide/` — библиотека компонентов (кнопки, поля, дропдауны, иконки), закрыта от индексации.
 
 Старые ссылки однофайловой версии (`/#ux`, `/#terms`, `/#privacy`) перенаправляются на новые страницы.
 
 ## Структура
 
 ```
-├─ index.html, ux/, terms/, privacy/, styleguide/, 404.html   страницы
 ├─ src/
-│  ├─ partials/        общие куски HTML: head (SEO-мета), header, footer, иконки
+│  ├─ pages/              HTML-страницы (index.html, ux/, terms/, privacy/, styleguide/, 404.html)
+│  ├─ partials/
+│  │  ├─ layout/          head (SEO-мета), header, header-legal, footer
+│  │  ├─ components/      повторяющиеся блоки: карточка карусели, блок игры, искорка
+│  │  └─ icons/           иконки (стрелки, галочка) и SVG-спрайт
 │  ├─ styles/
-│  │  ├─ main.css      подключает все стили в правильном порядке каскада
-│  │  ├─ base/         шрифты, токены (цвета тем), база, анимации, адаптив
-│  │  ├─ components/   шапка, футер, переключатель, кнопки, поля, дропдаун
-│  │  └─ pages/        стили секций страниц
+│  │  ├─ apps.css, ux.css, legal.css, styleguide.css   набор стилей каждой страницы
+│  │  ├─ base/            шрифты, токены (цвета тем), база, общие анимации, адаптив
+│  │  ├─ components/      шапка, футер, переключатель, hero, макет телефона, кнопки, поля, дропдаун
+│  │  └─ pages/apps/, pages/ux/   по файлу на секцию страницы
 │  ├─ scripts/
-│  │  ├─ entries/      по одному файлу на страницу: подключает CSS и нужные модули
-│  │  ├─ common/       общее поведение (переключатель страниц, шапка, анимации)
-│  │  ├─ apps/         секции главной
-│  │  └─ ux/           секции UX & Design
-│  └─ assets/          шрифты, картинки, логотипы (Vite хеширует и оптимизирует)
-├─ public/             копируется как есть: favicon, og-cover.png, manifest
-├─ design/             исходники из Figma, скриншоты, прототипы — на сайт не попадают
-└─ .github/workflows/  CI и деплой на GitHub Pages
+│  │  ├─ entries/         по файлу на страницу: подключает её стили и модули
+│  │  ├─ common/          общее поведение (переключатель страниц, шапка, пауза анимаций вне экрана)
+│  │  ├─ apps/            секции главной; counter-card/ — карточка Coming Soon и три мини-игры
+│  │  └─ ux/              секции UX & Design; tangled-flows/ — анимация первого экрана
+│  └─ assets/             шрифты, картинки, логотипы (Vite хеширует и оптимизирует)
+├─ public/                копируется как есть: favicon, og-cover.png, manifest
+├─ design/                исходники из Figma, скриншоты, прототипы — на сайт не попадают
+└─ .github/workflows/     CI и деплой на GitHub Pages
 ```
 
 ### Partials
 
-В HTML-страницах общий код вставляется комментарием:
+Общий HTML вставляется в страницы комментарием:
 
 ```html
-<!-- @include header.html {"toggleLabel": "Go to UX &amp; Design"} -->
+<!-- @include layout/header.html {"toggleLabel": "Go to UX &amp; Design"} -->
+<!-- @include components/product.html {"title": "Flying Ladders", "description": "…", "appStore": "https://…"} -->
 ```
 
-Файл берётся из `src/partials/`, `{{имя}}` заменяется переданным значением.
+Файл берётся из `src/partials/`, `{{имя}}` заменяется переданным значением. Значения по умолчанию partial
+объявляет в первой строке: `<!-- @defaults {"title": "[Title]"} -->`. Partials могут включать другие partials.
 Всегда доступны `{{base}}` (путь сайта, обычно `/`) и `{{siteUrl}}` (полный адрес сайта).
+Пути к файлам из `src/` пишутся как `src="@/assets/images/имя.webp"` — с любой страницы.
 Реализация — плагин `partials()` в `vite.config.js`, без внешних зависимостей.
+
+### Стили
+
+У каждой страницы свой набор: `src/styles/apps.css` и т. д. Это список `@import` в порядке каскада:
+база → общие компоненты → секции страницы сверху вниз. Порядок важен: правило ниже перекрывает правило выше
+при равной специфичности. Новый файл секции ставится в набор на место, соответствующее секции на странице.
 
 ### Как добавить страницу
 
-1. Создать `about/index.html` по образцу `terms/index.html` (head, header, footer через `@include`).
-2. Создать `src/scripts/entries/about.js`, подключить в нём `../../styles/main.css` и нужные модули.
+1. Создать `src/pages/about/index.html` по образцу `src/pages/terms/index.html` (head, header, footer через `@include`).
+2. Создать `src/styles/about.css` (набор `@import`) и `src/scripts/entries/about.js`, который подключает этот CSS и нужные модули.
 3. Добавить строку в `PAGES` в `vite.config.js` — страница попадёт в сборку и в `sitemap.xml`.
 
 ### Как добавить секцию
 
-- Стили — новый файл в `src/styles/pages/` и `@import` в `src/styles/main.css` (порядок импортов = порядок каскада).
+- Разметка — в HTML страницы; повторяющиеся блоки — partial в `src/partials/components/`.
+- Стили — файл в `src/styles/pages/<страница>/` и `@import` в набор страницы.
 - Поведение — модуль в `src/scripts/apps/` или `src/scripts/ux/` и `import` в entry страницы.
-- Картинки — в `src/assets/images/`, в HTML ссылаться как `/src/assets/images/имя.webp`.
+
+### Как добавить игру на главную
+
+Блоки игр — partial `src/partials/components/product.html`. В `src/pages/index.html` заменить заглушку на:
+
+```html
+<!-- @include components/product.html {"title": "Flying Ladders", "description": "…", "googlePlay": "https://…", "appStore": "https://…"} -->
+```
+
+## Скорость
+
+- Картинки в WebP и под размер показа; всё, что ниже первого экрана, грузится лениво (`loading="lazy"`).
+- Шрифты — подмножества: основная латиница (~28 КБ на начертание) и отдельный файл расширенной латиницы,
+  который браузер скачивает, только если такие буквы есть на странице. Два шрифта первого экрана и баннер
+  hero предзагружаются (`<link rel="preload">`).
+- У каждой страницы свой CSS и JS; файлы с хешем в имени можно кэшировать навсегда.
+- Слабые устройства и медленная или экономная сеть (`navigator.connection.saveData`, 2G, ≤ 2 ГБ памяти, ≤ 2 ядер):
+  самые тяжёлые эффекты (частицы логотипа, поле точек) отключаются, как и при «уменьшить движение» в системе —
+  см. `src/scripts/common/motion.js`.
+- Анимации вне экрана ставятся на паузу (`src/scripts/common/pause-offscreen.js`).
+
+Проверка: `npm run build`, `npm run preview`, затем Lighthouse в Chrome DevTools (вкладка Lighthouse, режим Mobile).
 
 ## SEO
 
-- У каждой страницы свои `title`, `description`, `canonical`, Open Graph и Twitter-карточка (`src/partials/head.html`).
-- JSON-LD: `Organization` на главной, `Service` на `/ux/`.
-- `sitemap.xml` и `robots.txt` генерируются при сборке; `/styleguide/` и 404 закрыты `noindex`.
-- Адрес сайта задаётся переменной `SITE_URL` (по умолчанию `https://vickand.com/`), см. `.env.example`.
+- У каждой страницы свои `title`, `description`, `canonical`, Open Graph и Twitter-карточка
+  (`src/partials/layout/head.html`). Превью для соцсетей — `public/og-image.png` 1200×630,
+  исходник — `design/og-image.html`.
+- Иконки: SVG, PNG 48×48 (для выдачи Google), `apple-touch-icon` 180×180, 192/512 в манифесте.
+- JSON-LD: `Organization` и `WebSite` на главной, `Service` на `/ux/`.
+- `sitemap.xml` и `robots.txt` генерируются при сборке. Из выдачи убраны (`noindex`) 404, `/styleguide/`
+  и пока что `/terms/` и `/privacy/` — у них ещё нет текста. Когда текст появится, верните их в `PAGES`
+  в `vite.config.js` и уберите `"robots"` из их `@include layout/head.html`.
+- Адрес сайта для canonical и sitemap при деплое берётся у GitHub Pages автоматически (свой домен тоже).
+
+### Чтобы сайт находили в Google
+
+1. **Свой домен.** На адресе `user.github.io/repo/` поисковики не видят `robots.txt` (он должен лежать в корне
+   домена), а сам адрес выглядит как временный. Подключите домен: Settings → Pages → Custom domain.
+2. **Google Search Console** (search.google.com/search-console): добавить сайт, подтвердить владение,
+   отправить `sitemap.xml`. То же — в Bing Webmaster Tools.
+3. **Тексты.** Главное для позиций — содержание: реальные названия и описания игр вместо `[Title]`,
+   описания услуг и кейсов на `/ux/`, ссылки на сторы. Заголовок и описание каждой страницы задаются
+   в её `@include layout/head.html`.
 
 ## Деплой на GitHub Pages
 
@@ -106,4 +159,4 @@ npm run dev
   Для отправки нужен бэкенд или сервис форм (например Formspree) — обработчики лежат в
   `src/scripts/apps/waitlist-form.js` и `src/scripts/ux/request-form.js`.
 - Тексты Terms of Use и Privacy Policy — заглушки.
-- Ссылки на Google Play / App Store пока `href="#"`.
+- Блоки игр на главной — заглушки (`[Title]`, `[Description]`, ссылки на сторы `#`).

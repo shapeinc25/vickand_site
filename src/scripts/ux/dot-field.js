@@ -1,3 +1,5 @@
+import { reducedMotion, lowPower } from "../common/motion.js";
+
 /* Dot-field background for the UX story stage (rewritten from "Heavy Dots" by Nick Sheffield, MIT).
    Dots fill the whole stage; they lean toward the pointer and grow near it; large active dots take colours from the brand gradient. */
 (function () {
@@ -6,7 +8,7 @@
   if (!cv) return;
   var stage = cv.parentNode,
     ctx = cv.getContext("2d");
-  var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var still = reducedMotion || lowPower; // one static frame instead of the animation
   var GRAD = [
     [46, 207, 73],
     [233, 224, 55],
@@ -82,7 +84,6 @@
       dy,
       dist,
       k,
-      ang,
       ox,
       oy,
       pos = new Array(n);

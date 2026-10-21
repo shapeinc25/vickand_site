@@ -1,0 +1,41 @@
+/* ---------- Sparkle ----------
+   Twinkles on the top right corner of a call-to-action button (Apps & Games story, UX "How we got here"). */
+.cta-spark {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  right: -13px;
+  top: -15px;
+  fill: #ffb800;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px rgba(255, 184, 0, 0.55));
+}
+.cta-spark-b {
+  width: 13px;
+  height: 13px;
+  right: -24px;
+  top: 6px;
+  fill: #ff5c00;
+  filter: none;
+}
+@keyframes cta-spark {
+  0%,
+  12% {
+    transform: scale(0) rotate(-40deg);
+    opacity: 0;
+  }
+  36% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+  56% {
+    transform: scale(0.55) rotate(25deg);
+    opacity: 0.8;
+  }
+  78%,
+  100% {
+    transform: scale(0) rotate(60deg);
+    opacity: 0;
+  }
+}

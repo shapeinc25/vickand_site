@@ -8,7 +8,7 @@ export default [
     files: ["src/**/*.js"],
     languageOptions: { ecmaVersion: 2022, sourceType: "module", globals: globals.browser },
     rules: {
-      "no-unused-vars": ["warn", { args: "none" }],
+      "no-unused-vars": ["error", { args: "none" }],
       "no-empty": ["error", { allowEmptyCatch: true }],
     },
   },

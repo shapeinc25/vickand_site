@@ -1,0 +1,46 @@
+/* ---------- Phone mockup ----------
+   The 280x518 phone artwork with the game banner on its display: hero carousel, product sections, UX "How we got here". */
+
+/* The artwork canvas is padded by 60 units on every side (400x638 around the 280x518 phone box) so its soft shadow is never clipped */
+.mock-default {
+  display: block;
+  position: absolute;
+  left: calc(-100% * 60 / 280);
+  top: calc(-100% * 60 / 518);
+  width: calc(100% * 400 / 280);
+  height: calc(100% * 638 / 518);
+  max-width: none;
+  pointer-events: none;
+  transition: filter var(--motion-base) var(--ease-standard);
+}
+
+/* Game banner area: the phone's display (x 26-234, y 32-486 of the 280x518 artwork). The banner (.mock-bg)
+   fills it and scales up 10% on hover, clipped by the rounded display. Set it per card: style="--banner: url(...)". */
+.mock-screen {
+  position: absolute;
+  left: calc(100% * 26 / 280);
+  top: calc(100% * 32 / 518);
+  width: calc(100% * 208 / 280);
+  height: calc(100% * 454 / 518);
+  border-radius: calc(16px * var(--mock-k));
+  overflow: hidden;
+  pointer-events: none;
+}
+.mock-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #000000;
+  opacity: 0; /* overlay #000000 at 20%, shown on hover */
+  transition: opacity 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+.mock-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--banner, url(../../assets/images/game-banner.webp)) center / cover no-repeat;
+  transform: scale(1);
+  transform-origin: center;
+  transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}

@@ -1,0 +1,46 @@
+/* Figma: Button / Size=Small, Type=Secondary, Theme=Light (node 22:335). Also used for the legal back button. */
+.btn-small-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #d3cfcf;
+  background: #ffffff;
+  color: #2c2929;
+  font-family: "Zilla Slab", Georgia, serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+.btn-small-secondary svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+.btn-small-secondary:focus-visible {
+  outline: 2px solid var(--accent-default);
+  outline-offset: 3px;
+}
+
+/* Figma Button / Small / Secondary / Light: Hover (fill #e4e8f9, stroke #5572da, text #3d529d) and Pressed (fill #cfd8f5, stroke #3d529d, text #2e3e76) */
+@media (hover: hover) {
+  .btn-small-secondary:hover {
+    background: #e4e8f9;
+    border-color: #5572da;
+    color: #3d529d;
+  }
+}
+.btn-small-secondary:active {
+  background: #cfd8f5;
+  border-color: #3d529d;
+  color: #2e3e76;
+}

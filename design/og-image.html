@@ -1,0 +1,18 @@
+<!doctype html><meta charset="utf-8">
+<!-- Source of public/og-image.png, the 1200x630 social preview: open in Chrome with a 1200x630 window and take a screenshot. -->
+<style>
+@font-face { font-family: "Changa One"; src: url(../src/assets/fonts/changa-one-400.woff2) format("woff2"); }
+@font-face { font-family: "Zilla Slab"; src: url(../src/assets/fonts/zilla-slab-400.woff2) format("woff2"); }
+html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+body { display: grid; grid-template-rows: 1fr 1fr; font-family: "Changa One", sans-serif; }
+.top { background: #2c2929; color: #e5e2df; display: flex; align-items: flex-start; justify-content: center; padding-top: 70px; }
+.bot { background: #e5e2df; color: #2c2929; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 62px; text-align: center; }
+h1, h2 { margin: 0; font-weight: 400; line-height: 1.05; letter-spacing: -0.5px; }
+h1 { font-size: 78px; } h2 { font-size: 60px; }
+.g { color: #2fb695; } .b { color: #5572da; }
+.logo { position: absolute; left: 50%; top: 50%; width: 300px; transform: translate(-50%, -50%); }
+.logo.w { clip-path: inset(0 0 50% 0); } .logo.k { clip-path: inset(50% 0 0 0); }
+</style>
+<div class="top"><h1>We build <span class="g">apps’n’games</span></h1></div>
+<div class="bot"><h2>We improve the UX of <span class="b">your apps’n’games</span></h2></div>
+<img class="logo w" src="../src/assets/logos/logo-white.svg" alt=""><img class="logo k" src="../src/assets/logos/logo-black.svg" alt="">

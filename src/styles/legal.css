@@ -1,0 +1,14 @@
+/* Terms of Use, Privacy Policy and the 404 page. */
+@import "./base/fonts.css";
+@import "./base/tokens.css";
+@import "./base/base.css";
+@import "./base/motion.css";
+@import "./base/responsive.css";
+@import "./base/reduced-motion.css";
+
+@import "./components/component-tokens.css";
+@import "./components/button.css";
+@import "./components/header.css";
+@import "./components/footer.css";
+
+@import "./pages/legal.css";

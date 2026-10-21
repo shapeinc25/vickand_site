@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <!-- @include layout/head.html {"title": "Vickand — Mobile Apps &amp; Games Studio", "description": "Vickand is a studio that creates mobile apps and games and helps developers improve the UX of their own: UX audits, user flows, UI design and game UX.", "path": "", "themeColor": "#e5e2df"} -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "{{siteUrl}}#organization",
+        "name": "Vickand",
+        "url": "{{siteUrl}}",
+        "logo": { "@type": "ImageObject", "url": "{{siteUrl}}logo.png", "width": 826, "height": 558 },
+        "description": "Vickand creates mobile apps and games, and helps developers improve the UX of their own."
+      },
+      {
+        "@type": "WebSite",
+        "@id": "{{siteUrl}}#website",
+        "name": "Vickand",
+        "url": "{{siteUrl}}",
+        "publisher": { "@id": "{{siteUrl}}#organization" },
+        "inLanguage": "en"
+      }
+    ]
+  }
+  </script>
+  <script>
+    // Old single-file links (/#ux, /#terms, …) open the pages that replaced them
+    (function () {
+      function go() {
+        var to = { "#ux": "ux/", "#terms": "terms/", "#privacy": "privacy/", "#components": "styleguide/" }[location.hash];
+        if (to) location.replace("{{base}}" + to);
+      }
+      go();
+      window.addEventListener("hashchange", go);
+    })();
+  </script>
+  <link rel="preload" href="@/assets/images/game-banner.webp" as="image" type="image/webp" fetchpriority="high">
+</head>
+<body>
+  <!-- @include layout/header.html {"toggleLabel": "Apps’n’Games: switch to UX &amp; Design"} -->
+
+  <main>
+    <!-- Hero: mockup carousel and logo/text morph -->
+    <section class="hero" aria-labelledby="hero-title">
+
+      <div class="hero-stage">
+        <!-- Logo and text share one cell and cross-fade (animation in styles.css) -->
+        <!-- Mockup frames in a window: an endless loop, hover widens the space around a card and shows the Explore pill -->
+        <div class="hero-window">
+        <div class="hero-track" data-carousel>
+          <!-- Each card has a .mock-screen (the phone's display); set the game banner on its .mock-bg with style="--banner: url(...)". The banner scales up 10% on hover. -->
+          <!-- Twelve cards in one row: the last six repeat the first six for the endless loop -->
+          <!-- @include components/hero-mock.html -->
+          <!-- @include components/hero-mock.html -->
+          <!-- @include components/hero-mock.html -->
+          <!-- @include components/hero-mock.html -->
+          <!-- @include components/hero-mock.html -->
+          <!-- @include components/hero-mock.html -->
+          <!-- @include components/hero-mock.html {"attrs": "tabindex=\"-1\" aria-hidden=\"true\""} -->
+          <!-- @include components/hero-mock.html {"attrs": "tabindex=\"-1\" aria-hidden=\"true\""} -->
+          <!-- @include components/hero-mock.html {"attrs": "tabindex=\"-1\" aria-hidden=\"true\""} -->
+          <!-- @include components/hero-mock.html {"attrs": "tabindex=\"-1\" aria-hidden=\"true\""} -->
+          <!-- @include components/hero-mock.html {"attrs": "tabindex=\"-1\" aria-hidden=\"true\""} -->
+          <!-- @include components/hero-mock.html {"attrs": "tabindex=\"-1\" aria-hidden=\"true\""} -->
+        </div>
+      </div>
+
+        <div class="hero-morph" data-state="logo">
+          <img class="morph-logo logo-light" src="@/assets/logos/logo-black.svg" alt="Vickand" width="413" height="279">
+          <img class="morph-logo logo-dark" src="@/assets/logos/logo-white.svg" alt="" width="413" height="279" aria-hidden="true" loading="lazy" decoding="async">
+          <h1 id="hero-title" class="morph-text">
+            <span>Apps to use.</span>
+            <span class="accent">Games to play.</span>
+          </h1>
+          <canvas class="morph-canvas" aria-hidden="true"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Apps & Games (Figma node 1:329) -->
+    <section class="section-games" id="find" aria-labelledby="games-title">
+      <div class="section-lead">
+      <header class="section-head">
+        <h2 id="games-title">Apps &amp; Games</h2>
+        <p>Find something you'll like.</p>
+      </header>
+  <!-- @include components/product.html -->
+      </div>
+      <div class="products">
+  <!-- @include components/product.html -->
+  <!-- @include components/product.html -->
+  <!-- @include components/product.html -->
+      </div>
+    </section>
+
+    <section class="section-soon" id="coming-soon" aria-labelledby="soon-title">
+      <h2 class="soon-title" id="soon-title">Coming Soon</h2>
+      <div class="soon-content">
+        <div class="soon-mock"><p>[Mockup]</p></div>
+        <div class="soon-wait">
+          <div class="soon-counter">
+            <div class="soon-card">
+              <div class="soon-face soon-front" role="button" tabindex="0" aria-label="People are waiting. Open the mini game">
+                <span class="soon-tint"></span><span class="soon-tint"></span>
+                <span class="soon-rain" aria-hidden="true"><i style="--x:4%;--d:-1.1s;--t:7.5s;--w:6px;--h:6px;--r:2px;--sw:-26px;--c:#ff5c00"></i><i style="--x:9%;--d:-0.6s;--t:6.8s;--w:7px;--h:7px;--r:2px;--sw:11px;--c:#e9e037"></i><i style="--x:18%;--d:-0.9s;--t:6.2s;--w:6px;--h:3px;--r:50%;--sw:-11px;--c:#2ecf49"></i><i style="--x:21%;--d:-0.9s;--t:6.8s;--w:6px;--h:3px;--r:2px;--sw:-13px;--c:#2f9de1"></i><i style="--x:27%;--d:-4.5s;--t:6.6s;--w:6px;--h:6px;--r:2px;--sw:-25px;--c:#7a47d3"></i><i style="--x:33%;--d:-3.0s;--t:6.4s;--w:9px;--h:4px;--r:2px;--sw:-15px;--c:#ff5c00"></i><i style="--x:38%;--d:-1.7s;--t:7.2s;--w:9px;--h:4px;--r:2px;--sw:19px;--c:#e9e037"></i><i style="--x:43%;--d:-0.5s;--t:7.0s;--w:7px;--h:3px;--r:50%;--sw:23px;--c:#2ecf49"></i><i style="--x:45%;--d:-4.7s;--t:7.8s;--w:8px;--h:4px;--r:2px;--sw:25px;--c:#2f9de1"></i><i style="--x:53%;--d:-3.2s;--t:8.0s;--w:8px;--h:4px;--r:2px;--sw:-11px;--c:#7a47d3"></i><i style="--x:59%;--d:-2.2s;--t:7.2s;--w:9px;--h:4px;--r:2px;--sw:21px;--c:#ff5c00"></i><i style="--x:60%;--d:-3.2s;--t:6.0s;--w:6px;--h:3px;--r:50%;--sw:-19px;--c:#e9e037"></i><i style="--x:66%;--d:-1.7s;--t:6.7s;--w:9px;--h:9px;--r:50%;--sw:22px;--c:#2ecf49"></i><i style="--x:74%;--d:-6.2s;--t:8.0s;--w:8px;--h:4px;--r:2px;--sw:17px;--c:#2f9de1"></i><i style="--x:77%;--d:-1.2s;--t:6.2s;--w:7px;--h:7px;--r:2px;--sw:-18px;--c:#7a47d3"></i><i style="--x:83%;--d:-1.0s;--t:7.1s;--w:8px;--h:8px;--r:2px;--sw:-24px;--c:#ff5c00"></i><i style="--x:92%;--d:-5.5s;--t:8.1s;--w:9px;--h:4px;--r:2px;--sw:13px;--c:#e9e037"></i><i style="--x:95%;--d:-2.8s;--t:6.1s;--w:7px;--h:3px;--r:50%;--sw:-20px;--c:#2ecf49"></i></span>
+                <p class="soon-count" id="soon-count" data-count="1240">1,240</p>
+                <p class="soon-count-label">people are waiting</p>
+                <button class="btn btn-sm soon-play" type="button">Play while waiting</button>
+              </div>
+              <div class="soon-face soon-back is-dark" data-game="mem" aria-label="Mini game">
+                <button class="btn btn-ghost btn-sm btn-icon-only soon-close" type="button" aria-label="Close game"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.28 20.25H17c2.76 0 5-2.24 5-5v-6.5c0-2.76-2.24-5-5-5h-6.72c-1.41 0-2.75.59-3.7 1.64L3.05 9.27c-1.41 1.55-1.41 3.91 0 5.46l3.53 3.88c.95 1.05 2.29 1.64 3.7 1.64ZM16 14.47 11.06 9.53M11.06 14.47 16 9.53" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                <div class="soon-mem">
+                  <div class="soon-lives" aria-label="Lives"></div>
+                  <div class="soon-grid"></div>
+                </div>
+                <div class="soon-balls">
+                  <canvas aria-label="Catch the falling balls with the see-saw"></canvas>
+                  <div class="soon-bhud"><span class="soon-b-round">Round 1</span><span class="soon-b-time">60</span></div>
+                </div>
+                <div class="soon-ttt">
+                  <p class="soon-status" aria-live="polite">Your turn</p>
+                  <div class="soon-board" role="grid" aria-label="Tic-tac-toe"></div>
+                </div>
+                <div class="soon-over" hidden>
+                  <p class="soon-over-title">Game over</p>
+                  <p class="soon-over-score" aria-live="polite"><span class="soon-score-num">0</span><span class="soon-score-cap">Your score</span></p>
+                  <p class="soon-over-tally" hidden></p>
+                  <p class="soon-over-best" hidden><span>Best score</span> <b class="soon-best-num">0</b></p>
+                  <div class="soon-over-btns">
+                    <button class="btn btn-primary" type="button" data-act="again">Play again</button>
+                    <button class="btn btn-secondary" type="button" data-act="later">Next time</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="soon-notify"><span>Get notified when it's released.</span><span aria-hidden="true">Be an early tester. Shape what’s next.</span></p>
+          <form class="soon-form" id="subscribe-form" novalidate>
+            <div class="input input-md"><label class="input-field"><input class="input-control" id="subscribe-email" type="email" placeholder="Email" aria-label="Email" autocomplete="email"></label><p class="input-message" id="subscribe-msg" role="alert" hidden>Enter a valid email address</p></div>
+            <button class="btn btn-primary soon-submit" type="submit"><!-- @include icons/tick.html --><span class="soon-btn-label">Subscribe</span></button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-story" id="story" aria-label="Why UX matters">
+      <div class="story-stage">
+    <div class="section-statement" id="statement">
+          <div class="statement-fx" aria-hidden="true"></div>
+          <p class="statement-text" data-statement><span class="sr-only">Building software is easier than ever.</span><span class="statement-type" aria-hidden="true"><span class="statement-line"><span class="c-purple">Building</span> software is <span class="c-yellow">easier than ever</span>.</span></span></p>
+        </div>
+    <div class="section-cta is-b" id="cta">
+          <div class="cta-fx" aria-hidden="true"></div>
+          <div class="cta-inner">
+            <div class="cta-text">
+            <!-- Each sentence has a large and a small version with the line breaks of the Figma screens; the swap scales and dissolves one into the other, so no text re-wraps (no jumping) -->
+            <div class="cta-l cta-l1">
+              <p class="cta-big"><span class="cta-seg c-blue">You've built</span> an app or a<br>game using AI-assistant.</p>
+              <p class="cta-small" aria-hidden="true">You've built an app or a game<br>using AI-assistant.</p>
+            </div>
+            <div class="cta-l cta-l2">
+              <p class="cta-small" aria-hidden="true">We help improve the UX of your<br>product.</p>
+              <p class="cta-big"><span class="cta-seg c-green">We help improve </span>the UX<br>of your product.</p>
+            </div>
+          </div>
+            <div class="cta-btn-wrap">
+              <a class="btn btn-primary btn-lg" href="{{base}}ux/">Learn more <!-- @include icons/arrow-right.html {"stroke": "1.5", "attrs": " width=\"24\" height=\"24\""} --></a>
+              <!-- @include components/sparkle.html {"variant": "a"} -->
+              <!-- @include components/sparkle.html {"variant": "b"} -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- @include layout/footer.html -->
+  <script type="module" src="@/scripts/entries/apps.js"></script>
+</body>
+</html>

@@ -1,0 +1,306 @@
+/* ---------- Before / After ----------
+   Comparison slider with arrow buttons and dot navigation. */
+.ux-cmp {
+  position: relative;
+  z-index: 2;
+  background: var(--surface-default);
+  padding: 64px 0 144px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  overflow: hidden;
+} /* 144 = 16 gap + 28 chip + 100 free space under the dots */
+.ux-cmp-head {
+  width: calc(100% - 48px);
+  max-width: 755px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+}
+.ux-cmp-head p {
+  margin: 0;
+}
+.ux-cmp-head .k1 {
+  font: 400 48px/56px var(--font-display);
+  letter-spacing: -0.24px;
+  color: var(--text-primary);
+}
+.ux-cmp-head .k2 {
+  font: 400 64px/72px var(--font-display);
+  letter-spacing: -0.64px;
+  color: var(--text-primary);
+}
+.ux-cmp-head .k3 {
+  margin-top: 20px;
+  font: 400 18px/28px var(--font-body);
+  color: var(--text-secondary);
+}
+.ux-cmp-row {
+  width: 100%;
+  max-width: 1440px;
+  padding: 0 24px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+.ux-cmp-btn {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border: 0;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--primary-default);
+  color: var(--text-on-primary, #fff);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+@media (hover: hover) {
+  .ux-cmp-btn:hover,
+  .ux-cmp-knob:hover {
+    background: var(--primary-hover);
+  }
+}
+.ux-cmp-btn:active,
+.ux-cmp-box.is-dragging .ux-cmp-knob {
+  background: var(--primary-pressed);
+}
+.ux-cmp-btn:focus-visible,
+.ux-cmp-handle:focus-visible .ux-cmp-knob {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 3px;
+}
+.ux-cmp-btn svg {
+  width: 24px;
+  height: 24px;
+}
+.ux-cmp-stage {
+  position: relative;
+  flex: 1 1 990px;
+  max-width: 990px;
+  min-width: 0;
+}
+.ux-cmp-box {
+  --p: 50;
+  position: relative;
+  width: 100%;
+  height: min(703px, calc(100vh - 140px));
+  min-height: 480px;
+  border-radius: 12px;
+  overflow: hidden;
+  touch-action: pan-y;
+  cursor: ew-resize;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+.ux-cmp-slide {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+}
+.ux-cmp-slide.is-on,
+.ux-cmp-slide.is-out {
+  visibility: visible;
+}
+.ux-cmp-dots {
+  position: absolute;
+  top: calc(100% + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+}
+/* dot navigation (after "Dot slider" by Duc Nguyen, MIT): the active dot grows into a chip that carries its label */
+.ux-cmp-dots button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  width: auto;
+  min-width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  border-radius: 100px;
+  background: var(--c);
+  opacity: 0.45;
+  color: var(--t);
+  font: 400 14px/1.2 var(--font-body);
+  cursor: pointer;
+  transition:
+    opacity 0.3s ease,
+    padding 0.3s ease,
+    height 0.3s ease;
+}
+.ux-cmp-dots button > span {
+  display: grid;
+  grid-template-columns: 0fr;
+  transition: grid-template-columns 0.3s ease;
+}
+.ux-cmp-dots button > span > span {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+@media (hover: hover) {
+  .ux-cmp-dots button:not(.is-on):hover {
+    opacity: 1;
+  }
+}
+.ux-cmp-dots button.is-on {
+  height: 28px;
+  padding: 0 12px;
+  opacity: 1;
+  cursor: default;
+}
+.ux-cmp-dots button.is-on > span {
+  grid-template-columns: 1fr;
+}
+.ux-cmp-dots button.is-on > span > span {
+  opacity: 1;
+}
+.ux-cmp-dots button:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 3px;
+}
+.ux-cmp-layer {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+}
+.ux-cmp-layer.after {
+  clip-path: inset(0 0 0 calc(var(--p) * 1%));
+  -webkit-clip-path: inset(0 0 0 calc(var(--p) * 1%));
+  text-align: right;
+  align-items: flex-end;
+}
+.ux-cmp-layer h3 {
+  margin: 0;
+  font: 400 28px/normal var(--font-display);
+  color: var(--text-primary);
+}
+.ux-cmp-layer .t {
+  margin: 0;
+  max-width: 443px;
+  min-height: calc(2 * 1.2em);
+  font: 400 16px/1.2 var(--font-body);
+  color: var(--text-secondary);
+} /* both texts reserve two lines, so both mockup areas start and end at the same height */
+.ux-cmp-ph {
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border: 1px solid var(--border-default);
+  border-radius: 16px;
+  background: var(--surface-raised);
+  overflow: hidden;
+}
+.ux-cmp-ph span {
+  font: 400 16px/normal var(--font-body);
+  color: var(--text-secondary);
+  text-align: center;
+}
+.ux-cmp-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--p) * 1%);
+  width: 4px;
+  margin-left: -2px;
+  background: var(--border-default);
+  outline: none;
+}
+.ux-cmp-knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 62px;
+  height: 62px;
+  margin: -31px 0 0 -31px;
+  border-radius: 50%;
+  background: var(--primary-default);
+  display: grid;
+  place-items: center;
+  cursor: ew-resize;
+  transition: background-color 0.15s;
+}
+.ux-cmp-knob svg {
+  width: 34px;
+  height: 14px;
+  display: block;
+}
+@media (max-width: 900px) {
+  .ux-cmp-head .k1 {
+    font-size: 36px;
+    line-height: 44px;
+  }
+  .ux-cmp-head .k2 {
+    font-size: 44px;
+    line-height: 52px;
+  }
+  .ux-cmp-row {
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .ux-cmp-stage {
+    order: -1;
+    flex: 1 1 100%;
+    max-width: none;
+    margin-bottom: 36px;
+  }
+  .ux-cmp-box {
+    height: 560px;
+    min-height: 0;
+  }
+}
+@media (max-width: 560px) {
+  .ux-cmp-layer .t {
+    min-height: calc(3 * 1.2em);
+  }
+}
+@media (max-width: 760px) {
+  .ux-cmp {
+    padding: 56px 0 100px;
+  }
+  .ux-cmp-head .k2 {
+    font-size: 36px;
+    line-height: 44px;
+  }
+  .ux-cmp-layer {
+    padding: 16px;
+  }
+}
+.ux-cmp.fade .ux-cmp-head,
+.ux-cmp.fade .ux-cmp-row {
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.ux-cmp.fade .ux-cmp-row {
+  transition-delay: 0.25s;
+}
+.ux-cmp.fade.in .ux-cmp-head,
+.ux-cmp.fade.in .ux-cmp-row {
+  opacity: 1;
+}

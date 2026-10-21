@@ -1,0 +1,246 @@
+/* Coming Soon counter card and mini game 1 (memory). The other two games are in mini-games.css. */
+
+/* ---------- Counter card: 3D tilt on hover, brand colours, flip to a mini game ---------- */
+.soon-card {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(calc(var(--ry, 0deg) + var(--flip, 0deg)));
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.soon-card.is-tilting {
+  transition: transform 0.12s ease-out;
+}
+.soon-counter.is-flipped .soon-card {
+  --flip: 180deg;
+  transition: transform 0.8s cubic-bezier(0.3, 1.25, 0.4, 1);
+}
+.soon-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.soon-front {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+  text-align: center;
+  cursor: pointer;
+  isolation: isolate;
+  outline: none;
+  transition: box-shadow 0.3s ease;
+}
+.soon-front:focus-visible {
+  box-shadow:
+    0 0 0 3px var(--surface-default),
+    0 0 0 5px var(--primary-default);
+}
+@media (hover: hover) {
+  .soon-counter:not(.is-flipped) .soon-front:hover {
+    box-shadow: 0 24px 40px -12px rgba(44, 41, 41, 0.35);
+  }
+}
+.soon-tint {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+.soon-tint.is-on {
+  opacity: 1;
+}
+.soon-front {
+  transition:
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.soon-back {
+  transform: rotateY(180deg);
+  background: #2c2929;
+  color: #fff;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Lives: 15 lines, 1px wide, 24px high, 2px apart, centred at the top */
+.soon-lives {
+  display: flex;
+  gap: 2px;
+  height: 24px;
+  flex: none;
+}
+.soon-lives i {
+  display: block;
+  width: 1px;
+  height: 24px;
+  background: #fff;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  transform-origin: bottom;
+}
+.soon-lives i.is-lost {
+  opacity: 0.15;
+  transform: scaleY(0.35);
+}
+.soon-grid {
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+  display: grid;
+  gap: 6px;
+}
+.soon-cell {
+  position: relative;
+  display: block;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition:
+    background-color 0.35s ease,
+    box-shadow 0.35s ease,
+    transform 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.soon-cell.is-lit {
+  background: var(--lit);
+  box-shadow: 0 0 18px 2px var(--lit);
+  transition-duration: 0.1s;
+  transform: scale(1.06);
+}
+.soon-cell.is-ok {
+  background: var(--lit);
+  transition-duration: 0.1s;
+}
+.soon-cell.is-bad {
+  animation: soon-bad 0.35s ease;
+  background: rgba(232, 80, 83, 0.55);
+}
+@keyframes soon-bad {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  25% {
+    translate: -4px 0;
+  }
+  50% {
+    translate: 4px 0;
+  }
+  75% {
+    translate: -2px 0;
+  }
+}
+.soon-chip {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #fff;
+  color: #2c2929;
+  font: 500 13px/20px var(--font-body);
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  animation: soon-chip 0.35s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+}
+@keyframes soon-chip {
+  from {
+    scale: 0.4;
+    opacity: 0;
+  }
+  to {
+    scale: 1;
+    opacity: 1;
+  }
+}
+.soon-over {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  background: rgba(44, 41, 41, 0.9);
+  backdrop-filter: blur(3px);
+  animation: soon-fade 0.4s ease both;
+}
+.soon-over[hidden] {
+  display: none;
+}
+@keyframes soon-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.soon-over {
+  gap: 4px;
+}
+.soon-over-title {
+  margin: 0;
+  font: 400 22px/30px var(--font-display);
+  color: #fff;
+}
+.soon-over-score {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.soon-score-num {
+  font: 400 64px/64px var(--font-display);
+  letter-spacing: -0.64px;
+  color: #fff;
+}
+.soon-score-cap {
+  font: 400 16px/22px var(--font-body);
+  color: rgba(255, 255, 255, 0.7);
+}
+.soon-over-best {
+  margin: 0 0 8px;
+  font: 400 16px/22px var(--font-body);
+  color: rgba(255, 255, 255, 0.7);
+}
+.soon-over-best[hidden] {
+  display: none;
+}
+.soon-over-best b {
+  font: 400 18px/22px var(--font-display);
+  color: #fff;
+  margin-left: 4px;
+}
+.soon-over-btns {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .soon-card,
+  .soon-counter.is-flipped .soon-card {
+    transition: none;
+  }
+}

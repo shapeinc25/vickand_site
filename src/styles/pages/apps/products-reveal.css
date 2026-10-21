@@ -1,0 +1,151 @@
+/* ---------- Section 2 scroll animation (first product only: [data-reveal]) ---------- */
+/* The title block pins at the middle of the viewport; the first product slides up over it like a sheet. */
+.section-head {
+  position: sticky;
+  top: calc(50vh - 44px);
+  z-index: 0;
+}
+.section-lead .product[data-reveal] {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+}
+.section-lead .product[data-reveal]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--surface-default);
+}
+@media (max-width: 520px) {
+  .section-head {
+    top: calc(50vh - 40px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Title and description: slide up and fade in */
+  .js-anim .section-head {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+      opacity 700ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .js-anim .section-head.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Mockups: scale up once at least 30% of a card is in view */
+  .js-anim [data-reveal] .product-mock {
+    opacity: 0;
+    transform: scale(0.8);
+    transition:
+      opacity 600ms ease,
+      transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .js-anim [data-reveal] .product-mock.is-in {
+    opacity: 1;
+    transform: none;
+  }
+  .js-anim [data-reveal] .product-mock:nth-child(2) {
+    transition-delay: 120ms;
+  }
+  .js-anim [data-reveal] .product-mock:nth-child(3) {
+    transition-delay: 240ms;
+  }
+  .js-anim [data-reveal] .product-dots {
+    opacity: 0;
+    transition: opacity 500ms ease 400ms;
+  }
+  .js-anim [data-reveal].is-revealed .product-dots {
+    opacity: 1;
+  }
+
+  /* Then the text fades in, and a little later the buttons */
+  .js-anim [data-reveal] .product-title,
+  .js-anim [data-reveal] .product-desc {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+      opacity 700ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .js-anim [data-reveal] .store-ctas {
+    opacity: 0;
+    transition: opacity 600ms ease;
+  }
+  /* Each part appears when it is at least 30% in view; small delays keep the order text, then buttons when several show at once */
+  .js-anim [data-reveal] .product-title.is-in,
+  .js-anim [data-reveal] .product-desc.is-in {
+    opacity: 1;
+    transform: none;
+    transition-delay: 100ms;
+  }
+  .js-anim [data-reveal] .product-desc.is-in {
+    transition-delay: 250ms;
+  } /* description follows the title */
+  .js-anim [data-reveal] .store-ctas.is-in {
+    opacity: 1;
+    transition-delay: 450ms;
+  }
+}
+
+/* Large gap between the title block and the first showcase (the title pins in this space before the showcase slides over it) */
+.section-lead .product[data-reveal] {
+  margin-top: 320px;
+}
+@media (max-width: 1100px) {
+  .section-lead .product[data-reveal] {
+    margin-top: 260px;
+  }
+}
+@media (max-width: 820px) {
+  .section-lead .product[data-reveal] {
+    margin-top: 200px;
+  }
+}
+@media (max-width: 520px) {
+  .section-lead .product[data-reveal] {
+    margin-top: 160px;
+  }
+}
+
+/* Mobile slider: the neighbouring mockups are always visible at the screen edges (only the first one animates in) */
+@media (max-width: 600px) {
+  .js-anim [data-reveal] .product-mock:not(:first-child) {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0ms;
+  }
+}
+
+/* Mobile slider: room above and below so the phone shadows are not clipped by the scroll container */
+@media (max-width: 600px) {
+  .product-mocks {
+    padding-block: 72px;
+    margin-block: -72px;
+  }
+  .product[data-reveal] .product-mocks {
+    margin-top: -84px;
+  }
+}
+
+@media (max-width: 600px) {
+  .section-games {
+    --prod-gap: 88px;
+  }
+}
+
+/* The phone artwork has ~20px of canvas above its visible frame and the first phone sits above its container top: compensate so the visible space (buttons to the top edge of the next phone frame) equals --prod-gap */
+@media (max-width: 1100px) {
+  .section-games {
+    --phone-lead: -8px;
+  }
+}
+@media (max-width: 600px) {
+  .section-games {
+    --phone-lead: 10px;
+  }
+}

@@ -1,3 +1,5 @@
+import { reducedMotion } from "../common/motion.js";
+
 /* Services carousel: moves by itself (right to left), pauses on hover / focus, can be swiped, dragged or scrolled sideways,
    and goes on moving shortly after the gesture and its momentum end. Same behaviour as the Apps hero carousel. */
 (function () {
@@ -5,9 +7,15 @@
   var win = document.getElementById("ux-svc-win"),
     track = document.getElementById("ux-svc-row");
   if (!win || !track) return;
+  // the row holds the cards twice so that it can loop: the markup has one set, the copy is made here
+  [].slice.call(track.children).forEach(function (card) {
+    var copy = card.cloneNode(true);
+    copy.setAttribute("aria-hidden", "true");
+    track.appendChild(copy);
+  });
   var cards = track.children,
     N = cards.length / 2;
-  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var reduce = reducedMotion;
   var canHover = window.matchMedia && window.matchMedia("(hover: hover)").matches;
   var x = 0,
     vel = 0,
@@ -132,8 +140,7 @@
   function hframe(now) {
     hraf = 0;
     if (!hot) return;
-    var SP = 40,
-      REACH = 170,
+    var REACH = 170,
       PULL = 16,
       MAXR = 8,
       tShift = now / 9000,
@@ -283,7 +290,7 @@
       win.classList.add("is-dragging");
       try {
         win.setPointerCapture(e.pointerId);
-      } catch (_) {}
+      } catch {}
     }
     x += dx;
     wrap();

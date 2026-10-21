@@ -1,0 +1,73 @@
+/* ---------- Why UX matters ---------- */
+/* UX & Design: two text blocks that slide in turn while the stage is pinned, then the next container scrolls over them */
+.ux-story {
+  position: relative;
+  height: 500vh;
+  padding: 0;
+}
+.ux-story-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 560px;
+  overflow: hidden;
+  background: var(--surface-default);
+}
+.ux-dots {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  z-index: 0;
+}
+.ux-sp {
+  z-index: 1;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 120px;
+}
+.ux-sp-inner {
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.ux-tb {
+  flex: none;
+  width: 364px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  opacity: var(--o, 0);
+  transform: translate3d(var(--tx, 0px), 0, 0);
+  will-change: transform, opacity;
+}
+.ux-tb h2 {
+  margin: 0;
+  font: 400 64px/72px var(--font-display);
+  letter-spacing: -0.64px;
+  color: var(--text-primary);
+}
+.ux-tb-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.ux-tb-text p {
+  margin: 0;
+  font: 400 18px/28px var(--font-body);
+  color: var(--text-primary);
+}
+.ux-slot {
+  flex: none;
+  width: 570px;
+  height: 100%;
+}

@@ -1,4 +1,5 @@
 import { vkFly } from "./fly-dots.js";
+import { reducedMotion } from "../common/motion.js";
 
 // Story section (one section, driven by scrolling): the stage is pinned; the sentence is typed on the dark screen, then a white dot grows
 // from the centre as an overlay (a soft-edged mask, clip-path where masks are unsupported) and turns the screen light. The CTA text sits
@@ -10,7 +11,7 @@ import { vkFly } from "./fly-dots.js";
   if (!story || !sec) return;
   var fx = sec.querySelector(".cta-fx");
   var text = sec.querySelector(".cta-text");
-  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var reduce = reducedMotion;
   var COL = { blue: "#298ac6", green: "#219535" };
 
   // ----- "smart animate": every word is one element that moves, scales and changes colour from its place in state A to its place in state B -----
@@ -140,8 +141,7 @@ import { vkFly } from "./fly-dots.js";
   }
   function place(isB, animate) {
     var M = metrics || (metrics = measure()),
-      top = 0,
-      tall = 0;
+      top = 0;
     for (var si = 0; si < 2; si++) {
       var big = (SENT[si].bigIn === "B") === !!isB,
         s = big ? 1 : M.sm / M.big,
@@ -169,8 +169,8 @@ import { vkFly } from "./fly-dots.js";
     metrics = null;
     var M = measure();
     metrics = M;
-    var hA = place(false, false),
-      hB = place(sec.classList.contains("is-b"), false);
+    var hA = place(false, false);
+    place(sec.classList.contains("is-b"), false);
     text.style.height = Math.max(hA, place(true, false)) + "px";
     text.style.width = M.W + "px";
     place(sec.classList.contains("is-b"), false);

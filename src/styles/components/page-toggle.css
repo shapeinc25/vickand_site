@@ -52,60 +52,6 @@
     height: 54px;
   }
 }
-
-/* Header = the page toggle. Figma "main toggle": 248 x 74, mark 68, padding 3 / 20 / 3 / 5, gap 10 */
-/* Fixed so its real height can shrink on scroll without moving the page: the next element carries the full-height offset. */
-.site-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  padding: var(--space-6) 0 var(--space-4);
-  transition: padding 350ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-.site-header + * {
-  margin-top: 120px;
-}
-/* glass bar: no solid background, content blurs through */
-.site-header::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: color-mix(in srgb, var(--surface-default) 30%, transparent);
-  -webkit-backdrop-filter: blur(18px) saturate(1.5);
-  backdrop-filter: blur(18px) saturate(1.5);
-}
-.site-header .container {
-  transform-origin: top center;
-  transition:
-    transform 350ms cubic-bezier(0.4, 0, 0.2, 1),
-    margin 350ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-.legal-header .container {
-  transform-origin: top left;
-}
-/* Scrolled down (anywhere but the very top): the pill is half size and the header is half as tall. */
-.is-scrolled .site-header {
-  padding: 10px 0;
-}
-.is-scrolled .site-header .container {
-  transform: scale(0.5);
-  margin-bottom: -40px;
-}
-@media (max-width: 520px) {
-  .site-header + * {
-    margin-top: 108px;
-  }
-  .is-scrolled .site-header .container {
-    margin-bottom: -34px;
-  }
-}
-.site-header .container {
-  display: flex;
-  justify-content: center;
-}
 .page-toggle {
   width: 248px;
   height: 74px;
@@ -223,19 +169,6 @@
   z-index: 1;
 }
 
-/* Legal pages (Terms of Use, Privacy Policy): always light */
-.legal {
-  padding: var(--space-10) 0 var(--space-12);
-}
-.legal h1 {
-  margin: 0 0 var(--space-6);
-  font-size: clamp(36px, 5vw, 56px);
-  line-height: 1.1;
-}
-.legal p {
-  max-width: 680px;
-}
-
 /* Header toggle while it animates to the other page: the pill takes that page's look.
    main.js sets data-theme on the toggle's container; this beats the dark rules above */
 .site-header .container[data-theme="light"] .page-toggle {
@@ -260,9 +193,4 @@
 }
 .site-header .container[data-theme="light"] .page-toggle .label-dark {
   display: none;
-}
-
-/* Legal pages: a back button instead of the toggle */
-.legal-header .container {
-  justify-content: flex-start;
 }

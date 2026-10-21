@@ -81,4 +81,23 @@
 .input-control:disabled {
   cursor: not-allowed;
   opacity: 0.45;
-} /* proposed */
+} /* proposed */ /* browser autofill keeps the field's own look (no pale blue box, no black text) */
+.input-field {
+  --af-bg: var(--c-surface);
+}
+.input-control:-webkit-autofill,
+.input-control:-webkit-autofill:hover,
+.input-control:-webkit-autofill:focus,
+.input-control:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--af-bg) inset !important;
+  box-shadow: 0 0 0 1000px var(--af-bg) inset !important;
+  -webkit-text-fill-color: var(--c-text) !important;
+  caret-color: var(--c-text);
+  border-radius: 6px;
+  transition: background-color 9999s ease-out 0s;
+}
+.input-control:autofill {
+  box-shadow: 0 0 0 1000px var(--af-bg) inset !important;
+  -webkit-text-fill-color: var(--c-text) !important;
+  caret-color: var(--c-text);
+}

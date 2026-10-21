@@ -1,0 +1,320 @@
+/* ---------- UX & Design hero: Tangled Flows, part 1 ----------
+   App and game flows spread chip to chip while the AI checklist on the right ticks itself off. */
+.ux-hero {
+  padding: var(--space-10) 0 var(--space-12);
+}
+.ux-hero svg.tf-stage {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.ux-hero text {
+  font-family: var(--font-body, inherit);
+}
+.ux-hero {
+  --bg: var(--surface-default);
+  --panel: var(--surface-raised);
+  --line: var(--border-default);
+  --text: var(--text-primary);
+  --mute: var(--text-secondary);
+  --ok: var(--green-500);
+  --warn: var(--yellow-500);
+  --bad: var(--status-error);
+  --yellow-300: #efe96f;
+}
+.ux-hero text {
+  font-family: var(--font-body);
+}
+.ux-hero .ln {
+  fill: none;
+  stroke: var(--text-primary);
+  stroke-linecap: round;
+  stroke-width: 1.5;
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: 1;
+  opacity: 0.92;
+}
+.ux-hero .ln.mk {
+  stroke: #fff;
+  stroke-width: 4;
+  opacity: 1;
+}
+.ux-hero .ld {
+  fill: none;
+  stroke: var(--text-primary);
+  stroke-width: 1;
+  stroke-dasharray: 2 2;
+  stroke-linecap: butt;
+  opacity: 0.92;
+}
+.ux-hero .fl {
+  fill: none;
+  stroke: var(--text-primary);
+  stroke-linecap: round;
+  stroke-width: 1;
+  stroke-dasharray: 2 16;
+  opacity: 0;
+}
+.ux-hero .arr {
+  fill: var(--text-primary);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.ux-hero .chip,
+.ux-hero .tag,
+.ux-hero .note {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.ux-hero .chip rect {
+  fill: var(--surface-default);
+  stroke: var(--text-primary);
+  stroke-width: 1;
+}
+.ux-hero .chip text {
+  fill: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 8px;
+  font-weight: 600;
+  text-anchor: start;
+  letter-spacing: 0.2px;
+}
+.ux-hero .chip .ic {
+  fill: none;
+  stroke: var(--text-primary);
+  stroke-width: 2.857;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ux-hero .chip.start .ic {
+  stroke: var(--surface-default);
+}
+.ux-hero .chip.start rect {
+  fill: var(--text-primary);
+}
+.ux-hero .chip.start text {
+  fill: var(--surface-default);
+  font-weight: 600;
+}
+.ux-hero .tag rect {
+  fill: var(--primary-default);
+  stroke: none;
+}
+.ux-hero .note rect {
+  fill: var(--surface-default);
+  stroke: var(--border-default);
+  stroke-width: 0.8;
+}
+.ux-hero .tag text {
+  fill: var(--text-on-primary);
+  font-size: 6px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  text-anchor: middle;
+}
+.ux-hero .note rect {
+  stroke: none;
+}
+.ux-hero .note text {
+  fill: var(--yellow-300);
+  font-size: 9px;
+  font-style: italic;
+  font-family: var(--font-body);
+  text-anchor: middle;
+}
+.ux-hero .ring {
+  fill: none;
+  stroke: var(--text-primary);
+  stroke-width: 1.5;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.ux-hero .run .ln {
+  animation: tf-draw var(--dur) var(--d) cubic-bezier(0.45, 0.05, 0.4, 1) forwards;
+}
+.ux-hero .run .fl {
+  animation:
+    tf-flIn 0.6s var(--d2) forwards,
+    tf-flow 1.6s linear infinite;
+}
+.ux-hero .run .arr {
+  animation: tf-pop 0.3s var(--d) forwards;
+}
+.ux-hero .run .chip {
+  animation: tf-chipPop 0.5s var(--d) cubic-bezier(0.2, 1.5, 0.4, 1) forwards;
+}
+.ux-hero .run .tag,
+.ux-hero .run .note {
+  animation: tf-chipIn 0.35s var(--d) cubic-bezier(0.2, 1.4, 0.4, 1) forwards;
+}
+.ux-hero .run .ring {
+  animation: tf-ring 1.8s var(--d) ease-out 2;
+}
+@keyframes tf-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes tf-flIn {
+  to {
+    opacity: 0.55;
+  }
+}
+@keyframes tf-flow {
+  to {
+    stroke-dashoffset: -36;
+  }
+}
+@keyframes tf-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes tf-chipIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes tf-chipPop {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes tf-ring {
+  0% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(9);
+  }
+}
+.ux-hero .out #ux-lines,
+.ux-hero .out #ux-arrows,
+.ux-hero .out #ux-tags,
+.ux-hero .out #ux-notes,
+.ux-hero .out #ux-chips {
+  transition: opacity 0.9s;
+  opacity: 0;
+}
+.ux-hero .out .it,
+.ux-hero .out .ux {
+  transition: opacity 0.9s;
+  opacity: 0 !important;
+  animation: none;
+}
+.ux-hero .panel {
+  fill: var(--panel);
+  stroke: var(--line);
+  stroke-width: 1.2;
+}
+.ux-hero .ai-title {
+  fill: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+.ux-hero .ai-sub {
+  fill: var(--text-secondary);
+  font-size: 7.5px;
+}
+.ux-hero .it,
+.ux-hero .ux {
+  opacity: 0;
+}
+.ux-hero .it text {
+  fill: var(--text-primary);
+  font-size: 8.5px;
+}
+.ux-hero .run .it,
+.ux-hero .run .ux {
+  animation: tf-rowIn 0.5s var(--t) forwards;
+}
+@keyframes tf-rowIn {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.ux-hero .spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  fill: none;
+  stroke: var(--warn);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-dasharray: 11 24;
+  opacity: 0;
+}
+.ux-hero .run .spin {
+  animation:
+    tf-rot 0.8s linear infinite,
+    tf-vis var(--w) var(--t) forwards;
+}
+@keyframes tf-rot {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes tf-vis {
+  0% {
+    opacity: 1;
+  }
+  99% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.ux-hero .tick {
+  fill: none;
+  stroke: var(--ok);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+}
+.ux-hero .run .tick {
+  animation: tf-fadeFull 0.3s var(--c) forwards;
+}
+@keyframes tf-fadeFull {
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ux-hero .run * {
+    animation-duration: 0.01s !important;
+    animation-iteration-count: 1 !important;
+  }
+}

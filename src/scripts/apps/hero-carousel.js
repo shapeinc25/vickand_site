@@ -1,3 +1,5 @@
+import { reducedMotion } from "../common/motion.js";
+
 // Hero carousel: moves by itself (left to right, one set per 55s), stops on hover, can be swiped / dragged / scrolled sideways,
 // and goes on moving 50ms after the gesture (and its momentum) ends.
 (function () {
@@ -5,7 +7,7 @@
   if (!track) return;
   var cards = track.children;
   if (cards.length < 12) return;
-  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var reduce = reducedMotion;
   var canHover = window.matchMedia && window.matchMedia("(hover: hover)").matches;
   var hero = track.closest(".hero-window") || track; // the whole window is the drag surface, not just the cards
   var x = 0,
@@ -110,7 +112,7 @@
       track.classList.add("is-dragging");
       try {
         hero.setPointerCapture(e.pointerId);
-      } catch (_) {}
+      } catch {}
     }
     x += dx;
     wrap();

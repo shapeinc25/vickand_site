@@ -1,3 +1,5 @@
+import { reducedMotion } from "../common/motion.js";
+
 /* Bubbles fly in from outside the screen toward the headline; once close enough each flips from "before" (orange) to "after" (green) and floats. */
 (function () {
   "use strict";
@@ -11,7 +13,7 @@
     [0.31, 0.75],
     [0.69, 0.75],
   ]; // resting spots around the headline (fractions of the stage)
-  var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var still = reducedMotion;
   var ticking = false;
   function clamp(v) {
     return v < 0 ? 0 : v > 1 ? 1 : v;
@@ -52,8 +54,7 @@
       var far = Math.max(W, sh) * 0.75 + S; // start distance: fully outside the viewport
       var q = still ? 1 : clamp((START[i] * H - r.top) / (0.95 * H));
       var e = out(q),
-        rem = 1 - e,
-        df = Math.sqrt(dx * dx + dy * dy);
+        rem = 1 - e;
       b.style.transform =
         "translate3d(" +
         (tx - S / 2 + (dx / len) * far * rem).toFixed(1) +

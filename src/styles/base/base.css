@@ -68,15 +68,6 @@ section {
   padding: var(--space-16) 0;
 }
 
-.eyebrow {
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 16px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--accent-default);
-}
-
 .section-head {
   display: grid;
   gap: var(--space-4);

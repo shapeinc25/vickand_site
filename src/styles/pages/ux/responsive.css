@@ -1,0 +1,45 @@
+/* ---------- UX & Design: tablet and phone type sizes ---------- */
+/* tablet + mobile type floor: body text never below 16px, headlines never below 28px */
+@media (max-width: 1024px) {
+  .ux-b {
+    --bs: max(300px, min(340px, 34vh));
+  }
+  .ux-b-t h3 {
+    font-size: max(28px, calc(var(--bs) * 0.0733));
+    line-height: 1.2;
+  }
+  .ux-b-p p {
+    font-size: max(16px, calc(var(--bs) * 0.0533));
+    line-height: 1.35;
+  }
+  .ux-b-t {
+    gap: 2px;
+  }
+  .ux-b-c {
+    gap: 8px;
+  }
+  .ux-b-ic,
+  .ux-b-ic svg {
+    width: 36px;
+    height: 36px;
+  }
+  .ux-pc-t h3,
+  .ux-svc-card h3 {
+    font-size: 28px;
+    line-height: 34px;
+  }
+  .ux-cmp-layer h3 {
+    font-size: 28px;
+  }
+  .ux-cmp-dots button {
+    font-size: 16px;
+  }
+  .ux-cmp-dots button.is-on {
+    height: 32px;
+  }
+}
+@media (max-width: 760px) {
+  .ux-b {
+    --bs: min(340px, calc(100vw - 32px));
+  }
+}

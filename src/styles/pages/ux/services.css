@@ -1,0 +1,185 @@
+/* ---------- Services ---------- */
+/* Services: header + an endless row of 8 cards that moves by itself, pauses on hover and can be swiped / dragged / scrolled sideways (same behaviour as the Apps hero carousel) */
+.ux-svc {
+  position: relative;
+  z-index: 2;
+  background: var(--surface-default);
+  padding: 80px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  overflow: hidden;
+}
+.ux-svc-head {
+  width: calc(100% - 128px);
+  max-width: 804px;
+  margin: 0 auto;
+  display: flex;
+  gap: 64px;
+  align-items: center;
+  justify-content: center;
+}
+.ux-svc-head h2 {
+  flex: 1 0 0;
+  min-width: 1px;
+  margin: 0;
+  font: 400 48px/56px var(--font-display);
+  letter-spacing: -0.24px;
+  color: var(--text-primary);
+}
+.ux-svc-text {
+  flex: 1 0 0;
+  min-width: 1px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+.ux-svc-text p {
+  margin: 0;
+  font: 400 18px/28px var(--font-body);
+  color: var(--text-on-primary, #fff);
+}
+.ux-svc-text .btn {
+  width: auto;
+  flex: none;
+}
+.ux-svc.fade .ux-svc-head h2,
+.ux-svc.fade .ux-svc-text p,
+.ux-svc.fade .ux-svc-text .btn {
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.ux-svc.fade .ux-svc-text p {
+  transition-delay: 0.2s;
+}
+.ux-svc.fade .ux-svc-text .btn {
+  transition-delay: 0.4s;
+}
+.ux-svc.fade.in .ux-svc-head h2,
+.ux-svc.fade.in .ux-svc-text p,
+.ux-svc.fade.in .ux-svc-text .btn {
+  opacity: 1;
+}
+.ux-svc-win {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  touch-action: pan-y;
+  cursor: grab;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  mask-image: linear-gradient(to right, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
+}
+.ux-svc-win.is-dragging {
+  cursor: grabbing;
+}
+.ux-svc-row {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  transform: translate3d(var(--cx, 0px), 0, 0);
+  will-change: transform;
+}
+.ux-svc-card {
+  flex: none;
+  box-sizing: border-box;
+  width: 400px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  border: 1px solid var(--border-default);
+  border-radius: 16px;
+  background: var(--surface-default);
+  overflow: hidden;
+  transition: border-color 0.25s;
+}
+.ux-svc-card {
+  position: relative;
+  --hc: #ff701f;
+}
+.ux-svc.fade .ux-svc-card {
+  opacity: 0;
+  transform: translateY(90px);
+}
+.ux-svc.fade.in .ux-svc-card {
+  animation: ux-rise 1s var(--rd, 0s) cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes ux-rise {
+  from {
+    opacity: 0;
+    transform: translateY(90px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.ux-svc-card:hover,
+.ux-svc-card.is-hot {
+  border-color: var(--hc);
+}
+.ux-svc-card h3,
+.ux-svc-card p {
+  position: relative;
+  z-index: 1;
+}
+.ux-svc-card canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s;
+  z-index: 0;
+}
+.ux-svc-card.is-hot canvas {
+  opacity: 1;
+}
+.ux-svc-card h3 {
+  margin: 0;
+  font: 400 22px/30px var(--font-display);
+  color: var(--text-primary);
+}
+.ux-svc-card p {
+  margin: 0;
+  font: 400 16px/24px var(--font-body);
+  color: var(--text-secondary);
+}
+@media (max-width: 900px) {
+  .ux-svc-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    max-width: 560px;
+  }
+  .ux-svc-head h2 {
+    font-size: 40px;
+    line-height: 48px;
+  }
+}
+@media (max-width: 760px) {
+  .ux-svc {
+    padding: 56px 0 64px;
+    gap: 32px;
+  }
+  .ux-svc-head {
+    width: calc(100% - 48px);
+  }
+  .ux-svc-win {
+    height: 260px;
+  }
+  .ux-svc-card {
+    width: min(300px, 78vw);
+  }
+}

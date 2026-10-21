@@ -1,0 +1,364 @@
+/* ---------- Section 3: Coming Soon (Figma 65:4003) ---------- */
+.section-soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-20, 80px) var(--space-6);
+  background: var(--surface-default);
+}
+.soon-title {
+  margin: 0;
+  font: 400 48px/56px var(--font-display);
+  letter-spacing: -0.24px;
+  color: var(--text-primary);
+  text-align: center;
+}
+.soon-content {
+  display: flex;
+  gap: var(--space-6);
+  align-items: stretch;
+  width: min(933px, 100%);
+  height: 369px;
+}
+.soon-mock {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: 24px;
+}
+.soon-mock p {
+  margin: 0;
+  font: 400 16px/normal var(--font-body);
+  color: var(--text-secondary);
+  text-align: center;
+}
+.soon-wait {
+  flex: none;
+  width: 387px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.soon-counter {
+  flex: 1 1 0;
+  min-height: 0;
+  position: relative;
+  perspective: 1100px;
+}
+.soon-count {
+  margin: 0;
+  font: 400 64px/72px var(--font-display);
+  letter-spacing: -0.64px;
+  color: inherit;
+}
+.soon-count-label {
+  margin: 0;
+  font: 400 18px/28px var(--font-body);
+  color: inherit;
+}
+.soon-notify {
+  margin: 0;
+  font: 400 22px/30px var(--font-display);
+  color: var(--text-primary);
+}
+.soon-form {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+}
+.soon-form .input {
+  flex: 1 1 0;
+  min-width: 0;
+  width: auto;
+}
+.soon-form .btn {
+  flex: none;
+}
+/* The error message hangs below the field so the layout does not move */
+.soon-form .input {
+  position: relative;
+}
+.soon-form .input-message {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 6px;
+  white-space: nowrap;
+}
+@media (max-width: 900px) {
+  .section-soon {
+    padding: var(--space-12) var(--space-6);
+  }
+  .soon-title {
+    font-size: 40px;
+    line-height: 48px;
+  }
+  .soon-content {
+    flex-direction: column;
+    height: auto;
+  }
+  .soon-mock {
+    flex: none;
+    height: 260px;
+  }
+  .soon-wait {
+    width: 100%;
+  }
+  .soon-counter {
+    flex: none;
+    height: 320px;
+  }
+}
+@media (max-width: 430px) {
+  .soon-form .input-message {
+    position: static;
+    white-space: normal;
+  }
+  .soon-form {
+    flex-direction: column;
+  }
+  .soon-form .btn {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .soon-form .input {
+    width: 100%;
+  }
+}
+
+/* Error shake: the field and the button wobble a little, the button slightly later */
+@media (prefers-reduced-motion: no-preference) {
+  .soon-form.is-shake .input-field {
+    animation: soon-shake 480ms cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  }
+  .soon-form.is-shake .btn {
+    animation: soon-shake 480ms cubic-bezier(0.36, 0.07, 0.19, 0.97) 60ms both;
+  }
+}
+
+/* ---------- Subscribe success ---------- */
+.soon-submit .tick {
+  width: 0;
+  margin-right: -8px;
+  overflow: hidden;
+  flex: none;
+}
+.soon-submit .tick path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.soon-form.is-done .soon-submit {
+  --btn-bg: var(--c-success-fill);
+  cursor: default;
+  pointer-events: none;
+}
+.soon-form.is-done .soon-submit .tick {
+  width: 20px;
+  margin-right: 0;
+  transition:
+    width 0.3s ease,
+    margin 0.3s ease;
+}
+.soon-form.is-done .soon-submit .tick path {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.45s ease-out 0.25s;
+}
+.soon-form .input.is-success .input-message {
+  color: var(--c-success);
+}
+.soon-form .input-control[readonly] {
+  cursor: default;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .soon-form.is-done .soon-submit {
+    animation: soon-pop 520ms cubic-bezier(0.3, 1.2, 0.5, 1) 80ms;
+  }
+}
+/* Mechanical counter: digit drums */
+.soon-count.is-odo {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.odo {
+  display: block;
+  height: 72px;
+  overflow: hidden;
+}
+.odo-col {
+  display: block;
+}
+.odo-col > span {
+  display: block;
+  height: 72px;
+  line-height: 72px;
+  text-align: center;
+}
+
+/* Nothing (phone shadow canvases, confetti) may widen the page: no sideways dragging */
+html,
+body {
+  overflow-x: clip;
+  max-width: 100%;
+}
+.section-games,
+.section-soon {
+  overflow-x: clip;
+}
+
+/* Counter: brand-coloured confetti keeps falling into the dark box and sinks away like particles in water. Pure CSS. */
+.soon-front > :not(.soon-rain):not(.soon-tint) {
+  position: relative;
+  z-index: 1;
+}
+.soon-rain {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  container-type: size;
+}
+.soon-rain i {
+  position: absolute;
+  left: var(--x);
+  top: 0;
+  width: var(--w);
+  height: var(--h);
+  border-radius: var(--r);
+  background: var(--c);
+  opacity: 0;
+}
+@keyframes soon-sink {
+  0% {
+    translate: 0 -8cqh;
+    rotate: 0deg;
+    opacity: 0;
+    scale: 1;
+  }
+  6% {
+    opacity: 0.95;
+  }
+  32% {
+    translate: calc(var(--sw) * 0.3) 34cqh;
+    rotate: 140deg;
+    opacity: 0.95;
+    scale: 1;
+  } /* fast fall, then it hits the surface */
+  100% {
+    translate: var(--sw) 104cqh;
+    rotate: 420deg;
+    opacity: 0;
+    scale: 0.55;
+  } /* slow, swaying sink, fading out */
+}
+@media (prefers-reduced-motion: no-preference) {
+  .soon-rain i {
+    animation: soon-sink var(--t) var(--d) infinite cubic-bezier(0.25, 0.1, 0.4, 1);
+  }
+  .soon-rain i:nth-child(3n) {
+    animation-timing-function: cubic-bezier(0.2, 0.4, 0.3, 1);
+  }
+}
+
+/* Title swaps every 3 seconds between two lines (pure CSS): both lines share one grid cell and cross-fade with a small slide */
+.soon-notify {
+  display: grid;
+}
+.soon-notify > span {
+  grid-area: 1 / 1;
+}
+@keyframes soon-line {
+  0% {
+    opacity: 0;
+    translate: 0 10px;
+  }
+  8% {
+    opacity: 1;
+    translate: 0 0;
+  }
+  42% {
+    opacity: 1;
+    translate: 0 0;
+  }
+  50% {
+    opacity: 0;
+    translate: 0 -10px;
+  }
+  100% {
+    opacity: 0;
+    translate: 0 -10px;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .soon-notify > span {
+    opacity: 0;
+    animation: soon-line 6s ease-in-out infinite;
+  }
+  .soon-notify > span:nth-child(2) {
+    animation-delay: 3s;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .soon-notify > span:nth-child(2) {
+    visibility: hidden;
+  }
+}
+
+/* Coming Soon appearing animation (same motion as Section 2) */
+@media (prefers-reduced-motion: no-preference) {
+  .js-anim .soon-title,
+  .js-anim .soon-notify {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+      opacity 700ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .js-anim .soon-title.is-in,
+  .js-anim .soon-notify.is-in {
+    opacity: 1;
+    transform: none;
+  }
+  .js-anim .soon-mock,
+  .js-anim .soon-counter {
+    opacity: 0;
+    transform: scale(0.8);
+    transition:
+      opacity 600ms ease,
+      transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .js-anim .soon-mock.is-in,
+  .js-anim .soon-counter.is-in {
+    opacity: 1;
+    transform: none;
+  }
+  .js-anim .soon-counter {
+    transition-delay: 120ms;
+  }
+  .js-anim .soon-notify.is-in {
+    transition-delay: 150ms;
+  }
+  .js-anim .soon-form {
+    opacity: 0;
+    transition: opacity 600ms ease;
+  }
+  .js-anim .soon-form.is-in {
+    opacity: 1;
+    transition-delay: 300ms;
+  }
+} /* space after the Coming soon block: 200px desktop, 100px tablet and mobile */
+.section-soon {
+  padding-bottom: 200px;
+}
+@media (max-width: 1100px) {
+  .section-soon {
+    padding-bottom: 100px;
+  }
+}

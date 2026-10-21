@@ -1,0 +1,195 @@
+/* ---------- How we got here ---------- */
+/* About: "How we got here" (text + three phone placeholders) */
+.ux-about {
+  position: relative;
+  z-index: 2;
+  background: var(--surface-default);
+  padding: 120px 64px;
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: center;
+}
+.ux-about-text {
+  flex: none;
+  width: 433px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  color: var(--text-primary);
+}
+.ux-about-text h2 {
+  margin: 0;
+  font: 400 48px/56px var(--font-display);
+  letter-spacing: -0.24px;
+}
+.ux-about-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ux-about-body p {
+  margin: 0;
+  font: 400 18px/28px var(--font-body);
+  color: var(--text-primary);
+}
+.ux-about-right {
+  flex: none;
+  width: 663px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ux-about-cards {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 663/564;
+}
+.ux-ph {
+  --mock-k: 0.923;
+  position: absolute;
+  top: 7.62%;
+  height: 84.75%;
+  aspect-ratio: 280/518;
+}
+.ux-ph.l {
+  left: 4.34%;
+}
+.ux-ph.r {
+  left: 56.68%;
+}
+.ux-ph.m {
+  left: 50%;
+  top: 0;
+  translate: -50% 0;
+}
+/* the button sits 8px under the lowest phone (the cards box has 7.6% of its height as free space below the phones) */
+.ux-cta-wrap {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  margin-top: calc(8px - 6.49%);
+}
+.ux-ph-cta {
+  width: auto;
+  white-space: nowrap;
+}
+.ux-ph-in {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ux-ph-in {
+    animation: ux-bob var(--bd, 6s) ease-in-out var(--bl, 0s) infinite;
+  }
+  .ux-ph.l .ux-ph-in {
+    --bd: 5.6s;
+    --bl: -1s;
+  }
+  .ux-ph.r .ux-ph-in {
+    --bd: 6.8s;
+    --bl: -3.2s;
+  }
+  .ux-ph.m .ux-ph-in {
+    --bd: 7.6s;
+    --bl: -2s;
+  }
+  .ux-about.in .cta-spark-a {
+    animation: cta-spark 2.4s ease-in-out infinite;
+  }
+  .ux-about.in .cta-spark-b {
+    animation: cta-spark 2.4s ease-in-out 0.35s infinite;
+  }
+}
+@keyframes ux-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+@media (max-width: 560px) {
+  .ux-ph-cta {
+    padding-left: 16px;
+    padding-right: 12px;
+  }
+}
+.ux-about.fade .ux-about-text h2,
+.ux-about.fade .ux-about-body p {
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.ux-about.fade .ux-about-body p:nth-child(1) {
+  transition-delay: 0.15s;
+}
+.ux-about.fade .ux-about-body p:nth-child(2) {
+  transition-delay: 0.3s;
+}
+.ux-about.fade .ux-about-body p:nth-child(3) {
+  transition-delay: 0.45s;
+}
+.ux-about.fade .ux-about-body p:nth-child(4) {
+  transition-delay: 0.6s;
+}
+.ux-about.fade.in .ux-about-text h2,
+.ux-about.fade.in .ux-about-body p {
+  opacity: 1;
+}
+.ux-about.fade:not(.in) .ux-ph {
+  opacity: 0;
+  transform: translateY(90px);
+}
+.ux-about.fade.in .ux-ph {
+  animation: ux-rise-p 1s var(--rd, 0s) cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+.ux-about.fade .ux-cta-wrap {
+  transition: opacity 0.9s ease 0.8s;
+}
+.ux-about.fade:not(.in) .ux-cta-wrap {
+  opacity: 0;
+}
+.ux-about.fade.in .ux-cta-wrap {
+  opacity: 1;
+}
+.ux-about.fade.in .ux-ph.l {
+  --rd: 0.3s;
+}
+.ux-about.fade.in .ux-ph.r {
+  --rd: 0.05s;
+}
+.ux-about.fade.in .ux-ph.m {
+  --rd: 0.55s;
+}
+@media (max-width: 1024px) {
+  .ux-about {
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+    padding: 64px 24px;
+  }
+  .ux-about-text {
+    width: 100%;
+    max-width: 608px;
+  }
+  .ux-about-text h2 {
+    font-size: 40px;
+    line-height: 48px;
+  }
+  .ux-about-right {
+    width: 100%;
+    max-width: 520px;
+  }
+}
+@media (max-width: 560px) {
+  .ux-about {
+    padding: 56px 16px;
+  }
+  .ux-about-text h2 {
+    font-size: 36px;
+    line-height: 44px;
+  }
+}

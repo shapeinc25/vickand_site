@@ -1,3 +1,5 @@
+import { reducedMotion } from "../common/motion.js";
+
 (function () {
   "use strict";
 
@@ -22,7 +24,7 @@
     var submit = form.querySelector(".soon-submit");
     var label = submit.querySelector(".soon-btn-label");
     var countEl = document.getElementById("soon-count");
-    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var reduce = reducedMotion;
 
     // Mechanical counter: every changed digit is a drum that rolls through the digits in between
     function rollCounter(from, to) {

@@ -1,4 +1,5 @@
 import { vkFly } from "./fly-dots.js";
+import { reducedMotion } from "../common/motion.js";
 
 // Statement screen: slides over Coming Soon (which stays pinned) and types its sentences like code.
 // Coloured words start white; dots in the word's colour fly to them like to a magnet, leaving traces, and light the letters up.
@@ -9,7 +10,7 @@ import { vkFly } from "./fly-dots.js";
   var soon = document.getElementById("coming-soon"),
     section = document.getElementById("statement");
   var fx = section.querySelector(".statement-fx");
-  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var reduce = reducedMotion;
   var COL = { "c-purple": "#bca3e9", "c-yellow": "#efe96f", "c-green": "#69dc7c", "c-orange": "#ff8a47" };
   var SENTENCES = [
     [

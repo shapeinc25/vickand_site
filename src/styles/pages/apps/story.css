@@ -1,0 +1,186 @@
+/* ---------- Story: CTA screen ---------- */
+/* CTA screen (Figma 120:6007 / 120:6024): a white dot grows from the centre and turns the screen light, the text is revealed,
+   the first sentence is large and its words lit, then the second grows past it. Default markup = the finished state (no script). */
+.section-cta {
+  position: relative;
+  z-index: 3;
+  background: var(--pill-bg, #2c2929);
+  min-height: 900px;
+  padding: 80px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.cta-fx {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+.cta-fx i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  will-change: transform, opacity;
+}
+.cta-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+}
+.cta-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 544px;
+  max-width: 100%;
+  text-align: center;
+  font-family: var(--font-display);
+  overflow-wrap: break-word;
+}
+.cta-text p {
+  margin: 0;
+  width: 100%;
+  font-size: 36px;
+  line-height: 44px;
+  letter-spacing: 0;
+  transition:
+    font-size 0.8s cubic-bezier(0.65, 0, 0.25, 1),
+    line-height 0.8s cubic-bezier(0.65, 0, 0.25, 1),
+    letter-spacing 0.8s ease;
+}
+.cta-text p {
+  transition-property: font-size, line-height, letter-spacing, color;
+}
+.cta-seg.c-green {
+  color: #219535;
+}
+.cta-seg.is-pending {
+  color: inherit;
+}
+.cta-ch {
+  transition: color 0.35s ease;
+}
+.cta-seg.is-pending .cta-ch.is-lit {
+  color: var(--seg-col);
+  animation: statement-glow 1s ease-out;
+}
+
+/* armed (script): dark screen, white dot in the centre */
+
+.section-cta.is-armed .cta-btn-wrap {
+  opacity: 0;
+  transform: translateY(12px);
+}
+.section-cta.is-armed.is-btn .cta-btn-wrap {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* button: scales up and down, a sparkle twinkles on its top right corner */
+.cta-btn-wrap {
+  position: relative;
+  display: inline-block;
+}
+.cta-btn-wrap .btn {
+  display: inline-flex;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .section-cta.is-pulse .cta-btn-wrap {
+    animation: cta-pulse 2.4s ease-in-out infinite;
+  }
+  .section-cta.is-pulse .cta-spark-a {
+    animation: cta-spark 2.4s ease-in-out infinite;
+  }
+  .section-cta.is-pulse .cta-spark-b {
+    animation: cta-spark 2.4s ease-in-out 0.35s infinite;
+  }
+}
+@keyframes cta-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.09);
+  }
+  70% {
+    transform: scale(0.98);
+  }
+}
+@media (max-width: 600px) {
+  .section-cta {
+    min-height: 640px;
+    padding: 64px 24px;
+  }
+}
+
+/* Coming Soon is a full screen: at least 900px tall, content centred */
+.section-soon {
+  min-height: 900px;
+  justify-content: center;
+}
+
+/* the CTA screen slides over the statement screen, which stays pinned */
+.section-statement {
+  position: sticky;
+  top: 0;
+}
+
+/* the sentence is centred in the screen, both vertically and horizontally, whatever its number of lines */
+.section-statement .statement-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.section-statement .statement-type {
+  width: 100%;
+}
+
+/* ONE scroll-driven section: the stage stays pinned while you scroll; first the sentence is typed on the dark screen, then a white dot
+   grows from the centre as an overlay (driven by the scroll) and turns the screen light, revealing the CTA text and button */
+.section-story {
+  position: relative;
+  z-index: 3;
+  height: 300vh;
+}
+.story-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+}
+.story-stage .section-statement {
+  position: absolute;
+  inset: 0;
+  top: 0;
+  min-height: 0;
+  z-index: 1;
+}
+.story-stage .section-cta {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  min-height: 0;
+  background: #fff;
+  will-change: mask-image;
+}
+
+/* no inherited section padding: the pinned stage must end exactly at the end of the story, so nothing behind it shows */
+.section-story {
+  padding: 0 !important;
+  margin: 0;
+  background: var(--surface-default, #e5e2df);
+}

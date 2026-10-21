@@ -1,9 +1,8 @@
 name: Deploy to GitHub Pages
 
 # Settings → Pages → Source: "GitHub Actions".
-# Settings → Secrets and variables → Actions → Variables:
-#   SITE_URL   public address with a trailing slash (https://vickand.com/ or https://<user>.github.io/<repo>/)
-#   BASE_PATH  "/" for a custom domain, "/<repo>/" for https://<user>.github.io/<repo>/
+# The site address (canonical URLs, sitemap) and its sub-path come from GitHub Pages itself, custom domain included.
+# To override them, set the SITE_URL / BASE_PATH variables in Settings → Secrets and variables → Actions → Variables.
 
 on:
   push:
@@ -30,11 +29,12 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
+      - id: pages
+        uses: actions/configure-pages@v5
       - run: npm run build
         env:
-          SITE_URL: ${{ vars.SITE_URL }}
-          BASE_PATH: ${{ vars.BASE_PATH || '/' }}
-      - uses: actions/configure-pages@v5
+          SITE_URL: ${{ vars.SITE_URL || format('{0}/', steps.pages.outputs.base_url) }}
+          BASE_PATH: ${{ vars.BASE_PATH || format('{0}/', steps.pages.outputs.base_path) }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

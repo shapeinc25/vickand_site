@@ -1,3 +1,5 @@
+import { reducedMotion } from "../common/motion.js";
+
 /* Process line: pointer (or keyboard / auto-advance) picks the active step; the line bends up under it. */
 (function () {
   "use strict";
@@ -8,7 +10,7 @@
     track = sec.querySelector(".ux-proc-track");
   var ctx = cv.getContext("2d"),
     COLORS = ["#8a5dd8", "#47d55f", "#ece44f", "#48a9e5"];
-  var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var still = reducedMotion;
   var W = 0,
     H = 64,
     dpr = 1,
@@ -37,9 +39,6 @@
       c.classList.toggle("is-active", k === i);
     });
     kick();
-  }
-  function bez(t) {
-    return 1 - Math.pow(1 - t, 2);
   }
   function draw() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);

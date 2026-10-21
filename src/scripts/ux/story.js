@@ -1,13 +1,14 @@
+import { reducedMotion } from "../common/motion.js";
+
 /* UX & Design story: scroll-driven. Text block 1 slides in from the left, goes away to the right; text block 2 slides in from the right;
    the next container then scrolls over the pinned stage. */
 (function () {
   "use strict";
   var story = document.getElementById("ux-story");
   if (!story) return;
-  var stage = story.querySelector(".ux-story-stage");
   var A = story.querySelector(".ux-sp-a .ux-tb"),
     B = story.querySelector(".ux-sp-b .ux-tb");
-  var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var still = reducedMotion;
   var ticking = false;
   function clamp(v) {
     return v < 0 ? 0 : v > 1 ? 1 : v;

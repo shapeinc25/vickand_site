@@ -58,7 +58,6 @@
 }
 .dropdown-item.is-hover,
 .dropdown-item:focus-visible,
-.dropdown-item.is-active,
 .dropdown-item[aria-selected="true"],
 .dropdown-item.is-selected {
   background: var(--c-accent-subtle);

@@ -28,12 +28,6 @@
 }
 
 /* Light version forced on a dark page (declared after the dark rules so it wins) */
-.site-footer.is-light {
-  --footer-bg: #e5e2df;
-  --footer-text: #2c2929;
-  --footer-text-secondary: #5a5454;
-  --footer-hover: #4b64c0;
-}
 
 .footer-copy {
   margin: 0;
@@ -69,12 +63,6 @@
 [data-theme="dark"] .site-footer .logo-dark,
 .site-footer.is-dark .logo-dark {
   display: block;
-}
-.site-footer.is-light .logo-light {
-  display: block;
-}
-.site-footer.is-light .logo-dark {
-  display: none;
 }
 
 .footer-links {

@@ -1,0 +1,135 @@
+/* ---------- Statement ---------- */
+/* Statement screen (Figma "display" 65:4117): dark screen that slides over Coming Soon, one sentence "typed" like code */
+.section-soon {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.section-statement {
+  position: relative;
+  z-index: 2;
+  background: var(--pill-bg, #2c2929);
+  min-height: 900px;
+  padding: 80px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.statement-text {
+  margin: 0;
+  width: 544px;
+  max-width: 100%;
+  font: 400 48px/56px var(--font-display);
+  letter-spacing: -0.24px;
+  color: var(--text-on-primary, #fff);
+  text-align: center;
+  overflow-wrap: break-word;
+}
+.statement-type {
+  display: block;
+}
+.statement-line {
+  display: block;
+}
+.statement-text .c-purple {
+  color: #bca3e9;
+}
+.statement-text .c-yellow {
+  color: #efe96f;
+}
+.statement-text .c-green {
+  color: #69dc7c;
+}
+.statement-text .c-orange {
+  color: #ff8a47;
+}
+.statement-word {
+  white-space: nowrap;
+}
+.statement-ch {
+  visibility: hidden;
+}
+.statement-ch.is-on {
+  visibility: visible;
+}
+.statement-caret {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+  vertical-align: baseline;
+}
+.statement-caret::after {
+  content: "";
+  position: absolute;
+  left: 1px;
+  bottom: -0.14em;
+  width: 0.09em;
+  min-width: 3px;
+  height: 0.98em;
+  background: #fff;
+  border-radius: 1px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .statement-caret.is-idle::after {
+    animation: statement-blink 1.06s steps(1) infinite;
+  }
+}
+@keyframes statement-blink {
+  50% {
+    opacity: 0;
+  }
+}
+@media (max-width: 600px) {
+  .section-statement {
+    min-height: 640px;
+    padding: 64px 24px;
+  }
+  .statement-text {
+    font-size: 36px;
+    line-height: 44px;
+  }
+}
+
+/* Statement: words start white and are lit in their colour by dots flying in (script); .statement-fx holds the dots */
+.section-statement {
+  overflow: hidden;
+}
+.statement-fx {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.statement-fx i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  will-change: transform, opacity;
+}
+.statement-text {
+  position: relative;
+  z-index: 2;
+}
+.statement-type .is-pending {
+  color: inherit;
+}
+.statement-type .is-pending .statement-ch.is-lit {
+  color: var(--seg-col);
+  animation: statement-glow 1s ease-out;
+}
+@keyframes statement-glow {
+  from {
+    text-shadow: 0 0 0.55em var(--seg-col);
+  }
+  to {
+    text-shadow: 0 0 0 transparent;
+  }
+}
+.statement-ch {
+  transition:
+    color 0.3s ease,
+    text-shadow 0.6s ease;
+}

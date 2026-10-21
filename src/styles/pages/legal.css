@@ -1,4 +1,20 @@
-/* Legal pages (Terms of Use, Privacy Policy): back button header */
+/* Legal pages (Terms of Use, Privacy Policy): always light */
+.legal {
+  padding: var(--space-10) 0 var(--space-12);
+}
+.legal h1 {
+  margin: 0 0 var(--space-6);
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.1;
+}
+.legal p {
+  max-width: 680px;
+}
+
+/* Legal pages: a back button instead of the toggle */
+.legal-header .container {
+  justify-content: flex-start;
+} /* Legal pages (Terms of Use, Privacy Policy): back button header */
 .legal-header {
   position: absolute;
   top: 16px;

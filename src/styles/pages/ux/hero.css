@@ -1,0 +1,67 @@
+/* ---------- UX & Design hero ----------
+   Headline with its scaling intro, lead text and button. The animation is in hero-flows.css and hero-untangle.css. */
+.ux-hero-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  max-width: 755px;
+  margin: 0 auto var(--space-2);
+  text-align: center;
+}
+.ux-hero-text h1 {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-weight: 400;
+}
+.ux-hero-lead {
+  display: block;
+  font: 400 clamp(32px, 5vw, 48px)/1.17 var(--font-display);
+  letter-spacing: -0.24px;
+}
+.ux-hero-display {
+  display: block;
+  font: 400 clamp(40px, 7vw, 64px)/1.125 var(--font-display);
+  letter-spacing: -0.64px;
+}
+.ux-hero-text h1 {
+  justify-content: center;
+}
+/* scaling intro (same easing as the closing section on Apps & Games): the first line starts large, the second small and dim; the second then grows past the first */
+.ux-hero-lead,
+.ux-hero-display {
+  white-space: nowrap;
+  transition:
+    transform 0.5s cubic-bezier(0.65, 0, 0.25, 1),
+    color 0.5s linear;
+}
+.ux-hero-lead {
+  color: var(--text-secondary);
+}
+.ux-hero-display {
+  color: var(--text-primary);
+}
+.ux-hero.is-a .ux-hero-lead {
+  transform: scale(1.3333);
+  color: var(--text-primary);
+}
+.ux-hero.is-a .ux-hero-display {
+  transform: scale(0.75);
+  color: var(--text-secondary);
+}
+@media (min-width: 700px) {
+  .ux-hero-text h1 {
+    min-height: 0;
+  }
+}
+.ux-hero-text p {
+  margin: 0;
+  font: 400 18px/28px var(--font-body);
+} /* hero button keeps its own width on mobile (global .btn-lg is full width there) */
+.ux-hero-text .btn {
+  width: auto;
+  align-self: center;
+  flex: none;
+}

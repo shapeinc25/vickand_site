@@ -1,10 +1,40 @@
-/* ---------- Motion hooks ----------
-   Elements marked [data-animate] start in the "pre" state and get .is-visible
-   from main.js (IntersectionObserver). Add real animations to these classes later. */
-[data-animate] {
-  opacity: 1;
-  transform: none;
-  transition:
-    opacity var(--motion-slow) var(--ease-standard),
-    transform var(--motion-slow) var(--ease-standard);
+/* ---------- Shared keyframes ---------- */
+/* Form feedback, shared by the waitlist and the UX request forms: a wobble on an error, a pop on success */
+@keyframes soon-shake {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  15% {
+    translate: -6px 0;
+  }
+  30% {
+    translate: 5px 0;
+  }
+  45% {
+    translate: -4px 0;
+  }
+  60% {
+    translate: 3px 0;
+  }
+  75% {
+    translate: -2px 0;
+  }
+  90% {
+    translate: 1px 0;
+  }
+}
+@keyframes soon-pop {
+  0% {
+    scale: 1;
+  }
+  35% {
+    scale: 1.16;
+  }
+  65% {
+    scale: 0.96;
+  }
+  100% {
+    scale: 1;
+  }
 }

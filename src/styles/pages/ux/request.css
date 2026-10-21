@@ -1,0 +1,272 @@
+/* ---------- Request a UX review ---------- */
+.ux-req-f .input-field {
+  --af-bg: var(--surface-raised);
+}
+/* Request form: "Have an app or game that needs a UX review?" */
+.ux-req {
+  position: relative;
+  z-index: 2;
+  background: var(--surface-default);
+  padding: 80px 24px 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+.ux-req-head {
+  width: 100%;
+  max-width: 692px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+}
+.ux-req-head h2 {
+  flex: 1 0 0;
+  min-width: 1px;
+  margin: 0;
+  font: 400 48px/56px var(--font-display);
+  letter-spacing: -0.24px;
+  color: var(--text-primary);
+}
+.ux-req-head p {
+  flex: none;
+  width: 300px;
+  margin: 0;
+  font: 400 18px/28px var(--font-body);
+  color: var(--text-on-primary, #fff);
+}
+.ux-req-form {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 608px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 32px;
+  background: var(--surface-default);
+  border: 1px solid var(--border-default);
+  border-radius: 16px;
+}
+.ux-req-f {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ux-req-f {
+  position: relative;
+}
+.ux-req-f.is-up {
+  z-index: 30;
+}
+.ux-req-f label {
+  font: 600 12px/16px var(--font-body);
+  letter-spacing: 0.36px;
+  color: var(--text-primary);
+}
+.ux-req-f .input {
+  width: 100%;
+  gap: 0;
+}
+.ux-req-f .input-field {
+  position: relative;
+  width: 100%;
+  background: var(--surface-raised);
+}
+.ux-req-f .input-control {
+  width: 100%;
+}
+.ux-req-sel {
+  padding-right: 32px;
+}
+.ux-req-sel {
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ux-req-sel.is-empty {
+  color: var(--text-secondary);
+}
+.ux-req-menu {
+  position: absolute;
+  z-index: 40;
+  left: 0;
+  right: 0;
+  top: calc(100% + 4px);
+  margin: 0;
+  padding: 8px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-sizing: border-box;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+.ux-req-menu[hidden] {
+  display: none;
+}
+.ux-req-menu li {
+  box-sizing: border-box;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font: 400 16px/normal var(--font-body);
+  color: var(--text-primary);
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.ux-req-menu li.is-hl,
+.ux-req-menu li[aria-selected="true"] {
+  background: var(--pill-fg, #2c2929);
+  color: var(--accent-default, #8599e4);
+}
+.ux-req-caret {
+  color: var(--accent-default, #8599e4);
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  width: 24px;
+  height: 24px;
+  margin-top: -12px;
+  pointer-events: none;
+}
+.ux-req-caret .c-up {
+  display: none;
+}
+.ux-req-f .input-field.is-open .ux-req-caret .c-up {
+  display: inline;
+}
+.ux-req-f .input-field.is-open .ux-req-caret .c-down {
+  display: none;
+}
+.ux-req-f .input-field.is-area {
+  height: 124px;
+  align-items: flex-start;
+  padding: 16px;
+}
+.ux-req-f textarea.input-control {
+  height: 100%;
+  resize: none;
+}
+.ux-req-form .btn {
+  width: auto;
+  flex: none;
+}
+.ux-req-form .tick {
+  width: 0;
+  margin-right: -8px;
+  overflow: hidden;
+  flex: none;
+}
+.ux-req-form .tick path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.ux-req-form.is-done .btn {
+  --btn-bg: var(--c-success-fill);
+  cursor: default;
+  pointer-events: none;
+}
+.ux-req-form.is-done .tick {
+  width: 20px;
+  margin-right: 0;
+  transition:
+    width 0.3s ease,
+    margin 0.3s ease;
+}
+.ux-req-form.is-done .tick path {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.45s ease-out 0.25s;
+}
+.ux-req-form.is-done .arrow {
+  display: none;
+}
+.ux-req-ok {
+  margin: 0;
+  font: 500 14px/20px var(--font-body);
+  color: var(--c-success);
+  text-align: center;
+}
+.ux-req-ok[hidden] {
+  display: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ux-req-form.is-done .btn {
+    animation: soon-pop 520ms cubic-bezier(0.3, 1.2, 0.5, 1) 80ms;
+  }
+  .ux-req-form.is-shake .input-field,
+  .ux-req-form.is-shake .btn {
+    animation: soon-shake 480ms cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  }
+}
+@media (max-width: 1024px) {
+  .ux-req {
+    padding: 64px 24px 100px;
+    gap: 40px;
+  }
+  .ux-req-head {
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 608px;
+    gap: 16px;
+  }
+  .ux-req-head h2 {
+    font-size: 40px;
+    line-height: 48px;
+  }
+  .ux-req-head p {
+    width: 100%;
+  }
+  .ux-req-f label {
+    font-size: 16px;
+    line-height: 20px;
+  }
+  .ux-req-f .input-message,
+  .ux-req-ok {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+@media (max-width: 560px) {
+  .ux-req {
+    padding: 56px 16px 100px;
+  }
+  .ux-req-head h2 {
+    font-size: 36px;
+    line-height: 44px;
+  }
+  .ux-req-form {
+    padding: 24px 16px;
+  }
+}
+.ux-req.fade .ux-req-head h2,
+.ux-req.fade .ux-req-head p {
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.ux-req.fade .ux-req-head p {
+  transition-delay: 0.2s;
+}
+.ux-req.fade.in .ux-req-head h2,
+.ux-req.fade.in .ux-req-head p {
+  opacity: 1;
+}
+.ux-req.fade:not(.in) .ux-req-form {
+  opacity: 0;
+  transform: translateY(90px);
+}
+.ux-req.fade.in .ux-req-form {
+  animation: ux-rise-p 1s 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}

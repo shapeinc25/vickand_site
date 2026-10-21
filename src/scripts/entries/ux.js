@@ -1,11 +1,10 @@
 // UX & Design page (/ux/).
-import "../../styles/main.css";
+import "../../styles/ux.css";
 
 import "../common/page-toggle.js";
-import "../common/animate-on-view.js";
 import "../common/header-scroll.js";
 import "../common/scroll-restoration.js";
-import "../ux/tangled-flows-hero.js";
+import "../ux/tangled-flows/index.js";
 import "../ux/story.js";
 import "../ux/dot-field.js";
 import "../ux/bubbles.js";

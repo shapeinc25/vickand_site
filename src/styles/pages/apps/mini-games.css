@@ -1,0 +1,169 @@
+/* Coming Soon card: mini games 2 and 3, the "Play while waiting" and close buttons, and the card faces. */
+
+/* ---------- Mini game 2: tic-tac-toe (the games take turns on every click) ---------- */
+.soon-mem,
+.soon-ttt {
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.soon-back[data-game="mem"] .soon-ttt,
+.soon-back[data-game="ttt"] .soon-mem {
+  display: none;
+}
+.soon-status {
+  margin: 0;
+  height: 24px;
+  flex: none;
+  font: 400 16px/24px var(--font-body);
+  color: rgba(255, 255, 255, 0.75);
+}
+.soon-board {
+  flex: 1 1 0;
+  min-height: 0;
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  gap: 6px;
+}
+.soon-tcell {
+  position: relative;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+@media (hover: hover) {
+  .soon-tcell:not(.is-x):not(.is-o):hover {
+    background: rgba(255, 255, 255, 0.16);
+  }
+}
+.soon-tcell svg {
+  position: absolute;
+  inset: 14%;
+  width: 72%;
+  height: 72%;
+  fill: none;
+  stroke-width: 3.4;
+  stroke-linecap: round;
+}
+.soon-tcell.is-x svg {
+  stroke: #2f9de1;
+}
+.soon-tcell.is-o svg {
+  stroke: #ff5c00;
+}
+.soon-tcell svg path,
+.soon-tcell svg circle {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: soon-draw 0.35s ease-out both;
+}
+@keyframes soon-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.soon-tcell.is-win {
+  background: rgba(46, 207, 73, 0.28);
+  box-shadow: 0 0 16px rgba(46, 207, 73, 0.5);
+}
+.soon-over-tally {
+  margin: 0 0 8px;
+  font: 400 16px/22px var(--font-body);
+  color: rgba(255, 255, 255, 0.7);
+}
+.soon-over-tally[hidden],
+.soon-over-score[hidden] {
+  display: none;
+}
+
+/* ---------- Mini game 3: falling balls and a see-saw ---------- */
+.soon-balls {
+  position: absolute;
+  inset: 0;
+  display: none;
+}
+.soon-back[data-game="balls"] .soon-balls {
+  display: block;
+}
+.soon-back[data-game="balls"] .soon-mem,
+.soon-back[data-game="balls"] .soon-ttt {
+  display: none;
+}
+.soon-balls canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: ew-resize;
+}
+.soon-bhud {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 16px;
+  display: flex;
+  justify-content: space-between;
+  font: 400 16px/24px var(--font-body);
+  color: rgba(255, 255, 255, 0.75);
+  pointer-events: none;
+}
+.soon-b-time {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Small "Play while waiting" button at the bottom centre of the card, 16px from the edge */
+.soon-front .soon-play {
+  position: absolute !important;
+  left: 50%;
+  bottom: 16px;
+  translate: -50% 0;
+  z-index: 2;
+  --btn-fg: var(--soon-fg, var(--pill-fg));
+  --btn-bg: color-mix(in srgb, var(--btn-fg) 16%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--btn-fg) 45%, transparent);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* Close button (Ghost, smallest, icon only) in the top right corner of the game card; the round timer moved to the centre */
+.soon-back .soon-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 4;
+}
+.soon-b-time {
+  position: absolute;
+  left: 50%;
+  translate: -50% 0;
+}
+
+/* Show only the side that faces the viewer (in addition to backface-visibility), so the front can never stay hidden */
+.soon-back {
+  visibility: hidden;
+  transition: visibility 0s 0.35s;
+}
+.soon-counter.is-flipped .soon-back {
+  visibility: visible;
+  transition-delay: 0s;
+}
+.soon-counter.is-flipped .soon-front {
+  visibility: hidden;
+  transition:
+    visibility 0s 0.35s,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
