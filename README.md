@@ -64,7 +64,7 @@ npm run dev
 │  └─ assets/             шрифты, картинки, логотипы (Vite хеширует и оптимизирует)
 ├─ public/                копируется как есть: favicon, og-cover.png, manifest
 ├─ design/                исходники из Figma, скриншоты, прототипы — на сайт не попадают
-└─ .github/workflows/     CI и деплой на GitHub Pages
+└─ .github/workflows/     Проверки CI
 ```
 
 ### Partials
@@ -132,31 +132,29 @@ npm run dev
 - `sitemap.xml` и `robots.txt` генерируются при сборке. Из выдачи убраны (`noindex`) 404, `/styleguide/`
   и пока что `/terms/` и `/privacy/` — у них ещё нет текста. Когда текст появится, верните их в `PAGES`
   в `vite.config.js` и уберите `"robots"` из их `@include layout/head.html`.
-- Адрес сайта для canonical и sitemap при деплое берётся у GitHub Pages автоматически (свой домен тоже).
+- Адрес сайта для canonical и sitemap задаётся переменной `SITE_URL` в Vercel: `https://vickand.com/`.
 
 ### Чтобы сайт находили в Google
 
-1. **Свой домен.** На адресе `user.github.io/repo/` поисковики не видят `robots.txt` (он должен лежать в корне
-   домена), а сам адрес выглядит как временный. Подключите домен: Settings → Pages → Custom domain.
+1. **Свой домен.** Сайт опубликован на `https://vickand.com/` через Vercel; `www` перенаправляет на основной адрес.
 2. **Google Search Console** (search.google.com/search-console): добавить сайт, подтвердить владение,
    отправить `sitemap.xml`. То же — в Bing Webmaster Tools.
 3. **Тексты.** Главное для позиций — содержание: реальные названия и описания игр вместо `[Title]`,
    описания услуг и кейсов на `/ux/`, ссылки на сторы. Заголовок и описание каждой страницы задаются
    в её `@include layout/head.html`.
 
-## Деплой на GitHub Pages
+## Деплой на Vercel
 
-1. Settings → Pages → Source: **GitHub Actions**.
-2. Settings → Secrets and variables → Actions → **Variables**:
-   - `SITE_URL` — публичный адрес со слешем в конце (`https://vickand.com/` или `https://<user>.github.io/<repo>/`);
-   - `BASE_PATH` — `/` для своего домена или `/<repo>/` для адреса вида `<user>.github.io/<repo>/`.
-3. Каждый пуш в `main` собирает и публикует сайт (`.github/workflows/deploy.yml`).
-   На pull request запускаются линтеры и сборка (`ci.yml`).
+Сайт публикуется через Git-интеграцию проекта `vickand-site` в Vercel.
+Пуш в `main` запускает production-сборку для `https://vickand.com/`.
+Другие ветки получают preview-деплой. Проверки кода находятся в `ci.yml`.
+
+GitHub Pages не используется; workflow его публикации удалён.
+Серверные обработчики форм и пересылки поддержки выполняются в Vercel.
+Переменные окружения, включая секреты Resend, задаются в Vercel → Settings → Environment Variables.
 
 ## Что ещё не подключено
 
-- Для рабочих форм нужен деплой на Vercel с переменными Resend, описанными ниже.
-  На GitHub Pages серверные обработчики не запускаются.
 - Тексты Terms of Use и Privacy Policy — заглушки.
 - Блоки игр на главной — заглушки (`[Title]`, `[Description]`, ссылки на сторы `#`).
 
