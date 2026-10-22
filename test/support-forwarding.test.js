@@ -38,6 +38,7 @@ async function fixture(result = { data: { id: "sent-id" }, error: null }, incomi
     calls = [];
   const handler = createSupportForwardingHandler({
     env,
+    download: async () => new Response("image"),
     logger: { error() {}, info() {} },
     client: () => ({
       webhooks: verification,
@@ -114,12 +115,14 @@ test("forwarded HTML keeps sender details safe and preserves inline attachment r
     attachments: [{ id: "attachment-id" }],
   });
   assert.equal((await handler(req())).status, 200);
+  assert.equal((await handler(req())).status, 200);
+  assert.deepEqual(calls[0], calls[1]);
   assert.match(calls[0][0].html, /Sender &lt;sender@example.com&gt;/);
   assert.match(calls[0][0].html, /cid:picture/);
   assert.deepEqual(calls[0][0].attachments, [
     {
       filename: "image.png",
-      path: "https://files.resend.dev/attachment-id",
+      content: "aW1hZ2U=",
       contentType: "image/png",
       contentId: "picture",
     },

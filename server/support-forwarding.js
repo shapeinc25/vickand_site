@@ -11,6 +11,7 @@ export function createSupportForwardingHandler({
   env = process.env,
   client = (key) => new Resend(key),
   logger = console,
+  download = fetch,
 } = {}) {
   return async function handle(request) {
     if (request.method !== "POST") return json({ error: "Method not allowed." }, 405);
@@ -61,9 +62,11 @@ export function createSupportForwardingHandler({
       for (const attachment of email.attachments || []) {
         const result = await resend.emails.receiving.attachments.get({ emailId, id: attachment.id });
         if (result.error || !result.data?.download_url) throw new Error("Attachment unavailable");
+        const file = await download(result.data.download_url, { signal: AbortSignal.timeout(15000) });
+        if (!file.ok) throw new Error("Attachment download unavailable");
         attachments.push({
           filename: result.data.filename || "attachment",
-          path: result.data.download_url,
+          content: Buffer.from(await file.arrayBuffer()).toString("base64"),
           contentType: result.data.content_type,
           ...(result.data.content_id ? { contentId: result.data.content_id.replace(/^<|>$/g, "") } : {}),
         });
