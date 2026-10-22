@@ -1,5 +1,10 @@
 import { Resend } from "resend";
 
+const escapeHtml = (value) =>
+  String(value).replace(
+    /[&<>"']/g,
+    (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char],
+  );
 const json = (body, status = 200) => Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
 
 export function createSupportForwardingHandler({
@@ -49,8 +54,36 @@ export function createSupportForwardingHandler({
     if (typeof emailId !== "string" || !/^[a-f0-9-]{36}$/i.test(emailId))
       return json({ error: "Invalid email identifier." }, 400);
     try {
-      const { data, error } = await resend.emails.receiving.forward(
-        { emailId, from: env.RESEND_FROM_EMAIL, to: [env.CONTACT_TO_EMAIL], passthrough: true },
+      const received = await resend.emails.receiving.get(emailId, { html_format: "cid" });
+      if (received.error || !received.data) throw new Error("Incoming message unavailable");
+      const email = received.data;
+      const attachments = [];
+      for (const attachment of email.attachments || []) {
+        const result = await resend.emails.receiving.attachments.get({ emailId, id: attachment.id });
+        if (result.error || !result.data?.download_url) throw new Error("Attachment unavailable");
+        attachments.push({
+          filename: result.data.filename || "attachment",
+          path: result.data.download_url,
+          contentType: result.data.content_type,
+          ...(result.data.content_id ? { contentId: result.data.content_id.replace(/^<|>$/g, "") } : {}),
+        });
+      }
+      const sender = email.from || "Unknown sender";
+      const replyTo = (email.reply_to?.length ? email.reply_to : [sender]).filter(
+        (address) => typeof address === "string" && !/[\r\n]/.test(address) && address.includes("@"),
+      );
+      const textHeader = `Support message from: ${sender}\nTo: support@vickand.com\n\n`;
+      const { data, error } = await resend.emails.send(
+        {
+          from: env.RESEND_FROM_EMAIL,
+          to: [env.CONTACT_TO_EMAIL],
+          ...(replyTo.length ? { replyTo } : {}),
+          subject: `Support: ${email.subject || "(no subject)"}`,
+          text: textHeader + (email.text || "This message contains HTML content."),
+          ...(email.html ? { html: `<p>Support message from: ${escapeHtml(sender)}</p><hr>${email.html}` } : {}),
+          ...(attachments.length ? { attachments } : {}),
+          tags: [{ name: "source", value: "support-forward" }],
+        },
         { idempotencyKey: `support-forward/${emailId}` },
       );
       if (error || !data?.id) {

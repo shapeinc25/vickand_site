@@ -32,7 +32,7 @@ function req(value = event, valid = true) {
     },
   });
 }
-async function fixture(result = { data: { id: "sent-id" }, error: null }) {
+async function fixture(result = { data: { id: "sent-id" }, error: null }, incoming = {}) {
   const { Resend } = await import("resend");
   const verification = new Resend("test-not-a-key").webhooks,
     calls = [];
@@ -42,10 +42,36 @@ async function fixture(result = { data: { id: "sent-id" }, error: null }) {
     client: () => ({
       webhooks: verification,
       emails: {
+        async send(...args) {
+          calls.push(args);
+          return result;
+        },
         receiving: {
-          async forward(...args) {
-            calls.push(args);
-            return result;
+          attachments: {
+            async get({ id }) {
+              return {
+                data: {
+                  filename: "image.png",
+                  content_type: "image/png",
+                  content_id: "<picture>",
+                  download_url: `https://files.resend.dev/${id}`,
+                },
+                error: null,
+              };
+            },
+          },
+          async get() {
+            return {
+              data: {
+                from: "Customer <customer@example.com>",
+                reply_to: ["reply@example.com"],
+                subject: "A support question",
+                text: "Please help.",
+                attachments: [],
+                ...incoming,
+              },
+              error: null,
+            };
           },
         },
       },
@@ -57,12 +83,12 @@ test("only signed support messages are forwarded to the fixed mailbox, with a st
   const { handler, calls } = await fixture();
   assert.equal((await handler(req())).status, 200);
   assert.equal((await handler(req())).status, 200);
-  assert.deepEqual(calls[0][0], {
-    emailId,
-    from: env.RESEND_FROM_EMAIL,
-    to: [env.CONTACT_TO_EMAIL],
-    passthrough: true,
-  });
+  assert.deepEqual(calls[0][0].to, [env.CONTACT_TO_EMAIL]);
+  assert.equal(calls[0][0].from, env.RESEND_FROM_EMAIL);
+  assert.deepEqual(calls[0][0].replyTo, ["reply@example.com"]);
+  assert.equal(calls[0][0].subject, "Support: A support question");
+  assert.match(calls[0][0].text, /Customer <customer@example.com>/);
+  assert.match(calls[0][0].text, /Please help/);
   assert.deepEqual(calls[0][1], calls[1][1]);
 });
 test("invalid signatures, unrelated events and other addresses never forward", async () => {
@@ -79,4 +105,23 @@ test("missing secrets and oversized requests fail closed; forwarding errors rema
   const { handler } = await fixture({ data: null, error: { name: "rate_limit_exceeded" } });
   assert.equal((await handler(req())).status, 503);
   assert.equal((await handler(req({ ...event, padding: "x".repeat(70000) }))).status, 413);
+});
+
+test("forwarded HTML keeps sender details safe and preserves inline attachment references", async () => {
+  const { handler, calls } = await fixture(undefined, {
+    from: "Sender <sender@example.com>",
+    html: '<p>Message<img src="cid:picture"></p>',
+    attachments: [{ id: "attachment-id" }],
+  });
+  assert.equal((await handler(req())).status, 200);
+  assert.match(calls[0][0].html, /Sender &lt;sender@example.com&gt;/);
+  assert.match(calls[0][0].html, /cid:picture/);
+  assert.deepEqual(calls[0][0].attachments, [
+    {
+      filename: "image.png",
+      path: "https://files.resend.dev/attachment-id",
+      contentType: "image/png",
+      contentId: "picture",
+    },
+  ]);
 });

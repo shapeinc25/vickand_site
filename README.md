@@ -184,25 +184,26 @@ npm run dev
 введённые данные сохраняются. Повторная попытка использует тот же ключ идемпотентности,
 чтобы сетевой сбой не приводил к повторным письмам.
 
-Проверки: `npm test`, `npm run lint`, `npm run build`. Тесты работают без настоящих ключей
+Проверки: `npm test`, `npm run lint`, `npm run format:check`, `npm run build`. Тесты работают без настоящих ключей
 и не отправляют письма. Перед вводом в эксплуатацию необходимо проверить обе формы через
 опубликованный сайт и статус доставки в Resend.
 
-### Support inbox forwarding — prepared, not activated
+### Support inbox forwarding
 
 `api/resend-inbound.js` accepts signed `email.received` callbacks and forwards only
 mail addressed to `support@vickand.com` to the fixed `CONTACT_TO_EMAIL`. The official
-SDK preserves the original message and attachments. Retries use a stable idempotency
+SDK retrieves the original message and attachments. Forwarded mail includes the
+original sender and a Reply-To address, so the owner can reply directly from Gmail. Retries use a stable idempotency
 key per received email (subject to Resend's idempotency retention). Invalid signatures,
 other recipients and unrelated events cannot trigger forwarding.
 
 This route needs **separate** `RESEND_RECEIVING_API_KEY` and
 `RESEND_RECEIVING_WEBHOOK_SECRET` secrets. Resend's sending-only key cannot read
 received mail. Its current API key model requires full access for this operation.
-The setup guide says the app should never receive a full-access key, so this exception
-is **awaiting explicit owner approval**. No full-access key or webhook has been created.
+The owner explicitly approved a separate server-only receiving credential for this
+integration. Store it as a sensitive production secret; never expose it in browser code.
 The website forms continue to use their domain-restricted sending-only key.
 
-Once approved and deployed, configure the Resend webhook at
+For deployment, configure the Resend webhook at
 `https://vickand.com/api/resend-inbound` for `email.received`, save its signing secret
 in Vercel, redeploy, then test inbound delivery and forwarding to the fixed mailbox.
