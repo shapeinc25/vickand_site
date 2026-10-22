@@ -2,10 +2,19 @@ import { Resend } from "resend";
 
 const json = (body, status = 200) => Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
 
-export function createSupportForwardingHandler({ env = process.env, client = (key) => new Resend(key), logger = console } = {}) {
+export function createSupportForwardingHandler({
+  env = process.env,
+  client = (key) => new Resend(key),
+  logger = console,
+} = {}) {
   return async function handle(request) {
     if (request.method !== "POST") return json({ error: "Method not allowed." }, 405);
-    if (!env.RESEND_RECEIVING_API_KEY || !env.RESEND_RECEIVING_WEBHOOK_SECRET || !env.CONTACT_TO_EMAIL || !env.RESEND_FROM_EMAIL) {
+    if (
+      !env.RESEND_RECEIVING_API_KEY ||
+      !env.RESEND_RECEIVING_WEBHOOK_SECRET ||
+      !env.CONTACT_TO_EMAIL ||
+      !env.RESEND_FROM_EMAIL
+    ) {
       return json({ error: "Support forwarding is not configured." }, 503);
     }
     if (Number(request.headers.get("content-length")) > 65536) return json({ error: "Payload too large." }, 413);
@@ -28,11 +37,17 @@ export function createSupportForwardingHandler({ env = process.env, client = (ke
     }
     if (event.type !== "email.received") return json({ ignored: true });
     const recipients = event.data?.to;
-    if (!Array.isArray(recipients) || !recipients.some((address) => typeof address === "string" && /^(?:[^<>]*<)?support@vickand\.com>?$/i.test(address.trim()))) {
+    if (
+      !Array.isArray(recipients) ||
+      !recipients.some(
+        (address) => typeof address === "string" && /^(?:[^<>]*<)?support@vickand\.com>?$/i.test(address.trim()),
+      )
+    ) {
       return json({ ignored: true });
     }
     const emailId = event.data.email_id;
-    if (typeof emailId !== "string" || !/^[a-f0-9-]{36}$/i.test(emailId)) return json({ error: "Invalid email identifier." }, 400);
+    if (typeof emailId !== "string" || !/^[a-f0-9-]{36}$/i.test(emailId))
+      return json({ error: "Invalid email identifier." }, 400);
     try {
       const { data, error } = await resend.emails.receiving.forward(
         { emailId, from: env.RESEND_FROM_EMAIL, to: [env.CONTACT_TO_EMAIL], passthrough: true },
