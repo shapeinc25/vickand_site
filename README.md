@@ -173,8 +173,8 @@ npm run dev
 - `RESEND_FROM_EMAIL` — отправитель на этом домене;
 - `CONTACT_TO_EMAIL` — действующий адрес команды;
 - `RESEND_CONTACT_TEMPLATE_ID` — опубликованный шаблон заявки с переменными
-  `NAME`, `EMAIL`, `HELP`, `LINK`, `MESSAGE`;
-- `RESEND_WAITLIST_TEMPLATE_ID` — опубликованный шаблон уведомления о подписке с переменной `EMAIL`.
+  `NAME`, `SENDER_EMAIL`, `HELP`, `LINK`, `MESSAGE`;
+- `RESEND_WAITLIST_TEMPLATE_ID` — опубликованный шаблон уведомления о подписке с переменной `SENDER_EMAIL`.
 
 Сами шаблоны хранятся в Resend. Сервер экранирует пользовательский текст перед подстановкой.
 Не добавляйте секреты в `VITE_*`: эти переменные попадают в браузер.

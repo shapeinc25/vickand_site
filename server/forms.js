@@ -77,14 +77,14 @@ export function createFormsHandler({ env = process.env, client = (key) => new Re
       }
       variables = {
         NAME: name,
-        EMAIL: email,
+        SENDER_EMAIL: email,
         HELP: help,
         LINK: link || "Not provided",
         MESSAGE: message || "Not provided",
       };
       templateId = env.RESEND_CONTACT_TEMPLATE_ID;
     } else if (kind === "waitlist") {
-      variables = { EMAIL: email };
+      variables = { SENDER_EMAIL: email };
       templateId = env.RESEND_WAITLIST_TEMPLATE_ID;
     } else return json({ error: "Unknown form." }, 400);
     variables = Object.fromEntries(Object.entries(variables).map(([key, value]) => [key, escape(value)]));

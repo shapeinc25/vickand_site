@@ -55,6 +55,8 @@ test("accepts a contact form, fixes the recipient and escapes template content",
   assert.deepEqual(calls[0][0].to, [config.CONTACT_TO_EMAIL]);
   assert.equal(calls[0][0].replyTo, valid.email);
   assert.equal(calls[0][0].template.variables.NAME, "&lt;script&gt;alert(1)&lt;/script&gt;");
+  assert.equal(calls[0][0].template.variables.SENDER_EMAIL, valid.email);
+  assert.equal(calls[0][0].template.variables.EMAIL, undefined);
   assert.equal(calls[0][0].html, undefined);
 });
 test("rejects malformed, oversized and cross-origin submissions without sending", async () => {
@@ -111,5 +113,5 @@ test("waitlist notifications use their own published template and fixed recipien
   const { handler, calls } = fixture();
   assert.equal((await handler(request({ kind: "waitlist", email: valid.email }))).status, 200);
   assert.equal(calls[0][0].template.id, config.RESEND_WAITLIST_TEMPLATE_ID);
-  assert.deepEqual(calls[0][0].template.variables, { EMAIL: valid.email });
+  assert.deepEqual(calls[0][0].template.variables, { SENDER_EMAIL: valid.email });
 });
