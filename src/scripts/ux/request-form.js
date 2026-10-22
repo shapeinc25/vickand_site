@@ -1,3 +1,5 @@
+import { createFormSender } from "../common/send-form.js";
+
 (function () {
   "use strict";
   var f = document.getElementById("ux-req-form");
@@ -13,6 +15,9 @@
   });
   var label = f.querySelector(".ux-req-label"),
     okMsg = document.getElementById("ux-req-ok");
+  var submit = f.querySelector('button[type="submit"]');
+  var send = createFormSender("contact"),
+    sending = false;
   function resetSelect() {
     var vb = document.getElementById("ux-req-help");
     if (!vb) return;
@@ -37,8 +42,9 @@
   f.addEventListener("pointerdown", function (e) {
     if (!e.target.closest(".btn")) again();
   });
-  f.addEventListener("submit", function (e) {
+  f.addEventListener("submit", async function (e) {
     e.preventDefault();
+    if (sending) return;
     var ok = true;
     f.querySelectorAll("[required]").forEach(function (c) {
       var bad = !c.value.trim() || (c.type === "email" && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c.value));
@@ -57,6 +63,28 @@
       return;
     }
     if (f.classList.contains("is-done")) return;
+    sending = true;
+    submit.disabled = true;
+    f.setAttribute("aria-busy", "true");
+    label.textContent = "Sending…";
+    okMsg.hidden = true;
+    okMsg.classList.remove("is-error");
+    try {
+      await send(Object.fromEntries(new FormData(f)));
+    } catch (error) {
+      label.textContent = "Request Free Scoping";
+      okMsg.textContent =
+        error.name === "TimeoutError"
+          ? "Sending took too long. Please try again."
+          : error.message || "Your message was not sent. Please try again.";
+      okMsg.classList.add("is-error");
+      okMsg.hidden = false;
+      return;
+    } finally {
+      sending = false;
+      submit.disabled = false;
+      f.removeAttribute("aria-busy");
+    }
     // success: the button turns green and draws a tick, the fields empty and lock, a green message appears
     f.classList.remove("is-shake");
     f.reset();
@@ -66,6 +94,7 @@
     });
     label.textContent = "Request sent";
     f.classList.add("is-done");
+    okMsg.textContent = "Thank you! We’ll get back to you soon.";
     okMsg.hidden = false;
   });
   var btn = document.getElementById("ux-req-help"),

@@ -1,4 +1,5 @@
 import { reducedMotion } from "../common/motion.js";
+import { createFormSender } from "../common/send-form.js";
 
 (function () {
   "use strict";
@@ -25,6 +26,8 @@ import { reducedMotion } from "../common/motion.js";
     var label = submit.querySelector(".soon-btn-label");
     var countEl = document.getElementById("soon-count");
     var reduce = reducedMotion;
+    var send = createFormSender("waitlist"),
+      sending = false;
 
     // Mechanical counter: every changed digit is a drum that rolls through the digits in between
     function rollCounter(from, to) {
@@ -190,9 +193,9 @@ import { reducedMotion } from "../common/motion.js";
       if (e.key.length === 1 || e.key === "Backspace" || e.key === "Delete") resetForm();
     });
 
-    form.addEventListener("submit", function (event) {
+    form.addEventListener("submit", async function (event) {
       event.preventDefault();
-      if (form.classList.contains("is-done")) return;
+      if (sending || form.classList.contains("is-done")) return;
       var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
       setError(!valid);
       if (!valid) {
@@ -200,6 +203,26 @@ import { reducedMotion } from "../common/motion.js";
         void form.offsetWidth;
         form.classList.add("is-shake");
         return;
+      }
+      sending = true;
+      submit.disabled = true;
+      form.setAttribute("aria-busy", "true");
+      label.textContent = "Sending…";
+      try {
+        await send({ email: input.value.trim(), website: form.elements.website.value });
+      } catch (error) {
+        box.classList.add("is-error");
+        message.textContent =
+          error.name === "TimeoutError"
+            ? "Sending took too long. Please try again."
+            : error.message || "Please try again shortly.";
+        message.hidden = false;
+        label.textContent = "Subscribe";
+        return;
+      } finally {
+        sending = false;
+        submit.disabled = false;
+        form.removeAttribute("aria-busy");
       }
       // Success: button turns green, tick draws itself, button pops, confetti flies, the counter rolls
       var w0 = submit.getBoundingClientRect().width;

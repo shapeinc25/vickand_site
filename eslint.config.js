@@ -13,7 +13,7 @@ export default [
     },
   },
   {
-    files: ["*.config.js"],
+    files: ["*.config.js", "api/**/*.js", "server/**/*.js", "test/**/*.js"],
     languageOptions: { sourceType: "module", globals: globals.node },
   },
 ];
