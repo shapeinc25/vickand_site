@@ -8,7 +8,7 @@
 
 ## Запуск
 
-Нужен Node.js 22 LTS (`.nvmrc`), поддерживается 20.19+.
+Нужен Node.js 24 LTS (`.nvmrc`); эта major-версия закреплена и для сборки Vercel.
 
 ```sh
 cd /Users/andrew/Desktop/vickand-site
