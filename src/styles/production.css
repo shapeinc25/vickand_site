@@ -73,8 +73,7 @@ html:not(.js) .view {
   white-space: nowrap;
 }
 .form-privacy,
-.form-status,
-.launch-consent {
+.form-status {
   font-family: var(--font-body, "Zilla Slab", serif);
   font-size: 16px;
   line-height: 1.45;
@@ -107,31 +106,20 @@ html:not(.js) .view {
 html[data-theme="dark"] .form-status[data-error="true"] {
   color: #ffb095;
 }
-.launch-consent {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  text-align: left;
-  max-width: 62ch;
-  margin: 12px auto 0;
-  grid-column: 1/-1;
-}
-.launch-consent input {
-  flex: 0 0 auto;
-  width: 20px;
-  height: 20px;
-  margin: 2px 0 0;
-}
 #subscribe-form {
   flex-wrap: wrap;
 }
-#subscribe-form .launch-consent,
-#subscribe-form .form-privacy {
+#subscribe-form .form-status {
   flex: 0 0 100%;
-  max-width: 640px;
 }
-.form-privacy input {
-  margin: 0;
+.input-field > .input-control:focus-visible {
+  outline: none; /* The field wrapper supplies a single inset focus ring. */
+}
+@media (forced-colors: active) {
+  .input-field > .input-control:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
 }
 .ux-req-form .form-privacy {
   grid-column: 1/-1;
@@ -176,22 +164,7 @@ html[data-theme="dark"] .form-status[data-error="true"] {
   background: #e9e037;
   color: #242121;
 }
-.hdr-motion {
-  font: inherit;
-  color: inherit;
-  text-align: left;
-  background: none;
-  border: 0;
-  padding: 12px;
-  cursor: pointer;
-  width: 100%;
-  border-radius: 8px;
-}
-.hdr-motion:hover {
-  background: color-mix(in srgb, currentColor 9%, transparent);
-}
-.hdr-menu-panel [data-go],
-.hdr-menu-panel .hdr-motion {
+.hdr-menu-panel [data-go] {
   min-height: 44px;
 }
 .legal-languages {
@@ -344,8 +317,21 @@ html[data-motion="paused"] .hero-wordmark {
   opacity: 1;
 }
 @media (max-width: 760px) {
+  .legal-header {
+    position: relative;
+    inset: auto;
+    margin: 16px 20px 0;
+  }
+  .legal-header + .view {
+    margin-top: 0;
+  }
   .reading-page {
-    padding: 120px 20px 64px;
+    padding: 24px 20px 64px;
+  }
+  .reading-page h1 {
+    font-size: clamp(27px, 8vw, 36px);
+    max-width: none;
+    hyphens: manual;
   }
   .reading-layout {
     grid-template-columns: 1fr;
@@ -372,17 +358,14 @@ html[data-motion="paused"] .hero-wordmark {
     font-size: 21px;
   }
   .legal-languages {
-    padding-right: 0;
+    padding: 0;
   }
   .legal-languages a {
     min-width: 36px;
   }
   .legal-back {
+    padding-inline: 4px;
     font-size: 16px;
-  }
-  #subscribe-form .launch-consent,
-  #subscribe-form .form-privacy {
-    max-width: 100%;
   }
   .sup-card {
     max-width: calc(100vw - 24px);
@@ -605,18 +588,6 @@ html[data-motion="paused"] .hero-morph .morph-text {
   white-space: normal;
   text-align: center;
 }
-.comparison-notes {
-  max-width: 990px;
-  padding: 0 24px;
-  margin: 40px auto 0;
-  font: 400 18px/1.5 var(--font-body);
-}
-.comparison-notes [hidden] {
-  display: none;
-}
-.comparison-notes p {
-  margin: 8px 0;
-}
 @media (max-width: 760px) {
   html[data-motion="paused"] .hero-window {
     height: 440px;
@@ -645,7 +616,8 @@ html[data-motion="paused"] .hero-morph .morph-text {
   .ux-svc .btn {
     width: 100%;
   }
-  .ux-req-form .ux-req-submit {
+  .ux-req-form .ux-req-submit,
+  .sup-form button[type="submit"] {
     width: 100%;
     padding-inline: 12px;
   }
@@ -659,9 +631,6 @@ html[data-motion="paused"] .hero-morph .morph-text {
   .ux-cmp-head {
     min-width: 0;
     padding-inline: 20px;
-  }
-  .comparison-notes {
-    font-size: 17px;
   }
 }
 html[data-motion="paused"] .ux-hero #ux-lines,
@@ -703,4 +672,46 @@ html[data-motion="paused"] .ux-hero .pill {
 
 html[data-motion="paused"] .hero-morph {
   order: -1;
+}
+
+/* Mobile text panels share one measured stage; each passage has its own scroll interval. */
+@media (max-width: 760px) {
+  html.js[data-motion="running"] .ux-story {
+    height: auto;
+  }
+  html.js[data-motion="running"] .ux-story::after {
+    content: "";
+    display: block;
+    height: 102svh;
+  }
+  html.js[data-motion="running"] .ux-story-stage {
+    display: grid;
+    height: auto;
+    min-height: 100svh;
+  }
+  html.js[data-motion="running"] .ux-sp {
+    position: relative;
+    grid-area: 1/1;
+    padding: 72px 24px 28px;
+  }
+  html.js[data-motion="running"] .ux-sp-inner {
+    height: auto;
+  }
+  .ux-next {
+    margin-top: 0;
+  }
+}
+@media (max-width: 760px) and (max-height: 640px) {
+  html.js[data-motion="running"] .ux-story::after {
+    content: none;
+  }
+  html.js[data-motion="running"] .ux-story-stage {
+    display: block;
+    position: relative;
+    min-height: 0;
+  }
+  html.js[data-motion="running"] .ux-tb {
+    opacity: 1;
+    transform: none;
+  }
 }

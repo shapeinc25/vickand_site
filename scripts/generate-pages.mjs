@@ -252,9 +252,7 @@ export function generatePages(root, { development = false } = {}) {
         $(n).find(".mock-bg").attr("data-banner", image);
       });
       $(".ux-about-cards .mock-bg").each((i, n) => $(n).attr("data-banner", hero[i][1]));
-      $('[data-rotate="daydraft"] .mock-bg').each((i, n) =>
-        $(n).attr("data-banner", `assets/img/shots/daydraft-${i + 1}.webp`),
-      );
+      $("#daydraft .mock-bg").each((i, n) => $(n).attr("data-banner", `assets/img/shots/daydraft-${i + 1}.webp`));
       $("[data-banner]").each((_, n) => {
         let value = $(n)
           .attr("data-banner")
@@ -306,29 +304,14 @@ export function generatePages(root, { development = false } = {}) {
           .attr("tabindex", i ? " -1" : "0")
           .attr("aria-controls", `showcase-${i}`),
       );
-      if (page.kind === "ux") {
-        const notes = [
-          [
-            "Four setup steps, fixed feature choices and a blocked next action.",
-            "Three shorter steps, editable choices and one clear next action.",
-          ],
-          [
-            "Plans and payment choices compete for attention.",
-            "Plan details and the primary action follow a clearer hierarchy.",
-          ],
-          [
-            "The home screen spreads competing actions across the page.",
-            "The home screen gives the next useful action a clearer place.",
-          ],
-          [
-            "Creating a task asks the user to work through a crowded interface.",
-            "The revised flow groups related choices and makes the next step easier to find.",
-          ],
-        ];
-        $(".ux-cmp-row").after(
-          `<div class="comparison-notes" aria-live="polite">${notes.map((pair, i) => `<div data-comparison-note="${i}"${i ? " hidden" : ""}><p><strong>${html(t("Before"))}:</strong> ${html(t(pair[0]))}</p><p><strong>${html(t("After"))}:</strong> ${html(t(pair[1]))}</p></div>`).join("")}</div>`,
+      $(".reading-page h1").each((_, n) => {
+        const title = $(n);
+        const original = title.text();
+        const hyphenated = original.replace(/конфиденциальности|конфіденційності/gi, (word) =>
+          word.startsWith("конфиден") ? "конфиденциаль\u00adности" : "конфіденцій\u00adності",
         );
-      }
+        if (original !== hyphenated) title.text(hyphenated);
+      });
       $(".ux-cmp-slide").each((i, n) => $(n).attr("id", `showcase-${i}`).attr("role", "tabpanel"));
       $("form").attr("method", "post").attr("action", "/api/forms").addClass("js-form");
       $("form").after(

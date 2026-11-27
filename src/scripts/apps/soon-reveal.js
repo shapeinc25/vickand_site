@@ -3,7 +3,7 @@
   if (!("IntersectionObserver" in window)) return;
   if (window.__reduced) return;
   var parts = document.querySelectorAll(
-    ".section-soon .soon-title, .section-soon .soon-mock, .section-soon .soon-counter, .section-soon .soon-notify, .section-soon .soon-form",
+    ".section-soon .soon-title, .section-soon .soon-mock, .section-soon .soon-counter, .section-soon .soon-form",
   );
   if (!parts.length) return;
   document.documentElement.classList.add("js-anim");

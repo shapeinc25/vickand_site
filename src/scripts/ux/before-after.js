@@ -77,9 +77,6 @@
       inn = slides[n];
     dir = dir || (n > cur ? 1 : -1);
     cur = n;
-    sec.querySelectorAll("[data-comparison-note]").forEach((note, i) => {
-      note.hidden = i !== cur;
-    });
     for (var i = 0; i < slides.length; i++) {
       slides[i].classList.toggle("is-on", i === cur);
       slides[i].setAttribute("aria-hidden", i === cur ? "false" : "true");

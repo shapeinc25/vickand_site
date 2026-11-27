@@ -47,7 +47,6 @@ const settle = () => new Promise((resolve) => setImmediate(resolve));
 function fillWaitlist(d) {
   const form = d.querySelector("#subscribe-form");
   form.querySelector("[name=email]").value = "qa@example.invalid";
-  form.querySelector("[name=launchConsent]").checked = true;
   return form;
 }
 function submit(w, form) {
@@ -66,6 +65,8 @@ test("pending form locks its fields and ignores a second submit; accepted delive
   const form = fillWaitlist(d);
   submit(w, form);
   assert.equal(calls.length, 1);
+  assert.equal(JSON.parse(calls[0][1].body).launchConsent, true);
+  assert.equal(JSON.parse(calls[0][1].body).consentVersion, "launch-submit-2026-11-27");
   assert.equal(form.querySelector("[name=email]").disabled, true);
   assert.equal(form.getAttribute("aria-busy"), "true");
   submit(w, form);
@@ -97,7 +98,7 @@ test("retryable network failure preserves values and reuses its idempotency key"
   assert.equal(calls[0][1].headers["Idempotency-Key"], calls[1][1].headers["Idempotency-Key"]);
   assert.match(form.querySelector(".form-status").textContent, /could not confirm delivery/);
 });
-test("missing release consent cannot reach the API", (t) => {
+test("missing release email cannot reach the API", (t) => {
   const { w, d, run } = fixture(t);
   let calls = 0;
   w.fetch = () => {
@@ -105,10 +106,10 @@ test("missing release consent cannot reach the API", (t) => {
   };
   run("src/scripts/common/forms.js");
   const form = fillWaitlist(d);
-  form.querySelector("[name=launchConsent]").checked = false;
+  form.querySelector("[name=email]").value = "";
   submit(w, form);
   assert.equal(calls, 0);
-  assert.match(form.querySelector(".form-status").textContent, /choose whether/);
+  assert.match(form.querySelector(".form-status").textContent, /valid email address/);
 });
 test("choosing a valid custom option clears the previous invalid state", (t) => {
   const { w, d, run } = fixture(t, ux);
@@ -167,7 +168,7 @@ test("closing support before its opening animation cannot steal focus back", (t)
   advance(40);
   assert.equal(d.activeElement.id, "sup-name");
 });
-test("comparison keyboard tabs keep selected panel, note, focus and tab stop together", (t) => {
+test("comparison keyboard tabs keep selected panel, focus and tab stop together", (t) => {
   const { w, d, run } = fixture(t, ux);
   run("src/scripts/ux/before-after.js");
   const dots = d.querySelectorAll("#ux-cmp-dots button");
@@ -242,20 +243,15 @@ test("source hero shuffle keeps all four products and seamless duplicate cards",
     }
   }
 });
-test("initial motion preference works without storage and ignores invalid query overrides", (t) => {
+test("initial motion follows the device even when an old site preference is saved", (t) => {
   const script = source("src/partials/layout/head.html").match(/<script>([\s\S]*?)<\/script>/)[1];
-  const blocked = fixture(t, "", "https://vickand.test/?motion=paused");
-  Object.defineProperty(blocked.w, "localStorage", {
-    get() {
-      throw new Error("blocked");
-    },
-  });
-  blocked.w.eval(script);
-  assert.equal(blocked.d.documentElement.dataset.motion, "paused");
-  const saved = fixture(t, "", "https://vickand.test/?motion=unknown");
-  saved.w.localStorage.setItem("vickand-motion", "paused");
-  saved.w.eval(script);
-  assert.equal(saved.d.documentElement.dataset.motion, "paused");
+  const { w, d } = fixture(t);
+  w.localStorage.setItem("vickand-motion", "paused");
+  w.eval(script);
+  assert.equal(d.documentElement.dataset.motion, undefined);
+  w.matchMedia = (query) => ({ matches: query === "(prefers-reduced-motion: reduce)" });
+  w.eval(script);
+  assert.equal(d.documentElement.dataset.motion, "paused");
 });
 
 test("support locks document pages and restores existing background inert states", (t) => {

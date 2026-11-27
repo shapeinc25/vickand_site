@@ -105,7 +105,7 @@
             "id": "storage",
             "title": "Browser storage and preferences",
             "paragraphs": [
-              "We do not use website analytics or advertising trackers. Fonts and visual assets are served from the website. The site saves your language and motion preferences in local storage on your device. Mini-game state stays in browser memory and is not sent to us by the games.",
+              "We do not use website analytics or advertising trackers. Fonts and visual assets are served from the website. The site saves your language preference in local storage on your device. Mini-game state stays in browser memory and is not sent to us by the games.",
               "You can remove locally saved settings through your browser’s site-data controls. Clearing them resets the saved preferences. The site can also read your browser or device settings to adapt language and reduce demanding animations."
             ]
           },
@@ -219,7 +219,7 @@
         "waitlistSuccess": "Request sent. Your release-news request has been forwarded to our team.",
         "futureMarketingGate": "Use only after implementing explicit opt-in evidence, confirmed scope, operator details, unsubscribe and suppression. Keep optional marketing opt-in unchecked and separate from contact/support submissions.",
         "releaseNewsConsent": "I ask {{publisherName}} to email me news about Vickand app and game releases. I can withdraw this request at any time. Contact: {{supportEmail}} · {{publisherAddress}}.",
-        "releaseNewsConsentImplementation": "Unchecked specific consent; validate on server. Include server-observed time and version/text in the fixed-owner receipt. Implement verification, evidence and withdrawal/suppression before sending release news. No campaign enrolment or visitor email is sent by the current form transport."
+        "releaseNewsConsentImplementation": "Consent by submitting the dedicated release-news form; validate on server. Include server-observed time and version/text in the fixed-owner receipt. Implement verification, evidence and withdrawal/suppression before sending release news. No campaign enrolment or visitor email is sent by the current form transport."
       }
     },
     "ru": {
@@ -311,7 +311,7 @@
             "id": "storage",
             "title": "Хранение в браузере и настройки",
             "paragraphs": [
-              "На сайте нет аналитики посещений и рекламных трекеров. Шрифты и графика загружаются с самого сайта. Сайт сохраняет выбранный язык и настройки анимации в local storage на вашем устройстве. Состояние мини-игр остаётся в памяти браузера; игры не отправляют его нам.",
+              "На сайте нет аналитики посещений и рекламных трекеров. Шрифты и графика загружаются с самого сайта. Сайт сохраняет выбранный язык в local storage на вашем устройстве. Состояние мини-игр остаётся в памяти браузера; игры не отправляют его нам.",
               "Сохранённые настройки можно удалить через управление данными сайтов в браузере. Это сбросит сохранённый выбор. Сайт также может учитывать настройки браузера или устройства, чтобы выбрать язык и уменьшить нагрузку от анимаций."
             ]
           },
@@ -425,7 +425,7 @@
         "waitlistSuccess": "Запрос отправлен. Мы передали команде ваш запрос новостей о выпусках.",
         "futureMarketingGate": "Использовать только после внедрения учёта явного согласия, согласования тематики писем, данных оператора, отписки и списка исключений из рассылки. Необязательное согласие на маркетинг — отдельный, заранее не отмеченный пункт.",
         "releaseNewsConsent": "Я прошу {{publisherName}} присылать мне по email новости о выпусках приложений и игр Vickand. Я могу отозвать запрос в любое время. Контакты: {{supportEmail}} · {{publisherAddress}}.",
-        "releaseNewsConsentImplementation": "Unchecked specific consent; validate on server. Include server-observed time and version/text in the fixed-owner receipt. Implement verification, evidence and withdrawal/suppression before sending release news. No campaign enrolment or visitor email is sent by the current form transport."
+        "releaseNewsConsentImplementation": "Consent by submitting the dedicated release-news form; validate on server. Include server-observed time and version/text in the fixed-owner receipt. Implement verification, evidence and withdrawal/suppression before sending release news. No campaign enrolment or visitor email is sent by the current form transport."
       }
     },
     "uk": {
@@ -517,7 +517,7 @@
             "id": "storage",
             "title": "Зберігання у браузері та налаштування",
             "paragraphs": [
-              "На сайті немає аналітики відвідувань і рекламних трекерів. Шрифти та графіка завантажуються із самого сайту. Сайт зберігає вибрану мову й налаштування анімації в local storage на вашому пристрої. Стан мініігор залишається в пам’яті браузера; ігри не надсилають його нам.",
+              "На сайті немає аналітики відвідувань і рекламних трекерів. Шрифти та графіка завантажуються із самого сайту. Сайт зберігає вибрану мову в local storage на вашому пристрої. Стан мініігор залишається в пам’яті браузера; ігри не надсилають його нам.",
               "Збережені налаштування можна видалити через керування даними сайтів у браузері. Це скине збережений вибір. Сайт також може враховувати налаштування браузера або пристрою, щоб вибрати мову й зменшити навантаження від анімацій."
             ]
           },
@@ -631,12 +631,12 @@
         "waitlistSuccess": "Запит надіслано. Ми передали команді ваш запит новин про випуски.",
         "futureMarketingGate": "Використовувати лише після впровадження обліку явної згоди, погодження тематики листів, даних оператора, відписки та списку виключень із розсилки. Необов’язкова згода на маркетинг — окремий, заздалегідь не позначений пункт.",
         "releaseNewsConsent": "Я прошу {{publisherName}} надсилати мені електронною поштою новини про випуски застосунків та ігор Vickand. Я можу відкликати запит будь-коли. Контакти: {{supportEmail}} · {{publisherAddress}}.",
-        "releaseNewsConsentImplementation": "Unchecked specific consent; validate on server. Include server-observed time and version/text in the fixed-owner receipt. Implement verification, evidence and withdrawal/suppression before sending release news. No campaign enrolment or visitor email is sent by the current form transport."
+        "releaseNewsConsentImplementation": "Consent by submitting the dedicated release-news form; validate on server. Include server-observed time and version/text in the fixed-owner receipt. Implement verification, evidence and withdrawal/suppression before sending release news. No campaign enrolment or visitor email is sent by the current form transport."
       }
     }
   },
   "implementationAssumptions": [
-    "Parent implementation plan: EN/RU/UK server-rendered routes; local language and motion preferences; mini-game state only in memory; support kind added to fixed-recipient mail handler; release-news request carries specific unchecked consent and request-sent wording. Verify against final source before integrating.",
+    "Parent implementation plan: EN/RU/UK server-rendered routes; local language preference; mini-game state only in memory; support kind added to fixed-recipient mail handler; release-news request carries consent by submitting the dedicated release-news form and request-sent wording. Verify against final source before integrating.",
     "Parent verified Cloudflare HTTP proxy in front of Vercel at vickand.com; exact Vercel account plan and owner mailbox provider remain unverified."
   ],
   "jurisdictionContext": "Confirmed EU-established individual controller in Bulgaria. GDPR disclosures are core policy content, not a hypothetical supplement.",

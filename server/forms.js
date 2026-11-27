@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { Resend } from "resend";
 
 const EMAIL = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/;
-const CONSENT_VERSION = "launch-2026-11-27";
+const CONSENT_VERSIONS = new Set(["launch-2026-11-27", "launch-submit-2026-11-27"]);
 const SUPPORT_ISSUES = new Set(["Bug report", "Feedback", "Other", "Email preferences", "Privacy request"]);
 const LOCALES = new Set(["en", "ru", "uk"]);
 const HELP = new Set([
@@ -101,7 +101,7 @@ export function createFormsHandler({ env = process.env, client = (key) => new Re
       };
       templateId = env.RESEND_CONTACT_TEMPLATE_ID;
     } else if (kind === "waitlist") {
-      if (body.launchConsent !== true || body.consentVersion !== CONSENT_VERSION || !LOCALES.has(body.locale))
+      if (body.launchConsent !== true || !CONSENT_VERSIONS.has(body.consentVersion) || !LOCALES.has(body.locale))
         return json({ error: "Please explicitly request release news using the current form." }, 400);
       variables = { SENDER_EMAIL: email };
       templateId = env.RESEND_WAITLIST_TEMPLATE_ID;
@@ -127,12 +127,12 @@ export function createFormsHandler({ env = process.env, client = (key) => new Re
           tags: [
             { name: "source", value: `website-${kind}` },
             ...(LOCALES.has(body.locale) ? [{ name: "language", value: body.locale }] : []),
-            ...(kind === "waitlist" ? [{ name: "consent_version", value: CONSENT_VERSION }] : []),
+            ...(kind === "waitlist" ? [{ name: "consent_version", value: body.consentVersion }] : []),
           ],
           ...(kind === "waitlist"
             ? {
                 headers: {
-                  "X-Vickand-Consent-Version": CONSENT_VERSION,
+                  "X-Vickand-Consent-Version": body.consentVersion,
                   "X-Vickand-Consent-Purpose": "new app and game release news",
                   "X-Vickand-Consent-Choice": "explicit opt-in",
                   "X-Vickand-Consent-Language": body.locale,

@@ -6,7 +6,6 @@
 </mask>
 <path d="M44 498H216C229.255 498 240 487.255 240 474V44C240 30.7452 229.255 20 216 20H44C30.7452 20 20 30.7452 20 44V474C20 487.255 30.7452 498 44 498Z" stroke-width="2" stroke="white" shape-rendering="crispEdges" mask="url(#stroke1_65_2024)"/>
 </g>
-<path d="M26 48C26 39.1635 33.1634 32 42 32H218C226.837 32 234 39.1634 234 48V470C234 478.837 226.837 486 218 486H42C33.1634 486 26 478.837 26 470V48Z" fill="white"/>
 <defs>
 <filter id="filter0_d_65_2024" x="-80" y="-68" width="420" height="678" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>

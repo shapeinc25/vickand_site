@@ -154,7 +154,7 @@ test("release news requires an explicit current consent choice and keeps receipt
     kind: "waitlist",
     email: valid.email,
     launchConsent: true,
-    consentVersion: "launch-2026-11-27",
+    consentVersion: "launch-submit-2026-11-27",
     locale: "ru",
   };
   for (const invalid of [

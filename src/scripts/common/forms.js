@@ -161,14 +161,7 @@ function configureForm(form, kind) {
       }
     });
     if (firstInvalid) {
-      setStatus(
-        t(
-          kind === "waitlist"
-            ? "Enter your email and choose whether to request release news."
-            : "Complete the highlighted fields.",
-        ),
-        true,
-      );
+      setStatus(t(kind === "waitlist" ? "Enter a valid email address" : "Complete the highlighted fields."), true);
       firstInvalid.focus();
       return;
     }
@@ -184,7 +177,7 @@ function configureForm(form, kind) {
     if (kind === "support") Object.assign(payload, { name: data.name, issue: data.issue, details: data.details });
     if (kind === "waitlist")
       Object.assign(payload, {
-        launchConsent: data.launchConsent === "on",
+        launchConsent: true,
         consentVersion: form.dataset.consentVersion,
       });
     const body = JSON.stringify(payload);

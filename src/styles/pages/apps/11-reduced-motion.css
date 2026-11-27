@@ -214,7 +214,7 @@
   top: calc(100% * 32 / 518);
   width: calc(100% * 208 / 280);
   height: calc(100% * 454 / 518);
-  border-radius: calc(16px * var(--mock-k));
+  border-radius: calc(100% * 16 / 208) / calc(100% * 16 / 454);
   overflow: hidden;
   pointer-events: none;
 }

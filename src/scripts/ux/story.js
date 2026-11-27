@@ -7,7 +7,8 @@
 
   var A = story.querySelector(".ux-sp-a .ux-tb"),
     B = story.querySelector(".ux-sp-b .ux-tb");
-  var still = window.__reduced;
+  if (window.__reduced) return;
+  var mobile = window.matchMedia("(max-width: 760px)");
   var ticking = false;
   function clamp(v) {
     return v < 0 ? 0 : v > 1 ? 1 : v;
@@ -51,18 +52,13 @@
     if (!story.offsetParent) return; // page not showing
     var vh = window.innerHeight,
       r = story.getBoundingClientRect();
-    var s = -r.top / vh; // scrolled distance in viewport heights; slides only while the stage is pinned, so motion is purely horizontal
-    var S = Math.min(window.innerWidth * 0.55, 640); // slide distance
-    var aIn = slide(seg(s, 0, 0.7)),
-      aOut = ease(seg(s, 1.5, 2.6)),
-      bIn = slide(seg(s, 1.7, 2.7));
-    if (still) {
-      set(A, 0, s < 1.8 && s >= 0 ? 1 : 0);
-      set(B, 0, s >= 1.8 ? 1 : 0);
-    } else {
-      set(A, -S * (1 - aIn), aIn * (1 - aOut));
-      set(B, S * (1 - bIn), bIn);
-    }
+    var s = -r.top / vh;
+    var S = mobile.matches ? Math.min(window.innerWidth * 0.18, 64) : Math.min(window.innerWidth * 0.55, 640);
+    var aIn = slide(mobile.matches ? seg(s, -0.2, 0) : seg(s, 0, 0.7));
+    var aOut = ease(mobile.matches ? seg(s, 0.34, 0.5) : seg(s, 1.5, 2.6));
+    var bIn = slide(mobile.matches ? seg(s, 0.5, 0.7) : seg(s, 1.7, 2.7));
+    set(A, -S * (1 - aIn) + (mobile.matches ? S * aOut : 0), aIn * (1 - aOut));
+    set(B, S * (1 - bIn), bIn);
   }
   function req() {
     if (!ticking) {

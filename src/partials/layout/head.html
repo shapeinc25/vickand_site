@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<script>try{var requestedMotion=new URL(location.href).searchParams.get('motion');var motionChoice=['paused','running'].includes(requestedMotion)?requestedMotion:localStorage.getItem('vickand-motion')||'system';if(!['paused','running','system'].includes(motionChoice))motionChoice='system';if(motionChoice==='paused'||(motionChoice==='system'&&matchMedia('(prefers-reduced-motion: reduce)').matches))document.documentElement.dataset.motion='paused';}catch{if(matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.dataset.motion='paused';}</script>
+<script>if(matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.dataset.motion='paused';</script>
 <title>{{title}}</title>
 <meta name="description" content="{{description}}">
 <meta name="robots" content="{{robots}}">

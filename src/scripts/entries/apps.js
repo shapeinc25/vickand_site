@@ -18,4 +18,3 @@ import "../apps/counter-card/index.js";
 import "../apps/statement.js";
 import "../apps/hero-carousel.js";
 import "../apps/story.js";
-import "../apps/banner-images.js";

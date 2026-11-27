@@ -102,8 +102,16 @@ for (const page of pages) {
     assert($(element).find('[name="website"]').length === 1, "form needs its spam honeypot");
   });
   if (page.kind === "apps") {
-    assert($('#subscribe-form [name="launchConsent"]').length === 1, "missing explicit release-news choice");
-    assert(!$('#subscribe-form [name="launchConsent"]').attr("checked"), "release-news consent must start unchecked");
+    assert($('#subscribe-form [type="email"][required]').length === 1, "release-news form needs a required email");
+    assert($("#subscribe-form").attr("data-consent-version") === "launch-submit-2026-11-27", "missing consent version");
+    assert(!$('#subscribe-form input[type="checkbox"]').length, "release-news consent is given by submission");
+    const daydraft = $("#daydraft .screen-image")
+      .map((_, image) => $(image).attr("data-banner") || $(image).attr("src"))
+      .get();
+    assert(
+      daydraft.length === 3 && daydraft.every((src, i) => src.includes("daydraft-" + (i + 1))),
+      "incorrect DayDraft screens",
+    );
   }
   if (page.lang !== "en") {
     const leftover = [];

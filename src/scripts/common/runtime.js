@@ -41,19 +41,10 @@ window.__setScreen = (element, value) => {
   } else image.removeAttribute("srcset");
   element.style.removeProperty("--banner");
 };
-window.__DD = Array.from({ length: 6 }, (_, i) => window.__asset(`img/shots/daydraft-${i + 1}.webp`));
+window.__DD = Array.from({ length: 3 }, (_, i) => window.__asset(`img/shots/daydraft-${i + 1}.webp`));
 window.__SM = Array.from({ length: 3 }, (_, i) => window.__asset(`img/shots/shapemania-${i + 1}.webp`));
 
-const requestedMotion = new URL(location.href).searchParams.get("motion");
-let preference = "system";
-try {
-  preference = localStorage.getItem("vickand-motion") || "system";
-} catch {
-  /* Storage may be unavailable. */
-}
-if (["paused", "running"].includes(requestedMotion)) preference = requestedMotion;
-window.__reduced =
-  preference === "paused" || (preference === "system" && matchMedia("(prefers-reduced-motion: reduce)").matches);
+window.__reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 document.documentElement.dataset.motion = window.__reduced ? "paused" : "running";
 document.documentElement.classList.add("js");
 
@@ -91,22 +82,6 @@ document.addEventListener("visibilitychange", () => {
       }),
     );
   }
-});
-document.querySelectorAll("[data-motion-toggle]").forEach((button) => {
-  button.textContent = window.__t(window.__reduced ? "Enable motion" : "Pause motion");
-  button.setAttribute("aria-pressed", String(window.__reduced));
-  button.addEventListener("click", () => {
-    const next = window.__reduced ? "running" : "paused",
-      url = new URL(location.href);
-    try {
-      localStorage.setItem("vickand-motion", next);
-      url.searchParams.delete("motion");
-    } catch {
-      url.searchParams.set("motion", next);
-    }
-    if (url.href === location.href) location.reload();
-    else location.assign(url.href);
-  });
 });
 document.querySelectorAll("a[data-language]").forEach((link) =>
   link.addEventListener("click", () => {

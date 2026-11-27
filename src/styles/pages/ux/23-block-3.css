@@ -657,10 +657,19 @@
     width: calc(100% - 48px);
   }
   .ux-svc-win {
-    height: 260px;
+    height: auto;
+    mask-image: linear-gradient(to right, transparent, #000 12px, #000 calc(100% - 12px), transparent);
+  }
+  .ux-svc-row {
+    position: relative;
+    min-height: 260px;
+    height: auto;
   }
   .ux-svc-card {
     width: min(300px, 78vw);
+    height: auto;
+    overflow-wrap: anywhere;
+    hyphens: auto;
   }
 }
 
