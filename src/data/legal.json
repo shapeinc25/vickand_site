@@ -1,0 +1,644 @@
+{
+  "status": "review-draft-eu-controller-confirmed-operational-details-to-verify",
+  "scope": "Vickand website only; separate app policies remain separate",
+  "operator": {
+    "name": "{{publisherName}}",
+    "address": "{{publisherAddress}}",
+    "email": "{{supportEmail}}"
+  },
+  "lastUpdated": null,
+  "editorialGates": [
+    "Substitute confirmed operator values from publisher.json into existing 3 placeholders; no entity/registration number or DPO is asserted. Set actual adoption date.",
+    "Verify final implementation matches support, consent receipt and local storage descriptions. Retention/deletion/rights-handling statements are operational commitments requiring adoption.",
+    "Verify actual Vercel plan/contract coverage (published DPA specifies Pro and Enterprise), destination/subprocessor inventory, mailbox provider and retention/access settings. Public incorporation of a provider DPA is evidence of contract terms, not proof of account geography or completed transfer assessment.",
+    "Cloudflare proxying the apex website is confirmed by a fresh live response reported by the parent (server=cloudflare, cf-ray and x-vercel-id, 302 Vercel Authentication). Verify exact logging/security features and downstream geography; do not describe it as DNS-only.",
+    "Before any release-news send, verify recipient address, retrievable consent scope/evidence and withdrawal status, and operate an easy unsubscribe/suppression process. Double opt-in is recommended for address verification, not stated as universally mandatory.",
+    "Keep GDPR rights and legal bases in the main policy. Only unresolved provider/account details remain to be verified; do not gate EU rights or controller duties as hypothetical."
+  ],
+  "locales": {
+    "en": {
+      "privacy": {
+        "title": "Website Privacy Policy",
+        "sections": [
+          {
+            "id": "scope",
+            "title": "Who is responsible",
+            "paragraphs": [
+              "{{publisherName}}, {{publisherAddress}}, is the controller responsible for personal data handled for the Vickand website. We are established in Bulgaria. Contact {{supportEmail}} about this policy or your personal information.",
+              "This policy covers the Vickand website and messages you send through it or to our support address. Shape Mania, DayDraft, Flying Ladders and Kinetwo have their own app privacy information. This website policy does not replace those policies or the policies of app stores and other linked services."
+            ]
+          },
+          {
+            "id": "information",
+            "title": "Information you provide",
+            "paragraphs": [
+              "A UX scoping or contact request asks for your name, email address and the kind of help you need. You may also provide a product link and a message. A release-news request asks for your email address and your explicit request to receive release news. We also process the consent details submitted with that request, such as its wording/version and submission time. Support requests include your contact details and the issue or message you choose to share.",
+              "If you email us directly, we receive your sender details, subject, message and any attachments you include. Please send only what is needed for your request. Do not send passwords, payment-card details, sensitive personal information or private information about other people."
+            ]
+          },
+          {
+            "id": "purposes",
+            "title": "How we use it",
+            "paragraphs": [
+              "We use your details to receive, assess and answer your request, discuss initial UX scoping, provide support and maintain the related correspondence. Required form fields are needed to route and answer the request; optional fields can be left blank. You can browse without sending a form.",
+              "If you request release news, we pass your email address and the details of that request and consent to our team so we can record and handle your interest. The form does not create a customer account or automatically enrol you in a campaign. You can withdraw a release-news request by contacting {{supportEmail}}. Contact and support requests do not sign you up for marketing. We do not sell website submissions or use them to build advertising profiles."
+            ]
+          },
+          {
+            "id": "legal-bases",
+            "title": "Why we may process your data",
+            "paragraphs": [
+              "For a UX enquiry where you ask us to discuss a possible project with you, we use the necessary details to take steps at your request before a contract (GDPR Article 6(1)(b)).",
+              "For general enquiries and support outside that basis, we rely on our legitimate interests in answering correspondence and resolving reported problems. Necessary connection data, delivery records and local presentation settings support our interests in operating an accessible website, diagnosing failed requests and preventing spam or misuse (Article 6(1)(f)). These interests must be balanced against your rights.",
+              "We use your consent for requested release news (Article 6(1)(a)). You may withdraw it at any time. To meet concrete legal duties, such as responding to your GDPR rights request or a binding lawful request from an authority, we process the information necessary for that duty (Article 6(1)(c))."
+            ]
+          },
+          {
+            "id": "providers",
+            "title": "Hosting and email delivery",
+            "paragraphs": [
+              "Vercel hosts the website and processes connection and request information such as IP addresses, requested pages, timestamps and browser/request details to serve and protect it. Resend handles submitted form details and email delivery to our designated team mailbox. The form code records request type, delivery status and email delivery identifiers in operational logs.",
+              "Cloudflare proxies website traffic before it reaches Vercel, providing network delivery and protection. It processes IP addresses and HTTP request data, including data sent through the website forms as it passes through the service.",
+              "If support email forwarding is enabled, Resend also receives support email and forwards its sender details, message and included attachments to our team. Our mailbox provider processes the resulting correspondence. Authorized people handling your request can access the relevant information. We may also share information with authorities when a binding legal requirement applies, or where lawfully necessary to address abuse or establish, exercise or defend legal claims.",
+              "Providers process service data under their data-processing arrangements and may separately act as controllers for certain security, account or service-generated data under their own privacy notices."
+            ],
+            "links": [
+              {
+                "label": "Resend privacy notice",
+                "href": "https://resend.com/legal/privacy-policy"
+              },
+              {
+                "label": "Vercel privacy notice",
+                "href": "https://vercel.com/legal/privacy-notice"
+              },
+              {
+                "label": "Cloudflare privacy notice",
+                "href": "https://www.cloudflare.com/privacypolicy/"
+              }
+            ]
+          },
+          {
+            "id": "transfers",
+            "title": "Processing outside the European Economic Area",
+            "paragraphs": [
+              "Our providers process information outside the EEA, including in the United States. Resend stores email content and delivery records in the US. Its DPA incorporates the European Commission’s standard contractual clauses for transfers that need these safeguards.",
+              "Vercel’s published DPA also provides standard contractual clauses for restricted transfers and describes US and other international processing. These contractual terms do not mean that all website data stays in Europe. Foreign authorities may have access under applicable law.",
+              "Cloudflare’s customer terms incorporate its DPA, which provides standard contractual clauses for restricted transfers. Its DPA also describes the Data Privacy Framework mechanism for qualifying transfers to the US. Its services and subprocessors can process data internationally.",
+              "The providers’ published data-processing terms are linked below. Contact {{supportEmail}} to request a copy of the transfer safeguards applicable to your information or further details about its recipients."
+            ],
+            "links": [
+              {
+                "label": "Resend DPA",
+                "href": "https://resend.com/legal/dpa"
+              },
+              {
+                "label": "Vercel DPA",
+                "href": "https://vercel.com/legal/dpa"
+              },
+              {
+                "label": "Cloudflare DPA",
+                "href": "https://www.cloudflare.com/cloudflare-customer-dpa/"
+              }
+            ]
+          },
+          {
+            "id": "storage",
+            "title": "Browser storage and preferences",
+            "paragraphs": [
+              "We do not use website analytics or advertising trackers. Fonts and visual assets are served from the website. The site saves your language and motion preferences in local storage on your device. Mini-game state stays in browser memory and is not sent to us by the games.",
+              "You can remove locally saved settings through your browser’s site-data controls. Clearing them resets the saved preferences. The site can also read your browser or device settings to adapt language and reduce demanding animations."
+            ]
+          },
+          {
+            "id": "retention",
+            "title": "Keeping your information",
+            "paragraphs": [
+              "We keep request correspondence for as long as needed to handle it and any resulting work, resolve related issues and meet applicable legal obligations. Relevant factors include whether the request is still open, whether work has been agreed, and whether a record is needed for a legal claim or required business record. We delete information that is no longer needed, subject to applicable legal requirements.",
+              "Release-news details are kept while the request remains active and the news purpose remains relevant. If you withdraw, we stop using the address for news. We may keep limited consent or withdrawal evidence where necessary to demonstrate compliance, honour your choice or address a legal claim. These records are not permission to continue marketing.",
+              "Technical delivery and security records are kept while needed to operate the service, investigate delivery failures or abuse, and address related legal issues. Relevant factors include whether an incident remains open and whether records are needed as evidence.",
+              "Email and hosting providers also process operational records under their service arrangements. Contact us if you want to understand or request deletion of the information associated with your message."
+            ]
+          },
+          {
+            "id": "choices",
+            "title": "Your data protection rights",
+            "paragraphs": [
+              "You can ask for access to your personal data and correction of inaccurate data. Subject to the GDPR’s conditions, you can request erasure or restriction, and receive data you provided in a portable format where processing is automated and based on consent or a contract.",
+              "You can object to processing based on legitimate interests because of your particular situation. You can object to direct marketing at any time, and we will stop processing your data for that marketing. Withdrawing consent does not affect processing that was lawful before withdrawal. Withdrawal is as easy as emailing {{supportEmail}}; no account is needed.",
+              "Send rights requests to {{supportEmail}}. We may need proportionate information to verify your identity. We respond without undue delay, normally within one month; the GDPR allows an extension for certain complex or numerous requests, which we will explain within that first month. We will explain any lawful limitation or refusal and your complaint and judicial-remedy rights.",
+              "You may complain to Bulgaria’s Commission for Personal Data Protection (CPDP), or another competent supervisory authority, including in the EU country where you habitually live or work or where the alleged infringement occurred. CPDP’s official filing instructions are linked below. You do not need to contact us first."
+            ],
+            "links": [
+              {
+                "label": "CPDP — how to lodge a complaint",
+                "href": "https://cpdp.bg/en/lodging-complaints-and-alerts/"
+              }
+            ]
+          },
+          {
+            "id": "automated-decisions",
+            "title": "Voluntary details and automated decisions",
+            "paragraphs": [
+              "You choose whether to contact us. Required form details are needed to process and answer that request; without them the form cannot be submitted. Optional details are not required by law or contract. Declining release-news consent does not prevent you from browsing or asking for support or UX scoping.",
+              "We do not use website submissions for decisions based solely on automated processing that have legal or similarly significant effects on you. The website does not use submissions to profile visitors for advertising."
+            ]
+          },
+          {
+            "id": "changes",
+            "title": "Changes to this policy",
+            "paragraphs": [
+              "We will update this page when our website practices change and show the date of the current version. Where a new use of information requires consent or a separate notice, we will provide that before starting the new use."
+            ]
+          }
+        ]
+      },
+      "terms": {
+        "title": "Website Terms of Use",
+        "sections": [
+          {
+            "id": "scope",
+            "title": "About this website",
+            "paragraphs": [
+              "These terms explain use of the Vickand website, operated by {{publisherName}}, {{publisherAddress}}. Questions can be sent to {{supportEmail}}. The site presents our apps, games and UX/design services and lets you contact us.",
+              "App use, app purchases and app-store transactions are governed by the relevant app and store terms. These website terms do not replace them."
+            ]
+          },
+          {
+            "id": "services",
+            "title": "UX enquiries and paid work",
+            "paragraphs": [
+              "Initial scoping is free. Sending a request starts a discussion; it does not place an order, require payment or commit either party to paid work. Any paid services, fixed price, deliverables, schedule, revisions, payment terms and ownership arrangements must be agreed separately before that work starts.",
+              "Examples, service descriptions and project previews help explain our work. They are not a promise of a particular commercial result. Availability and the scope of a proposed project will be confirmed in our discussion or separate agreement."
+            ]
+          },
+          {
+            "id": "forms",
+            "title": "Contact, support and coming-soon requests",
+            "paragraphs": [
+              "Provide accurate contact details and share only material you are entitled to send. Submitting a form allows us to handle that request and reply. It does not create a customer account. Release-news consent is a separate choice; contact and support requests do not subscribe you to marketing.",
+              "The release-news form forwards your request to our team. A successful submission means our email service accepted the request for delivery; it is not a guarantee of delivery to your inbox, confirmed newsletter enrolment, product access or a release date. You can withdraw the request through {{supportEmail}}."
+            ]
+          },
+          {
+            "id": "use",
+            "title": "Responsible use",
+            "paragraphs": [
+              "Use the site lawfully. Do not send spam or malicious files, try to access systems or information without authorization, or interfere with the website or its forms. We may take reasonable steps to prevent abuse and protect the service."
+            ]
+          },
+          {
+            "id": "content",
+            "title": "Website content",
+            "paragraphs": [
+              "Website text, artwork, logos and other material belong to their respective owners. You may view the site and share links to it. These terms do not grant rights to reuse protected material beyond what the owner permits or applicable law allows.",
+              "Sharing a product link or request with us does not transfer ownership of your material. We use submitted material to evaluate and respond to the request; any wider use or project rights need a separate agreement."
+            ]
+          },
+          {
+            "id": "links",
+            "title": "Availability and external links",
+            "paragraphs": [
+              "We aim to keep the website useful and accurate, but pages, features and product plans may change, and the site may be interrupted or contain errors. Contact us if you find an issue. Links to app stores and other websites take you to services with their own terms and privacy practices."
+            ]
+          },
+          {
+            "id": "rights",
+            "title": "Your rights and updates",
+            "paragraphs": [
+              "Nothing in these terms removes rights or remedies that applicable law does not allow us to exclude. These terms do not limit obligations agreed in a separate services contract.",
+              "We may update these website terms and will show the date of the current version. Changes apply going forward; a website update does not amend an existing paid-work agreement by itself. For questions or concerns, contact {{supportEmail}}."
+            ]
+          }
+        ]
+      },
+      "formCopy": {
+        "contactNotice": "We use these details to review your request and reply. Optional fields can be left blank. Please avoid sensitive or confidential information. See our Privacy Policy.",
+        "supportNotice": "We use your contact details and message to investigate and reply. Please do not include passwords, payment details or other sensitive information. See our Privacy Policy.",
+        "waitlistButton": "Request release news",
+        "waitlistNotice": "We forward your email and release-news request to our team. This does not automatically enrol you in a campaign. You can withdraw your request at {{supportEmail}}. See our Privacy Policy.",
+        "waitlistSuccess": "Request sent. Your release-news request has been forwarded to our team.",
+        "futureMarketingGate": "Use only after implementing explicit opt-in evidence, confirmed scope, operator details, unsubscribe and suppression. Keep optional marketing opt-in unchecked and separate from contact/support submissions.",
+        "releaseNewsConsent": "I ask {{publisherName}} to email me news about Vickand app and game releases. I can withdraw this request at any time. Contact: {{supportEmail}} · {{publisherAddress}}.",
+        "releaseNewsConsentImplementation": "Unchecked specific consent; validate on server. Include server-observed time and version/text in the fixed-owner receipt. Implement verification, evidence and withdrawal/suppression before sending release news. No campaign enrolment or visitor email is sent by the current form transport."
+      }
+    },
+    "ru": {
+      "privacy": {
+        "title": "Политика конфиденциальности сайта",
+        "sections": [
+          {
+            "id": "scope",
+            "title": "Кто отвечает за данные",
+            "paragraphs": [
+              "{{publisherName}}, {{publisherAddress}}, отвечает за обработку персональных данных сайта Vickand в качестве контролёра. Мы находимся в Болгарии. По вопросам этой политики и ваших данных пишите на {{supportEmail}}.",
+              "Эта политика относится к сайту Vickand и сообщениям, которые вы отправляете через сайт или на адрес поддержки. Для Shape Mania, DayDraft, Flying Ladders и Kinetwo действует отдельная информация о конфиденциальности приложений. Эта политика не заменяет её, а также политики магазинов приложений и других внешних сервисов."
+            ]
+          },
+          {
+            "id": "information",
+            "title": "Какие данные вы предоставляете",
+            "paragraphs": [
+              "В запросе на первичную оценку UX или обращении мы просим указать имя, адрес электронной почты и нужный вид помощи. По желанию вы можете добавить ссылку на продукт и сообщение. В запросе новостей о выпусках нужны email и ваше явное согласие на такие новости. Мы также обрабатываем переданные с запросом сведения о согласии, например текст или версию согласия и время отправки. Обращение в поддержку содержит ваши контактные данные и описание проблемы или сообщение, которое вы решите отправить.",
+              "Если вы пишете нам по электронной почте, мы получаем данные отправителя, тему, текст и приложенные файлы. Отправляйте только то, что нужно для обращения. Не указывайте пароли, данные платёжных карт, чувствительные персональные данные или частную информацию о других людях."
+            ]
+          },
+          {
+            "id": "purposes",
+            "title": "Для чего мы используем данные",
+            "paragraphs": [
+              "Мы используем данные, чтобы получить, оценить и обработать обращение, обсудить первичную оценку UX, оказать поддержку и вести связанную переписку. Обязательные поля нужны, чтобы направить обращение и ответить; необязательные можно не заполнять. Для просмотра сайта отправлять форму не нужно.",
+              "Если вы запрашиваете новости о выпусках, мы передаём команде ваш email и сведения о запросе и согласии, чтобы зафиксировать и обработать ваш интерес. Форма не создаёт учётную запись клиента и не добавляет автоматически в рассылку. Отозвать запрос можно через {{supportEmail}}. Обращения по услугам и в поддержку не подписывают вас на маркетинговые сообщения. Мы не продаём данные из форм и не используем их для создания рекламных профилей."
+            ]
+          },
+          {
+            "id": "legal-bases",
+            "title": "Правовые основания обработки",
+            "paragraphs": [
+              "Для запроса по UX, в котором вы предлагаете обсудить возможный проект с вами, мы используем необходимые данные, чтобы предпринять шаги по вашему запросу до заключения договора (статья 6(1)(b) GDPR).",
+              "Для общих вопросов и поддержки, не охваченных этим основанием, мы опираемся на законные интересы: отвечать на обращения и решать описанные проблемы. Необходимые данные соединения, записи о доставке и локальные настройки отображения помогают обеспечивать доступность сайта, разбирать сбои отправки и предотвращать спам и злоупотребления (статья 6(1)(f)). Эти интересы необходимо сопоставлять с вашими правами.",
+              "Для запрошенных новостей о выпусках основанием служит ваше согласие (статья 6(1)(a)). Его можно отозвать в любое время. Для выполнения конкретных правовых обязанностей, например ответа на ваш запрос о правах по GDPR или обязательного законного требования органа власти, мы обрабатываем необходимые для этого сведения (статья 6(1)(c))."
+            ]
+          },
+          {
+            "id": "providers",
+            "title": "Хостинг и доставка почты",
+            "paragraphs": [
+              "Сайт размещён на Vercel. Провайдер обрабатывает данные соединения и запросов, например IP-адреса, запрошенные страницы, время и сведения о браузере и запросе, чтобы обеспечивать работу и защиту сайта. Resend обрабатывает данные из форм и доставляет письма в назначенную почтовый ящик команды. Код форм записывает в технические журналы тип запроса, статус доставки и идентификаторы почтовой доставки.",
+              "Cloudflare проксирует трафик сайта перед Vercel, обеспечивая сетевую доставку и защиту. Сервис обрабатывает IP-адреса и данные HTTP-запросов, включая данные форм при их прохождении через сервис.",
+              "Если включена переадресация почты поддержки, Resend также получает письма поддержки и пересылает команде данные отправителя, сообщение и вложения. Наш почтовый провайдер обрабатывает эту переписку. Доступ к нужным сведениям имеют уполномоченные лица, работающие с обращением. Мы также можем передать данные органам власти при обязательном требовании закона либо когда это правомерно необходимо для противодействия злоупотреблениям или предъявления, осуществления и защиты правовых требований.",
+              "Провайдеры обрабатывают сервисные данные в рамках своих соглашений об обработке. Для некоторых данных безопасности, учётной записи или данных, создаваемых сервисом, они могут отдельно выступать контролёрами в соответствии со своими уведомлениями о конфиденциальности."
+            ],
+            "links": [
+              {
+                "label": "Конфиденциальность Resend",
+                "href": "https://resend.com/legal/privacy-policy"
+              },
+              {
+                "label": "Конфиденциальность Vercel",
+                "href": "https://vercel.com/legal/privacy-notice"
+              },
+              {
+                "label": "Конфиденциальность Cloudflare",
+                "href": "https://www.cloudflare.com/privacypolicy/"
+              }
+            ]
+          },
+          {
+            "id": "transfers",
+            "title": "Обработка за пределами Европейской экономической зоны",
+            "paragraphs": [
+              "Наши провайдеры обрабатывают данные за пределами ЕЭЗ, в том числе в США. Resend хранит содержимое писем и записи о доставке в США. Его соглашение об обработке включает стандартные договорные положения Европейской комиссии для передач, которым нужны такие гарантии.",
+              "Опубликованное соглашение Vercel также предусматривает стандартные договорные положения для передач, требующих гарантий, и описывает обработку в США и других странах. Эти договорные условия не означают, что все данные сайта остаются в Европе. Иностранные органы власти могут получить доступ по применимому закону.",
+              "Условия Cloudflare включают соглашение об обработке, предусматривающее стандартные договорные положения для передач, требующих гарантий. В нём также описан механизм Data Privacy Framework для соответствующих его условиям передач в США. Сервисы и субобработчики Cloudflare могут обрабатывать данные в разных странах.",
+              "Ссылки на опубликованные условия обработки провайдеров приведены ниже. Через {{supportEmail}} можно запросить копию гарантий передачи, применимых к вашим данным, или дополнительную информацию о получателях."
+            ],
+            "links": [
+              {
+                "label": "Resend DPA",
+                "href": "https://resend.com/legal/dpa"
+              },
+              {
+                "label": "Vercel DPA",
+                "href": "https://vercel.com/legal/dpa"
+              },
+              {
+                "label": "Cloudflare DPA",
+                "href": "https://www.cloudflare.com/cloudflare-customer-dpa/"
+              }
+            ]
+          },
+          {
+            "id": "storage",
+            "title": "Хранение в браузере и настройки",
+            "paragraphs": [
+              "На сайте нет аналитики посещений и рекламных трекеров. Шрифты и графика загружаются с самого сайта. Сайт сохраняет выбранный язык и настройки анимации в local storage на вашем устройстве. Состояние мини-игр остаётся в памяти браузера; игры не отправляют его нам.",
+              "Сохранённые настройки можно удалить через управление данными сайтов в браузере. Это сбросит сохранённый выбор. Сайт также может учитывать настройки браузера или устройства, чтобы выбрать язык и уменьшить нагрузку от анимаций."
+            ]
+          },
+          {
+            "id": "retention",
+            "title": "Как долго хранятся данные",
+            "paragraphs": [
+              "Мы храним переписку, пока она нужна для обработки обращения и последующей работы, решения связанных вопросов и выполнения применимых требований закона. Мы учитываем, закрыто ли обращение, согласована ли работа и нужна ли запись для правового требования или обязательного делового учёта. Ненужные данные удаляются с учётом требований закона.",
+              "Данные запроса новостей хранятся, пока запрос активен и его цель остаётся актуальной. После отзыва мы прекращаем использовать адрес для новостей. Ограниченные сведения о согласии или отзыве могут сохраняться, когда это нужно для подтверждения соблюдения закона, выполнения вашего выбора или правового требования. Эти записи не дают разрешения продолжать маркетинг.",
+              "Технические записи о доставке и безопасности хранятся, пока нужны для работы сервиса, расследования сбоев или злоупотреблений и решения связанных правовых вопросов. Мы учитываем, закрыт ли инцидент и нужны ли записи как доказательства.",
+              "Почтовые и хостинг-провайдеры также обрабатывают технические записи в рамках своих условий обслуживания. Свяжитесь с нами, если хотите узнать о данных вашего сообщения или запросить их удаление."
+            ]
+          },
+          {
+            "id": "choices",
+            "title": "Ваши права в отношении данных",
+            "paragraphs": [
+              "Вы можете запросить доступ к персональным данным и исправление неточностей. При соблюдении условий GDPR можно запросить удаление или ограничение обработки, а также получить предоставленные вами данные в переносимом формате, если обработка автоматизирована и основана на согласии или договоре.",
+              "Вы можете возразить против обработки на основании законных интересов в связи с вашей конкретной ситуацией. Против прямого маркетинга можно возразить в любое время: мы прекратим обработку данных для него. Отзыв согласия не влияет на законность обработки до отзыва. Для отзыва достаточно написать на {{supportEmail}}; учётная запись не нужна.",
+              "Направляйте запросы о правах на {{supportEmail}}. Для проверки личности нам могут понадобиться соразмерные сведения. Мы отвечаем без неоправданной задержки, обычно в течение месяца. GDPR допускает продление для некоторых сложных или многочисленных запросов; мы объясним его в течение первого месяца. При правомерном ограничении или отказе мы объясним причину и право на жалобу и судебную защиту.",
+              "Вы можете подать жалобу в Комиссию по защите персональных данных Болгарии (CPDP) или другой компетентный надзорный орган, в том числе в стране ЕС, где вы обычно живёте или работаете либо где предположительно произошло нарушение. Ниже есть ссылка на официальные инструкции CPDP. Сначала обращаться к нам не обязательно."
+            ],
+            "links": [
+              {
+                "label": "CPDP — как подать жалобу",
+                "href": "https://cpdp.bg/en/lodging-complaints-and-alerts/"
+              }
+            ]
+          },
+          {
+            "id": "automated-decisions",
+            "title": "Добровольность данных и автоматические решения",
+            "paragraphs": [
+              "Вы сами решаете, обращаться ли к нам. Обязательные данные формы нужны для обработки запроса и ответа; без них отправить форму нельзя. Необязательные сведения не требуются законом или договором. Отказ от новостей о выпусках не мешает просматривать сайт и обращаться за поддержкой или первичной оценкой UX.",
+              "Мы не используем данные из форм для исключительно автоматизированных решений о вас с правовыми или сопоставимо существенными последствиями. Данные из форм не используются для рекламного профилирования посетителей."
+            ]
+          },
+          {
+            "id": "changes",
+            "title": "Изменения политики",
+            "paragraphs": [
+              "При изменении работы сайта мы обновим эту страницу и укажем дату текущей версии. Если для новой цели использования данных требуется согласие или отдельное уведомление, мы обеспечим это до начала такого использования."
+            ]
+          }
+        ]
+      },
+      "terms": {
+        "title": "Условия использования сайта",
+        "sections": [
+          {
+            "id": "scope",
+            "title": "Об этом сайте",
+            "paragraphs": [
+              "Эти условия относятся к использованию сайта Vickand. Оператор: {{publisherName}}, {{publisherAddress}}. Вопросы можно направить на {{supportEmail}}. На сайте представлены наши приложения, игры и услуги UX и дизайна, а также способы связаться с нами.",
+              "Использование приложений, покупки в них и операции в магазинах приложений регулируются соответствующими условиями приложений и магазинов. Эти условия сайта их не заменяют."
+            ]
+          },
+          {
+            "id": "services",
+            "title": "Запросы по UX и платная работа",
+            "paragraphs": [
+              "Первичная оценка бесплатна. Отправка запроса начинает обсуждение: она не оформляет заказ, не требует оплаты и не обязывает стороны к платной работе. До начала платной работы стороны отдельно согласуют услуги, фиксированную цену, результаты, сроки, правки, порядок оплаты и права на результаты.",
+              "Примеры, описания услуг и анонсы проектов помогают рассказать о нашей работе. Они не обещают конкретного коммерческого результата. Возможность взяться за проект и его объём подтверждаются при обсуждении или отдельным соглашением."
+            ]
+          },
+          {
+            "id": "forms",
+            "title": "Обращения и интерес к будущим выпускам",
+            "paragraphs": [
+              "Указывайте верные контактные данные и отправляйте только материалы, которыми вправе делиться. Отправляя форму, вы позволяете нам обработать обращение и ответить. Это не создаёт учётную запись клиента. Согласие на новости о выпусках — отдельный выбор; обращения по услугам и в поддержку не подписывают на маркетинг.",
+              "Форма новостей о выпусках передаёт запрос нашей команде. Успешная отправка означает, что почтовый сервис принял запрос к доставке. Она не гарантирует доставку в ваш почтовый ящик, подтверждённую подписку, доступ к продукту или дату выпуска. Отозвать запрос можно через {{supportEmail}}."
+            ]
+          },
+          {
+            "id": "use",
+            "title": "Добросовестное использование",
+            "paragraphs": [
+              "Используйте сайт законно. Не отправляйте спам и вредоносные файлы, не пытайтесь получить неразрешённый доступ к системам или данным и не препятствуйте работе сайта и форм. Мы можем принимать разумные меры для предотвращения злоупотреблений и защиты сервиса."
+            ]
+          },
+          {
+            "id": "content",
+            "title": "Материалы сайта",
+            "paragraphs": [
+              "Тексты, изображения, логотипы и другие материалы принадлежат соответствующим правообладателям. Вы можете просматривать сайт и делиться ссылками на него. Эти условия не предоставляют прав на использование охраняемых материалов сверх разрешения правообладателя или применимого закона.",
+              "Отправка ссылки на продукт или обращения не передаёт нам право собственности на ваши материалы. Мы используем их для оценки запроса и ответа; более широкое использование и права в рамках проекта требуют отдельного соглашения."
+            ]
+          },
+          {
+            "id": "links",
+            "title": "Доступность и внешние ссылки",
+            "paragraphs": [
+              "Мы стремимся поддерживать полезность и точность сайта, но страницы, функции и планы продуктов могут меняться; возможны перерывы и ошибки. Сообщите нам, если заметите проблему. Ссылки на магазины приложений и другие сайты ведут в сервисы со своими условиями и правилами конфиденциальности."
+            ]
+          },
+          {
+            "id": "rights",
+            "title": "Ваши права и обновления",
+            "paragraphs": [
+              "Эти условия не отменяют права и способы правовой защиты, которые нельзя исключить по применимому закону. Они не ограничивают обязательства по отдельному договору оказания услуг.",
+              "Мы можем обновить условия сайта и укажем дату текущей версии. Изменения действуют на будущее; само обновление сайта не изменяет уже заключённый договор о платной работе. По вопросам и замечаниям пишите на {{supportEmail}}."
+            ]
+          }
+        ]
+      },
+      "formCopy": {
+        "contactNotice": "Мы используем эти данные, чтобы рассмотреть запрос и ответить. Необязательные поля можно не заполнять. Не отправляйте чувствительную или конфиденциальную информацию. См. Политику конфиденциальности.",
+        "supportNotice": "Мы используем контактные данные и сообщение, чтобы разобраться в вопросе и ответить. Не указывайте пароли, платёжные данные и другую чувствительную информацию. См. Политику конфиденциальности.",
+        "waitlistButton": "Запросить новости",
+        "waitlistNotice": "Мы передадим команде ваш email и запрос новостей о выпусках. Это не добавляет вас автоматически в рассылку. Отозвать запрос можно через {{supportEmail}}. См. Политику конфиденциальности.",
+        "waitlistSuccess": "Запрос отправлен. Мы передали команде ваш запрос новостей о выпусках.",
+        "futureMarketingGate": "Использовать только после внедрения учёта явного согласия, согласования тематики писем, данных оператора, отписки и списка исключений из рассылки. Необязательное согласие на маркетинг — отдельный, заранее не отмеченный пункт.",
+        "releaseNewsConsent": "Я прошу {{publisherName}} присылать мне по email новости о выпусках приложений и игр Vickand. Я могу отозвать запрос в любое время. Контакты: {{supportEmail}} · {{publisherAddress}}.",
+        "releaseNewsConsentImplementation": "Unchecked specific consent; validate on server. Include server-observed time and version/text in the fixed-owner receipt. Implement verification, evidence and withdrawal/suppression before sending release news. No campaign enrolment or visitor email is sent by the current form transport."
+      }
+    },
+    "uk": {
+      "privacy": {
+        "title": "Політика конфіденційності сайту",
+        "sections": [
+          {
+            "id": "scope",
+            "title": "Хто відповідає за дані",
+            "paragraphs": [
+              "{{publisherName}}, {{publisherAddress}}, відповідає за обробку персональних даних сайту Vickand як контролер. Ми перебуваємо в Болгарії. Із запитаннями щодо цієї політики та ваших даних звертайтеся на {{supportEmail}}.",
+              "Ця політика стосується сайту Vickand і повідомлень, які ви надсилаєте через сайт або на адресу підтримки. Для Shape Mania, DayDraft, Flying Ladders і Kinetwo діє окрема інформація про конфіденційність застосунків. Ця політика не замінює її, а також політики магазинів застосунків та інших зовнішніх сервісів."
+            ]
+          },
+          {
+            "id": "information",
+            "title": "Які дані ви надаєте",
+            "paragraphs": [
+              "У запиті на первинну оцінку UX або зверненні ми просимо вказати ім’я, електронну адресу та потрібний вид допомоги. За бажанням можна додати посилання на продукт і повідомлення. У запиті новин про випуски потрібні email і ваша явна згода на такі новини. Ми також обробляємо передані із запитом відомості про згоду, наприклад текст або версію згоди та час надсилання. Звернення до підтримки містить ваші контактні дані та опис проблеми або повідомлення, яке ви вирішите надіслати.",
+              "Якщо ви пишете нам електронною поштою, ми отримуємо дані відправника, тему, текст і додані файли. Надсилайте лише те, що потрібно для звернення. Не вказуйте паролі, дані платіжних карток, чутливі персональні дані або приватну інформацію про інших людей."
+            ]
+          },
+          {
+            "id": "purposes",
+            "title": "Для чого ми використовуємо дані",
+            "paragraphs": [
+              "Ми використовуємо дані, щоб отримати, оцінити й опрацювати звернення, обговорити первинну оцінку UX, надати підтримку та вести відповідне листування. Обов’язкові поля потрібні, щоб спрямувати звернення й відповісти; необов’язкові можна не заповнювати. Для перегляду сайту надсилати форму не потрібно.",
+              "Якщо ви запитуєте новини про випуски, ми передаємо команді ваш email і відомості про запит та згоду, щоб зафіксувати й опрацювати вашу зацікавленість. Форма не створює обліковий запис клієнта й не додає автоматично до розсилки. Відкликати запит можна через {{supportEmail}}. Звернення щодо послуг і до підтримки не підписують вас на маркетингові повідомлення. Ми не продаємо дані з форм і не використовуємо їх для створення рекламних профілів."
+            ]
+          },
+          {
+            "id": "legal-bases",
+            "title": "Правові підстави обробки",
+            "paragraphs": [
+              "Для запиту щодо UX, у якому ви пропонуєте обговорити можливий проєкт із вами, ми використовуємо потрібні дані, щоб вжити заходів за вашим запитом до укладення договору (стаття 6(1)(b) GDPR).",
+              "Для загальних питань і підтримки, не охоплених цією підставою, ми спираємося на законні інтереси: відповідати на звернення та розв’язувати описані проблеми. Потрібні дані з’єднання, записи про доставку й локальні налаштування відображення допомагають забезпечувати доступність сайту, з’ясовувати причини збоїв надсилання та запобігати спаму і зловживанням (стаття 6(1)(f)). Ці інтереси потрібно зіставляти з вашими правами.",
+              "Для запитаних новин про випуски підставою є ваша згода (стаття 6(1)(a)). Її можна відкликати будь-коли. Для виконання конкретних правових обов’язків, наприклад відповіді на ваш запит щодо прав за GDPR або обов’язкової законної вимоги органу влади, ми обробляємо потрібні для цього відомості (стаття 6(1)(c))."
+            ]
+          },
+          {
+            "id": "providers",
+            "title": "Хостинг і доставка пошти",
+            "paragraphs": [
+              "Сайт розміщено на Vercel. Провайдер обробляє дані з’єднання й запитів, наприклад IP-адреси, запитані сторінки, час і відомості про браузер та запит, щоб забезпечувати роботу й захист сайту. Resend обробляє дані з форм і доставляє листи до визначеної поштової скриньки команди. Код форм записує до технічних журналів тип запиту, статус доставки та ідентифікатори поштової доставки.",
+              "Cloudflare проксіює трафік сайту перед Vercel, забезпечуючи мережеву доставку й захист. Сервіс обробляє IP-адреси та дані HTTP-запитів, зокрема дані форм під час їх проходження через сервіс.",
+              "Якщо ввімкнено пересилання пошти підтримки, Resend також отримує листи підтримки й пересилає команді дані відправника, повідомлення та вкладення. Наш поштовий провайдер обробляє це листування. Доступ до потрібних відомостей мають уповноважені особи, які працюють зі зверненням. Ми також можемо передати дані органам влади за обов’язковою вимогою закону або коли це правомірно потрібно для протидії зловживанням чи пред’явлення, здійснення і захисту правових вимог.",
+              "Провайдери обробляють сервісні дані в межах своїх угод про обробку. Для деяких даних безпеки, облікового запису чи даних, створених сервісом, вони можуть окремо виступати контролерами відповідно до власних повідомлень про конфіденційність."
+            ],
+            "links": [
+              {
+                "label": "Конфіденційність Resend",
+                "href": "https://resend.com/legal/privacy-policy"
+              },
+              {
+                "label": "Конфіденційність Vercel",
+                "href": "https://vercel.com/legal/privacy-notice"
+              },
+              {
+                "label": "Конфіденційність Cloudflare",
+                "href": "https://www.cloudflare.com/privacypolicy/"
+              }
+            ]
+          },
+          {
+            "id": "transfers",
+            "title": "Обробка за межами Європейської економічної зони",
+            "paragraphs": [
+              "Наші провайдери обробляють дані за межами ЄЕЗ, зокрема в США. Resend зберігає вміст листів і записи про доставку в США. Його угода про обробку включає стандартні договірні положення Європейської комісії для передавання, яке потребує таких гарантій.",
+              "Опублікована угода Vercel також передбачає стандартні договірні положення для передавання, що потребує гарантій, і описує обробку в США та інших країнах. Ці договірні умови не означають, що всі дані сайту залишаються в Європі. Іноземні органи влади можуть отримати доступ за застосовним законом.",
+              "Умови Cloudflare включають угоду про обробку, яка передбачає стандартні договірні положення для передавання, що потребує гарантій. У ній також описано механізм Data Privacy Framework для передавання до США, що відповідає його умовам. Сервіси й субобробники Cloudflare можуть обробляти дані в різних країнах.",
+              "Посилання на опубліковані умови обробки провайдерів наведено нижче. Через {{supportEmail}} можна запросити копію гарантій передавання, застосовних до ваших даних, або додаткову інформацію про одержувачів."
+            ],
+            "links": [
+              {
+                "label": "Resend DPA",
+                "href": "https://resend.com/legal/dpa"
+              },
+              {
+                "label": "Vercel DPA",
+                "href": "https://vercel.com/legal/dpa"
+              },
+              {
+                "label": "Cloudflare DPA",
+                "href": "https://www.cloudflare.com/cloudflare-customer-dpa/"
+              }
+            ]
+          },
+          {
+            "id": "storage",
+            "title": "Зберігання у браузері та налаштування",
+            "paragraphs": [
+              "На сайті немає аналітики відвідувань і рекламних трекерів. Шрифти та графіка завантажуються із самого сайту. Сайт зберігає вибрану мову й налаштування анімації в local storage на вашому пристрої. Стан мініігор залишається в пам’яті браузера; ігри не надсилають його нам.",
+              "Збережені налаштування можна видалити через керування даними сайтів у браузері. Це скине збережений вибір. Сайт також може враховувати налаштування браузера або пристрою, щоб вибрати мову й зменшити навантаження від анімацій."
+            ]
+          },
+          {
+            "id": "retention",
+            "title": "Як довго зберігаються дані",
+            "paragraphs": [
+              "Ми зберігаємо листування, доки воно потрібне для опрацювання звернення й подальшої роботи, розв’язання пов’язаних питань і виконання застосовних вимог закону. Ми враховуємо, чи закрито звернення, чи погоджено роботу й чи потрібен запис для правової вимоги або обов’язкового ділового обліку. Непотрібні дані видаляються з урахуванням вимог закону.",
+              "Дані запиту новин зберігаються, доки запит активний і його мета залишається актуальною. Після відкликання ми припиняємо використовувати адресу для новин. Обмежені відомості про згоду чи відкликання можуть зберігатися, коли це потрібно для підтвердження дотримання закону, виконання вашого вибору або правової вимоги. Ці записи не дають дозволу продовжувати маркетинг.",
+              "Технічні записи про доставку й безпеку зберігаються, доки потрібні для роботи сервісу, розслідування збоїв чи зловживань і розв’язання пов’язаних правових питань. Ми враховуємо, чи закрито інцидент і чи потрібні записи як докази.",
+              "Поштові та хостинг-провайдери також обробляють технічні записи в межах своїх умов обслуговування. Зв’яжіться з нами, якщо хочете дізнатися про дані вашого повідомлення або попросити їх видалити."
+            ]
+          },
+          {
+            "id": "choices",
+            "title": "Ваші права щодо даних",
+            "paragraphs": [
+              "Ви можете запросити доступ до персональних даних і виправлення неточностей. За дотримання умов GDPR можна запросити видалення або обмеження обробки, а також отримати надані вами дані у переносимому форматі, якщо обробка автоматизована й ґрунтується на згоді або договорі.",
+              "Ви можете заперечити проти обробки на підставі законних інтересів через вашу конкретну ситуацію. Проти прямого маркетингу можна заперечити будь-коли: ми припинимо обробку даних для нього. Відкликання згоди не впливає на законність обробки до відкликання. Для відкликання достатньо написати на {{supportEmail}}; обліковий запис не потрібен.",
+              "Надсилайте запити щодо прав на {{supportEmail}}. Для перевірки особи нам можуть знадобитися співмірні відомості. Ми відповідаємо без невиправданої затримки, зазвичай протягом місяця. GDPR дозволяє продовження для деяких складних або численних запитів; ми пояснимо його протягом першого місяця. За правомірного обмеження чи відмови ми пояснимо причину та право на скаргу й судовий захист.",
+              "Ви можете подати скаргу до Комісії із захисту персональних даних Болгарії (CPDP) або іншого компетентного наглядового органу, зокрема в країні ЄС, де ви зазвичай живете чи працюєте або де ймовірно сталося порушення. Нижче є посилання на офіційні інструкції CPDP. Спочатку звертатися до нас не обов’язково."
+            ],
+            "links": [
+              {
+                "label": "CPDP — як подати скаргу",
+                "href": "https://cpdp.bg/en/lodging-complaints-and-alerts/"
+              }
+            ]
+          },
+          {
+            "id": "automated-decisions",
+            "title": "Добровільність даних та автоматичні рішення",
+            "paragraphs": [
+              "Ви самі вирішуєте, чи звертатися до нас. Обов’язкові дані форми потрібні для опрацювання запиту й відповіді; без них надіслати форму не можна. Необов’язкові відомості не вимагаються законом або договором. Відмова від новин про випуски не перешкоджає переглядати сайт і звертатися по підтримку чи первинну оцінку UX.",
+              "Ми не використовуємо дані з форм для виключно автоматизованих рішень про вас із правовими чи подібними істотними наслідками. Дані з форм не використовуються для рекламного профілювання відвідувачів."
+            ]
+          },
+          {
+            "id": "changes",
+            "title": "Зміни політики",
+            "paragraphs": [
+              "Коли робота сайту зміниться, ми оновимо цю сторінку та вкажемо дату поточної версії. Якщо для нової мети використання даних потрібна згода чи окреме повідомлення, ми забезпечимо це до початку такого використання."
+            ]
+          }
+        ]
+      },
+      "terms": {
+        "title": "Умови користування сайтом",
+        "sections": [
+          {
+            "id": "scope",
+            "title": "Про цей сайт",
+            "paragraphs": [
+              "Ці умови стосуються користування сайтом Vickand. Оператор: {{publisherName}}, {{publisherAddress}}. Запитання можна надсилати на {{supportEmail}}. Сайт представляє наші застосунки, ігри та послуги UX і дизайну, а також способи зв’язатися з нами.",
+              "Користування застосунками, покупки в них та операції в магазинах застосунків регулюються відповідними умовами застосунків і магазинів. Ці умови сайту їх не замінюють."
+            ]
+          },
+          {
+            "id": "services",
+            "title": "Запити щодо UX і платна робота",
+            "paragraphs": [
+              "Первинна оцінка безкоштовна. Надсилання запиту починає обговорення: воно не оформлює замовлення, не вимагає оплати й не зобов’язує сторони до платної роботи. До початку платної роботи сторони окремо погоджують послуги, фіксовану ціну, результати, строки, правки, порядок оплати та права на результати.",
+              "Приклади, описи послуг і анонси проєктів допомагають розповісти про нашу роботу. Вони не обіцяють конкретного комерційного результату. Можливість взятися за проєкт і його обсяг підтверджуються під час обговорення або окремою угодою."
+            ]
+          },
+          {
+            "id": "forms",
+            "title": "Звернення та інтерес до майбутніх випусків",
+            "paragraphs": [
+              "Вказуйте правильні контактні дані й надсилайте лише матеріали, якими маєте право ділитися. Надсилаючи форму, ви дозволяєте нам опрацювати звернення й відповісти. Це не створює обліковий запис клієнта. Згода на новини про випуски — окремий вибір; звернення щодо послуг і до підтримки не підписують на маркетинг.",
+              "Форма новин про випуски передає запит нашій команді. Успішне надсилання означає, що поштовий сервіс прийняв запит до доставки. Воно не гарантує доставку до вашої поштової скриньки, підтверджену підписку, доступ до продукту або дату випуску. Відкликати запит можна через {{supportEmail}}."
+            ]
+          },
+          {
+            "id": "use",
+            "title": "Добросовісне користування",
+            "paragraphs": [
+              "Користуйтеся сайтом законно. Не надсилайте спам і шкідливі файли, не намагайтеся отримати несанкціонований доступ до систем чи даних і не перешкоджайте роботі сайту та форм. Ми можемо вживати розумних заходів для запобігання зловживанням і захисту сервісу."
+            ]
+          },
+          {
+            "id": "content",
+            "title": "Матеріали сайту",
+            "paragraphs": [
+              "Тексти, зображення, логотипи й інші матеріали належать відповідним правовласникам. Ви можете переглядати сайт і ділитися посиланнями на нього. Ці умови не надають прав на використання захищених матеріалів понад дозвіл правовласника або застосовного закону.",
+              "Надсилання посилання на продукт або звернення не передає нам право власності на ваші матеріали. Ми використовуємо їх для оцінки запиту й відповіді; ширше використання та права в межах проєкту потребують окремої угоди."
+            ]
+          },
+          {
+            "id": "links",
+            "title": "Доступність і зовнішні посилання",
+            "paragraphs": [
+              "Ми прагнемо підтримувати корисність і точність сайту, але сторінки, функції та плани продуктів можуть змінюватися; можливі перерви й помилки. Повідомте нам, якщо помітите проблему. Посилання на магазини застосунків та інші сайти ведуть до сервісів зі своїми умовами й правилами конфіденційності."
+            ]
+          },
+          {
+            "id": "rights",
+            "title": "Ваші права й оновлення",
+            "paragraphs": [
+              "Ці умови не скасовують прав і засобів правового захисту, які не можна виключити за застосовним законом. Вони не обмежують зобов’язань за окремим договором надання послуг.",
+              "Ми можемо оновити умови сайту й вкажемо дату поточної версії. Зміни діють на майбутнє; саме оновлення сайту не змінює вже укладений договір про платну роботу. Із запитаннями та зауваженнями пишіть на {{supportEmail}}."
+            ]
+          }
+        ]
+      },
+      "formCopy": {
+        "contactNotice": "Ми використовуємо ці дані, щоб розглянути запит і відповісти. Необов’язкові поля можна не заповнювати. Не надсилайте чутливої чи конфіденційної інформації. Див. Політику конфіденційності.",
+        "supportNotice": "Ми використовуємо контактні дані та повідомлення, щоб розібратися в питанні й відповісти. Не вказуйте паролів, платіжних даних та іншої чутливої інформації. Див. Політику конфіденційності.",
+        "waitlistButton": "Запитати новини",
+        "waitlistNotice": "Ми передамо команді ваш email і запит новин про випуски. Це не додає вас автоматично до розсилки. Відкликати запит можна через {{supportEmail}}. Див. Політику конфіденційності.",
+        "waitlistSuccess": "Запит надіслано. Ми передали команді ваш запит новин про випуски.",
+        "futureMarketingGate": "Використовувати лише після впровадження обліку явної згоди, погодження тематики листів, даних оператора, відписки та списку виключень із розсилки. Необов’язкова згода на маркетинг — окремий, заздалегідь не позначений пункт.",
+        "releaseNewsConsent": "Я прошу {{publisherName}} надсилати мені електронною поштою новини про випуски застосунків та ігор Vickand. Я можу відкликати запит будь-коли. Контакти: {{supportEmail}} · {{publisherAddress}}.",
+        "releaseNewsConsentImplementation": "Unchecked specific consent; validate on server. Include server-observed time and version/text in the fixed-owner receipt. Implement verification, evidence and withdrawal/suppression before sending release news. No campaign enrolment or visitor email is sent by the current form transport."
+      }
+    }
+  },
+  "implementationAssumptions": [
+    "Parent implementation plan: EN/RU/UK server-rendered routes; local language and motion preferences; mini-game state only in memory; support kind added to fixed-recipient mail handler; release-news request carries specific unchecked consent and request-sent wording. Verify against final source before integrating.",
+    "Parent verified Cloudflare HTTP proxy in front of Vercel at vickand.com; exact Vercel account plan and owner mailbox provider remain unverified."
+  ],
+  "jurisdictionContext": "Confirmed EU-established individual controller in Bulgaria. GDPR disclosures are core policy content, not a hypothetical supplement.",
+  "confirmedOperatorSource": "/Users/andrew/Desktop/LoveCo/website/src/data/publisher.json; user explicitly authorized reuse. Parent substitutes the existing name/address/email placeholders. Do not use an old Canadian address."
+}

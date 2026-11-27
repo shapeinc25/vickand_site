@@ -1,17 +1,21 @@
-// Apps & Games page (/). Modules run in this order, as the scripts did in the original single file.
-import "../../styles/apps.css";
-
-import "../common/page-toggle.js";
-import "../apps/waitlist-form.js";
-import "../apps/hero-morph.js";
+import "../../styles/reference.css";
+import "../../styles/reference-late.css";
+import "../common/runtime.js";
 import "../common/header-scroll.js";
+import "../common/header-menu.js";
+import "../common/page-navigation.js";
+import "../common/forms.js";
+import "../common/support-dialog.js";
+import "../common/pause-offscreen.js";
+import "../common/fly-dots.js";
+import "../apps/hero-images.js";
+import "../apps/hero-morph.js";
 import "../apps/products-dots.js";
 import "../apps/touch-hover.js";
 import "../apps/products-reveal.js";
-import "../common/scroll-restoration.js";
 import "../apps/soon-reveal.js";
 import "../apps/counter-card/index.js";
 import "../apps/statement.js";
 import "../apps/hero-carousel.js";
 import "../apps/story.js";
-import "../common/pause-offscreen.js";
+import "../apps/banner-images.js";

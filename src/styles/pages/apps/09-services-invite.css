@@ -1,0 +1,14 @@
+/* ---------- Services invite ---------- */
+.invite {
+  background: var(--surface-raised);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-12) var(--space-6);
+  display: grid;
+  gap: var(--space-6);
+  justify-items: start;
+  border: 1px solid var(--border-default);
+}
+
+.invite p {
+  max-width: 640px;
+}

@@ -17,3 +17,11 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 *.log
+
+# Local inputs and generated site output
+.reference/
+.generated/
+Reports/
+
+# Local Vercel project/auth environment
+.vercel/

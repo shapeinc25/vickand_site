@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="{{lang}}" data-theme="light" data-page="{{page}}">
+<head><!-- @include layout/head.html --></head>
+<body><a class="skip-link" href="#main">Skip to content</a>
+<!-- @include layout/header-legal.html -->
+<div class="view" data-view="apps"><main id="main" class="legal reading-page"><div class="container"><h1>{{documentTitle}}</h1><p class="document-date">{{documentIntro}}</p><div class="reading-layout"><nav class="document-toc" aria-label="On this page">{{documentToc}}</nav><article>{{documentContent}}</article></div></div></main></div>
+<!-- @include layout/footer.html -->
+<!-- @include components/support-dialog.html -->
+<script type="module" src="@/scripts/entries/legal.js"></script>
+</body></html>

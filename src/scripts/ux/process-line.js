@@ -1,5 +1,3 @@
-import { reducedMotion } from "../common/motion.js";
-
 /* Process line: pointer (or keyboard / auto-advance) picks the active step; the line bends up under it. */
 (function () {
   "use strict";
@@ -10,7 +8,7 @@ import { reducedMotion } from "../common/motion.js";
     track = sec.querySelector(".ux-proc-track");
   var ctx = cv.getContext("2d"),
     COLORS = ["#8a5dd8", "#47d55f", "#ece44f", "#48a9e5"];
-  var still = reducedMotion;
+  var still = window.__reduced;
   var W = 0,
     H = 64,
     dpr = 1,
@@ -40,6 +38,7 @@ import { reducedMotion } from "../common/motion.js";
     });
     kick();
   }
+
   function draw() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
@@ -79,10 +78,10 @@ import { reducedMotion } from "../common/motion.js";
       } else s.h = target;
     });
     draw();
-    if (moving) raf = requestAnimationFrame(step);
+    if (moving) raf = window.vkRaf(step);
   }
   function kick() {
-    if (!raf) raf = requestAnimationFrame(step);
+    if (!raf) raf = window.vkRaf(step);
   }
   function auto() {
     clearInterval(timer);
@@ -106,6 +105,9 @@ import { reducedMotion } from "../common/motion.js";
     });
   });
   window.addEventListener("resize", resize);
+  window.addEventListener("hashchange", function () {
+    setTimeout(resize, 0);
+  });
   // the page can be opened on another view (display:none -> width 0), so re-measure whenever the canvas gets a real size
   if ("ResizeObserver" in window)
     new ResizeObserver(function () {

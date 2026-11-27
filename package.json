@@ -16,12 +16,16 @@
     "lint:js": "eslint .",
     "lint:css": "stylelint \"src/**/*.css\"",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "check": "node scripts/check-site.mjs",
+    "qa": "node scripts/qa-server.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.0",
+    "cheerio": "^1.2.0",
     "eslint": "^9.30.0",
     "globals": "^16.3.0",
+    "jsdom": "^29.1.1",
     "prettier": "^3.6.0",
     "stylelint": "^16.21.0",
     "stylelint-config-recommended": "^16.0.0",

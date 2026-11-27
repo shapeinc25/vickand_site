@@ -1,0 +1,41 @@
+/* ---- block 1 ---- */
+/* Vickand — shared styles
+   Tokens come from the Figma "Vickand" file (Primitives, Theme, Brand, Layout).
+   Theme colors switch with [data-theme]; motion tokens are ready for animations. */
+
+/* Self-hosted fonts (SIL Open Font License, see assets/fonts/OFL-*.txt) */
+@font-face {
+  font-family: "Zilla Slab";
+  src: url("../../../assets/fonts/zilla-slab-400-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Zilla Slab";
+  src: url("../../../assets/fonts/zilla-slab-500-latin.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Zilla Slab";
+  src: url("../../../assets/fonts/zilla-slab-600-latin.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Changa One";
+  src: url("../../../assets/fonts/changa-one-400-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Changa One";
+  src: url("../../../assets/fonts/changa-one-400-italic-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}

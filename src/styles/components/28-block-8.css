@@ -1,0 +1,213 @@
+/* ---- block 8 ---- */
+/* ---- Contact support pop-up (always light theme, whatever page it opens on) ---- */
+.sup-modal {
+  --surface-default: #e5e2df;
+  --surface-raised: #ffffff;
+  --text-primary: #2c2929;
+  --text-secondary: #5a5454;
+  --border-default: #d3cfcf;
+  --accent-default: #3d529d;
+  --accent-hover: #4b64c0;
+  --accent-pressed: #2e3e76;
+  --accent-subtle: #e4e8f9;
+  --input-error: #a5282a;
+  --status-error: #7c1e20;
+  --input-stroke-hover: #797171;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: rgba(44, 41, 41, 0.55);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: var(--text-primary);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.25s ease,
+    visibility 0s linear 0.25s;
+}
+.sup-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.25s ease;
+}
+.sup-modal[hidden] {
+  display: none;
+}
+.sup-card {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 520px;
+  margin: auto;
+  padding: 32px;
+  background: var(--surface-default);
+  border-radius: 24px;
+  box-shadow: 0 24px 64px rgba(44, 41, 41, 0.35);
+  transform: translateY(24px) scale(0.97);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.sup-modal.is-open .sup-card {
+  transform: none;
+}
+.sup-close {
+  --btn-icon: 24px;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 2;
+}
+.sup-head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 48px;
+  margin-bottom: 24px;
+}
+.sup-head h2 {
+  margin: 0;
+  font: 400 32px/40px var(--font-display);
+  letter-spacing: -0.16px;
+  color: var(--text-primary);
+}
+.sup-head p {
+  margin: 0;
+  font: 400 18px/28px var(--font-body);
+  color: var(--text-secondary);
+}
+.sup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 20px;
+}
+.sup-form .btn {
+  align-self: flex-start;
+  width: auto;
+  flex: none;
+}
+.sup-form .ux-req-f label {
+  color: var(--text-primary);
+}
+.sup-form .ux-req-menu {
+  box-shadow: 0 12px 32px rgba(44, 41, 41, 0.22);
+}
+.sup-form .ux-req-menu li.is-hl,
+.sup-form .ux-req-menu li[aria-selected="true"] {
+  background: var(--accent-subtle);
+  color: var(--accent-default);
+}
+.sup-form .ux-req-sel.is-empty {
+  color: var(--text-secondary);
+}
+.sup-form .ux-req-f .input-field.is-area {
+  height: 124px;
+}
+.sup-form .ux-req-f.is-up {
+  z-index: 30;
+}
+.sup-done {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 16px 0 0;
+}
+.sup-modal.is-sent .sup-form,
+.sup-modal.is-sent .sup-head {
+  display: none;
+}
+.sup-modal.is-sent .sup-done {
+  display: flex;
+}
+.sup-check {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--c-success-fill);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+.sup-check path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.sup-modal.is-sent .sup-check {
+  animation: soon-pop 520ms cubic-bezier(0.3, 1.2, 0.5, 1) both;
+}
+.sup-modal.is-sent .sup-check path {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.45s ease-out 0.3s;
+}
+.sup-done h2 {
+  margin: 0;
+  font: 400 32px/40px var(--font-display);
+  color: var(--text-primary);
+}
+.sup-done p {
+  margin: 0 0 12px;
+  font: 400 18px/28px var(--font-body);
+  color: var(--text-secondary);
+  max-width: 360px;
+}
+.sup-done .btn {
+  min-width: 120px;
+  width: auto;
+  max-width: 100%;
+}
+.sup-form.is-shake .input-field,
+.sup-form.is-shake .btn {
+  animation: soon-shake 480ms cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+html.sup-lock,
+html.sup-lock body {
+  overflow: hidden;
+}
+@media (max-width: 1024px) {
+  .sup-form .ux-req-f label {
+    font-size: 16px;
+    line-height: 20px;
+  }
+  .sup-head p,
+  .sup-done p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+@media (max-width: 520px) {
+  .sup-modal {
+    padding: 16px;
+  }
+  .sup-card {
+    padding: 24px 16px;
+    border-radius: 20px;
+  }
+  .sup-head h2,
+  .sup-done h2 {
+    font-size: 28px;
+    line-height: 36px;
+  }
+  .sup-form .btn {
+    align-self: stretch;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sup-modal,
+  .sup-card {
+    transition: none;
+  }
+  .sup-modal.is-sent .sup-check {
+    animation: none;
+  }
+}

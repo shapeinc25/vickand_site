@@ -2,6 +2,9 @@ import { createHash } from "node:crypto";
 import { Resend } from "resend";
 
 const EMAIL = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/;
+const CONSENT_VERSION = "launch-2026-11-27";
+const SUPPORT_ISSUES = new Set(["Bug report", "Feedback", "Other", "Email preferences", "Privacy request"]);
+const LOCALES = new Set(["en", "ru", "uk"]);
 const HELP = new Set([
   "UX Audit & Usability",
   "User Flows & Onboarding",
@@ -59,7 +62,21 @@ export function createFormsHandler({ env = process.env, client = (key) => new Re
     if (!/^[a-zA-Z0-9_-]{16,100}$/.test(requestId))
       return json({ error: "Please refresh the page and try again." }, 400);
     let variables, templateId;
-    if (kind === "contact") {
+    if (kind === "support") {
+      const name = field("name", 120),
+        issue = field("issue", 80),
+        details = field("details", 1800);
+      if (!name || /[\r\n]/.test(name) || !SUPPORT_ISSUES.has(issue) || !details)
+        return json({ error: "Enter your name, choose an issue and describe your request." }, 400);
+      variables = {
+        NAME: name,
+        SENDER_EMAIL: email,
+        HELP: `Support: ${issue}`,
+        LINK: new URL("/support/", env.SITE_URL || "https://vickand.com").href,
+        MESSAGE: details,
+      };
+      templateId = env.RESEND_SUPPORT_TEMPLATE_ID || env.RESEND_CONTACT_TEMPLATE_ID;
+    } else if (kind === "contact") {
       const name = field("name", 120),
         help = field("help", 80);
       const link = field("link", 1000),
@@ -84,6 +101,8 @@ export function createFormsHandler({ env = process.env, client = (key) => new Re
       };
       templateId = env.RESEND_CONTACT_TEMPLATE_ID;
     } else if (kind === "waitlist") {
+      if (body.launchConsent !== true || body.consentVersion !== CONSENT_VERSION || !LOCALES.has(body.locale))
+        return json({ error: "Please explicitly request release news using the current form." }, 400);
       variables = { SENDER_EMAIL: email };
       templateId = env.RESEND_WAITLIST_TEMPLATE_ID;
     } else return json({ error: "Unknown form." }, 400);
@@ -105,7 +124,21 @@ export function createFormsHandler({ env = process.env, client = (key) => new Re
           to: [env.CONTACT_TO_EMAIL],
           replyTo: email,
           template: { id: templateId, variables },
-          tags: [{ name: "source", value: `website-${kind}` }],
+          tags: [
+            { name: "source", value: `website-${kind}` },
+            ...(LOCALES.has(body.locale) ? [{ name: "language", value: body.locale }] : []),
+            ...(kind === "waitlist" ? [{ name: "consent_version", value: CONSENT_VERSION }] : []),
+          ],
+          ...(kind === "waitlist"
+            ? {
+                headers: {
+                  "X-Vickand-Consent-Version": CONSENT_VERSION,
+                  "X-Vickand-Consent-Purpose": "new app and game release news",
+                  "X-Vickand-Consent-Choice": "explicit opt-in",
+                  "X-Vickand-Consent-Language": body.locale,
+                },
+              }
+            : {}),
         },
         { idempotencyKey: `website/${kind}/${requestId}/${fingerprint}` },
       );

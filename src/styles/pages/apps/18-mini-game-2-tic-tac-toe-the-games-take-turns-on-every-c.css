@@ -1,0 +1,88 @@
+/* ---------- Mini game 2: tic-tac-toe (the games take turns on every click) ---------- */
+.soon-mem,
+.soon-ttt {
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.soon-back[data-game="mem"] .soon-ttt,
+.soon-back[data-game="ttt"] .soon-mem {
+  display: none;
+}
+.soon-status {
+  margin: 0;
+  height: 24px;
+  flex: none;
+  font: 400 16px/24px var(--font-body);
+  color: rgba(255, 255, 255, 0.75);
+}
+.soon-board {
+  flex: 1 1 0;
+  min-height: 0;
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  gap: 6px;
+}
+.soon-tcell {
+  position: relative;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+@media (hover: hover) {
+  .soon-tcell:not(.is-x):not(.is-o):hover {
+    background: rgba(255, 255, 255, 0.16);
+  }
+}
+.soon-tcell svg {
+  position: absolute;
+  inset: 14%;
+  width: 72%;
+  height: 72%;
+  fill: none;
+  stroke-width: 3.4;
+  stroke-linecap: round;
+}
+.soon-tcell.is-x svg {
+  stroke: #2f9de1;
+}
+.soon-tcell.is-o svg {
+  stroke: #ff5c00;
+}
+.soon-tcell svg path,
+.soon-tcell svg circle {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: soon-draw 0.35s ease-out both;
+}
+@keyframes soon-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.soon-tcell.is-win {
+  background: rgba(46, 207, 73, 0.28);
+  box-shadow: 0 0 16px rgba(46, 207, 73, 0.5);
+}
+.soon-over-tally {
+  margin: 0 0 8px;
+  font: 400 16px/22px var(--font-body);
+  color: rgba(255, 255, 255, 0.7);
+}
+.soon-over-tally[hidden],
+.soon-over-score[hidden] {
+  display: none;
+}

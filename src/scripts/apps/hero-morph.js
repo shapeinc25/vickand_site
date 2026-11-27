@@ -1,7 +1,3 @@
-import morphLogoLight from "../../assets/images/morph-logo-light.webp";
-import morphLogoDark from "../../assets/images/morph-logo-dark.webp";
-import { reducedMotion, lowPower } from "../common/motion.js";
-
 // Hero morph: the logo and the headline take turns. The switch breaks the first shape into
 // particles that fly to the second shape. Resting states use the real logo and headline.
 (function () {
@@ -10,22 +6,15 @@ import { reducedMotion, lowPower } from "../common/motion.js";
   var canvas = morph && morph.querySelector(".morph-canvas");
   var headline = document.getElementById("hero-title");
   if (!morph || !canvas || !canvas.getContext || !headline) return;
-  if (reducedMotion || lowPower) return; // the logo stays, the headline is still read out
+  if (window.__reduced) return;
 
   var ctx = canvas.getContext("2d");
   var lines = headline.querySelectorAll("span");
 
-  // The logo SVG cannot be read as pixels (it uses foreignObject), so the particles are sampled from raster copies.
-  // Only the copy of the logo on screen is fetched, on first use.
-  var rasters = { light: null, dark: null };
-  function raster(dark) {
-    var k = dark ? "dark" : "light";
-    if (!rasters[k]) {
-      rasters[k] = new Image();
-      rasters[k].src = dark ? morphLogoDark : morphLogoLight;
-    }
-    return rasters[k];
-  }
+  // The logo SVG cannot be read as pixels (it uses foreignObject), so the particles are sampled from PNG copies
+  var rasters = { light: new Image(), dark: new Image() };
+  rasters.light.src = __asset("img/raster-874fd651.webp");
+  rasters.dark.src = __asset("img/raster-41abc27b.webp");
 
   // Timeline (ms, loops every PERIOD): logo rests, breaks apart, headline rests, particles rebuild the logo
   var PERIOD = 9000,
@@ -87,7 +76,7 @@ import { reducedMotion, lowPower } from "../common/motion.js";
   function sampleLogo() {
     var logo = visibleLogo(),
       r = relRect(logo);
-    var img = raster(logo.classList.contains("logo-dark"));
+    var img = logo.classList.contains("logo-dark") ? rasters.dark : rasters.light;
     if (!img.complete || !img.naturalWidth) throw new Error("logo raster not ready");
     var w = Math.max(1, Math.round(r.width)),
       h = Math.max(1, Math.round(r.height));
@@ -244,7 +233,7 @@ import { reducedMotion, lowPower } from "../common/motion.js";
         heroOn = es[es.length - 1].isIntersecting;
         if (heroOn && frameIdle) {
           frameIdle = false;
-          requestAnimationFrame(frame);
+          window.vkRaf(frame);
         }
       },
       { rootMargin: "100px" },
@@ -271,7 +260,7 @@ import { reducedMotion, lowPower } from "../common/motion.js";
       if (morph.getAttribute("data-state") !== shown) morph.setAttribute("data-state", shown);
       draw(elapsed);
     }
-    if (heroOn) requestAnimationFrame(frame);
+    if (heroOn) window.vkRaf(frame);
     else frameIdle = true;
   }
 
@@ -280,24 +269,18 @@ import { reducedMotion, lowPower } from "../common/motion.js";
   });
 
   var fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
-  // the raster is fetched once the page has loaded, so it never competes with the first screen
-  var pageLoaded =
-    document.readyState === "complete"
-      ? Promise.resolve()
-      : new Promise(function (res) {
-          window.addEventListener("load", res, { once: true });
-        });
-  var rastersReady = pageLoaded.then(function () {
-    var img = raster(visibleLogo().classList.contains("logo-dark"));
-    return img.complete
-      ? null
-      : new Promise(function (res) {
-          img.onload = res;
-          img.onerror = res;
-        });
-  });
+  var rastersReady = Promise.all(
+    [rasters.light, rasters.dark].map(function (img) {
+      return img.complete
+        ? Promise.resolve()
+        : new Promise(function (res) {
+            img.onload = res;
+            img.onerror = res;
+          });
+    }),
+  );
   Promise.all([fontsReady, rastersReady]).then(function () {
     start = performance.now();
-    requestAnimationFrame(frame);
+    window.vkRaf(frame);
   });
 })();

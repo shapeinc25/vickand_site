@@ -1,5 +1,3 @@
-import { reducedMotion } from "../common/motion.js";
-
 /* Bubbles fly in from outside the screen toward the headline; once close enough each flips from "before" (orange) to "after" (green) and floats. */
 (function () {
   "use strict";
@@ -13,7 +11,7 @@ import { reducedMotion } from "../common/motion.js";
     [0.31, 0.75],
     [0.69, 0.75],
   ]; // resting spots around the headline (fractions of the stage)
-  var still = reducedMotion;
+  var still = window.__reduced;
   var ticking = false;
   function clamp(v) {
     return v < 0 ? 0 : v > 1 ? 1 : v;
@@ -67,10 +65,11 @@ import { reducedMotion } from "../common/motion.js";
   function req() {
     if (!ticking) {
       ticking = true;
-      requestAnimationFrame(update);
+      window.vkRaf(update);
     }
   }
   window.addEventListener("scroll", req, { passive: true });
   window.addEventListener("resize", req);
+  window.addEventListener("hashchange", req);
   update();
 })();

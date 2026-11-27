@@ -1,8 +1,6 @@
-import { reducedMotion } from "../common/motion.js";
-
 (function () {
   "use strict";
-  if (!("IntersectionObserver" in window) || reducedMotion) return;
+  if (!("IntersectionObserver" in window) || window.__reduced) return;
   ["ux-cmp", "ux-req", "ux-about"].forEach(function (id) {
     var sec = document.getElementById(id);
     if (!sec) return;

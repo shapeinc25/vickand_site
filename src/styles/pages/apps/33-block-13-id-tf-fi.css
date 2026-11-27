@@ -1,0 +1,11 @@
+/* ---- block 13 id="tf-fi" ---- */
+.ux-hero .ic .fi {
+  fill: var(--text-primary);
+  stroke: none;
+}
+.ux-hero .cl-chip.q .ic .fi {
+  fill: var(--mute);
+}
+.ux-hero .flag .cl-chip.q .ic .fi {
+  fill: var(--bad);
+}

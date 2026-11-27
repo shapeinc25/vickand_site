@@ -1,5 +1,3 @@
-import { reducedMotion } from "../common/motion.js";
-
 /* Services carousel: moves by itself (right to left), pauses on hover / focus, can be swiped, dragged or scrolled sideways,
    and goes on moving shortly after the gesture and its momentum end. Same behaviour as the Apps hero carousel. */
 (function () {
@@ -7,15 +5,9 @@ import { reducedMotion } from "../common/motion.js";
   var win = document.getElementById("ux-svc-win"),
     track = document.getElementById("ux-svc-row");
   if (!win || !track) return;
-  // the row holds the cards twice so that it can loop: the markup has one set, the copy is made here
-  [].slice.call(track.children).forEach(function (card) {
-    var copy = card.cloneNode(true);
-    copy.setAttribute("aria-hidden", "true");
-    track.appendChild(copy);
-  });
   var cards = track.children,
     N = cards.length / 2;
-  var reduce = reducedMotion;
+  var reduce = window.__reduced;
   var canHover = window.matchMedia && window.matchMedia("(hover: hover)").matches;
   var x = 0,
     vel = 0,
@@ -37,6 +29,10 @@ import { reducedMotion } from "../common/motion.js";
     return period > 0;
   }
   function wrap() {
+    if (!(period > 0) || !Number.isFinite(x)) {
+      x = 0;
+      return;
+    }
     while (x > 0) x -= period;
     while (x < -period) x += period;
   }
@@ -49,7 +45,7 @@ import { reducedMotion } from "../common/motion.js";
       x = -period * 0.35;
       ready = true;
       last = performance.now();
-      requestAnimationFrame(tick);
+      window.vkGameRaf(tick);
     }
     wrap();
     paint();
@@ -69,7 +65,7 @@ import { reducedMotion } from "../common/motion.js";
       wrap();
       paint();
     }
-    if (visible) requestAnimationFrame(tick);
+    if (visible) window.vkGameRaf(tick);
     else idle = true;
   }
   // title, text and button fade in and the cards rise one by one when the section comes into view. Replays every time it is entered, always in the same order.
@@ -186,7 +182,7 @@ import { reducedMotion } from "../common/motion.js";
           : "rgba(211,207,207," + (0.2 + near * 0.5).toFixed(2) + ")";
       hctx.fill();
     }
-    hraf = requestAnimationFrame(hframe);
+    hraf = window.vkRaf(hframe);
   }
   function heat(card, e) {
     clearTimeout(hstop);
@@ -208,14 +204,14 @@ import { reducedMotion } from "../common/motion.js";
     hm.x = e.clientX - r.left;
     hm.y = e.clientY - r.top;
     card.classList.add("is-hot");
-    if (!hraf) hraf = requestAnimationFrame(hframe);
+    if (!hraf) hraf = window.vkRaf(hframe);
   }
   function cool(card, now) {
     card.classList.remove("is-hot");
     if (now) {
       if (hot === card) {
         hot = null;
-        cancelAnimationFrame(hraf);
+        window.vkCancelRaf(hraf);
         hraf = 0;
       }
       return;
@@ -223,7 +219,7 @@ import { reducedMotion } from "../common/motion.js";
     hstop = setTimeout(function () {
       if (hot === card) {
         hot = null;
-        cancelAnimationFrame(hraf);
+        window.vkCancelRaf(hraf);
         hraf = 0;
       }
     }, 400);
@@ -352,7 +348,7 @@ import { reducedMotion } from "../common/motion.js";
           begin();
           if (idle && ready) {
             idle = false;
-            requestAnimationFrame(tick);
+            window.vkGameRaf(tick);
           }
         }
       },
@@ -369,6 +365,9 @@ import { reducedMotion } from "../common/motion.js";
       wrap();
       paint();
     }
+  });
+  window.addEventListener("hashchange", function () {
+    setTimeout(begin, 0);
   });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(begin);
 })();

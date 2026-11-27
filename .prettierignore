@@ -6,3 +6,7 @@ package-lock.json
 *.html
 src/assets/
 .impeccable/
+
+.reference/
+.generated/
+Reports/

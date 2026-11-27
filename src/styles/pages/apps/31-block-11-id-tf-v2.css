@@ -1,0 +1,110 @@
+/* ---- block 11 id="tf-v2" ---- */
+/* v2: unclear chips fly into the architecture, get flagged (? then red ✕), are removed, columns close up */
+.ux-hero .cl-og {
+  transform: translate(var(--x), var(--y));
+  transition: transform 0.7s cubic-bezier(0.65, 0, 0.25, 1) var(--sd, 0s);
+}
+.ux-hero .settle .cl-og {
+  transform: translate(var(--x), var(--y2));
+}
+.ux-hero .cl-chip.q rect {
+  stroke: var(--mute);
+  stroke-dasharray: 2.4 2.4;
+  transition:
+    fill 0.4s var(--o, 0s),
+    stroke 0.4s var(--o, 0s);
+}
+.ux-hero .cl-chip.q text {
+  fill: var(--mute);
+  transition: fill 0.4s var(--o, 0s);
+}
+.ux-hero .cl-chip.q .ic {
+  stroke: var(--mute);
+  transition: stroke 0.4s var(--o, 0s);
+}
+.ux-hero .flag .cl-chip.q rect {
+  fill: color-mix(in srgb, var(--bad) 20%, var(--surface-default));
+  stroke: var(--bad);
+  stroke-dasharray: none;
+}
+.ux-hero .flag .cl-chip.q text {
+  fill: var(--bad);
+}
+.ux-hero .flag .cl-chip.q .ic {
+  stroke: var(--bad);
+}
+.ux-hero .cl-chip .qb {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.ux-hero .run.p2 .cl-chip .qb {
+  animation: tf-pop 0.3s calc(var(--d) + 0.15s) cubic-bezier(0.2, 1.5, 0.4, 1) both;
+}
+.ux-hero .run.flag .cl-chip .qb {
+  animation: tf-qOut 0.25s var(--o, 0s) forwards;
+}
+@keyframes tf-qOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+.ux-hero .cl-chip .xb {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0);
+  transition:
+    opacity 0.2s var(--o, 0s),
+    transform 0.45s cubic-bezier(0.2, 1.7, 0.4, 1) var(--o, 0s);
+}
+.ux-hero .flag .cl-chip .xb {
+  opacity: 1;
+  transform: scale(1);
+}
+.ux-hero .flag .cl-chip.q > g:first-child {
+  animation: tf-rmShake 0.5s var(--o, 0s) both;
+}
+.ux-hero .run.rmv .cl-chip.q {
+  animation: tf-chipOut 0.5s var(--o, 0s) cubic-bezier(0.5, 0, 0.8, 0.4) forwards;
+}
+.ux-hero .L {
+  transition: opacity 0.45s;
+}
+.ux-hero .rmv .L {
+  opacity: 0;
+}
+.ux-hero .xl {
+  fill: none;
+  stroke: var(--bad);
+  stroke-width: 1;
+  stroke-dasharray: 2.5 2.5;
+  opacity: 0;
+  transition: opacity 0.5s var(--o, 0s);
+}
+.ux-hero .flag .xl {
+  opacity: 0.8;
+  animation: tf-flow 3s linear infinite;
+}
+.ux-hero .rmv .xl {
+  opacity: 0;
+}
+.ux-hero .run.p2 .cl-mk.S,
+.ux-hero .run.p2 .cl-arr.S,
+.ux-hero .run.p2 .cl-tag.S {
+  animation: none;
+}
+.ux-hero .run.settle .cl-mk.S {
+  animation: tf-draw var(--dur) var(--d) cubic-bezier(0.45, 0.05, 0.4, 1) forwards;
+}
+.ux-hero .run.settle .cl-arr.S {
+  animation: tf-pop 0.3s var(--d) forwards;
+}
+.ux-hero .run.settle .cl-tag.S {
+  animation: tf-chipIn 0.35s var(--d) cubic-bezier(0.2, 1.4, 0.4, 1) forwards;
+}

@@ -1,0 +1,7 @@
+/* ---- block 10 ---- */
+[data-off],
+[data-off] *,
+[data-off] *::before,
+[data-off] *::after {
+  animation-play-state: paused !important;
+}

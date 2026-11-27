@@ -1,5 +1,3 @@
-import { reducedMotion } from "../common/motion.js";
-
 // Hero carousel: moves by itself (left to right, one set per 55s), stops on hover, can be swiped / dragged / scrolled sideways,
 // and goes on moving 50ms after the gesture (and its momentum) ends.
 (function () {
@@ -7,7 +5,7 @@ import { reducedMotion } from "../common/motion.js";
   if (!track) return;
   var cards = track.children;
   if (cards.length < 12) return;
-  var reduce = reducedMotion;
+  var reduce = window.__reduced;
   var canHover = window.matchMedia && window.matchMedia("(hover: hover)").matches;
   var hero = track.closest(".hero-window") || track; // the whole window is the drag surface, not just the cards
   var x = 0,
@@ -28,6 +26,10 @@ import { reducedMotion } from "../common/motion.js";
     speed = period / 55; // px per second, same pace as the old CSS animation
   }
   function wrap() {
+    if (!(period > 0) || !Number.isFinite(x)) {
+      x = 0;
+      return;
+    }
     while (x > 0) x -= period;
     while (x < -period) x += period;
   }
@@ -46,7 +48,7 @@ import { reducedMotion } from "../common/motion.js";
     wrap();
     paint();
     last = performance.now();
-    requestAnimationFrame(tick);
+    window.vkGameRaf(tick);
   }
   function tick(now) {
     var dt = Math.min(0.05, (now - last) / 1000);
@@ -63,7 +65,7 @@ import { reducedMotion } from "../common/motion.js";
       wrap();
       paint();
     }
-    if (visible) requestAnimationFrame(tick);
+    if (visible) window.vkGameRaf(tick);
     else idle = true;
   }
 
@@ -179,7 +181,7 @@ import { reducedMotion } from "../common/motion.js";
         last = performance.now();
         if (visible && idle) {
           idle = false;
-          requestAnimationFrame(tick);
+          window.vkGameRaf(tick);
         }
       },
       { rootMargin: "100px" },
@@ -199,4 +201,9 @@ import { reducedMotion } from "../common/motion.js";
   window.addEventListener("load", function () {
     if (!track.classList.contains("is-js")) begin();
   });
+  // opened on #ux: the Apps view is display:none, nothing can be measured yet; start as soon as the carousel is shown
+  if (window.ResizeObserver)
+    new ResizeObserver(function () {
+      if (hero.clientWidth && !track.classList.contains("is-js")) begin();
+    }).observe(hero);
 })();

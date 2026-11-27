@@ -5,5 +5,6 @@
     docEl.classList.toggle("is-scrolled", (window.scrollY || window.pageYOffset) > 0);
   }
   window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("hashchange", update);
   update();
 })();

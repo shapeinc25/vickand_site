@@ -1,9 +1,7 @@
-import { reducedMotion } from "../common/motion.js";
-
 // Section 2 scroll animation: the title slides up first; the first product reveals mockups, then text, then buttons.
 (function () {
   if (!("IntersectionObserver" in window)) return;
-  if (reducedMotion) return;
+  if (window.__reduced) return;
   var head = document.querySelector(".section-head");
   var products = document.querySelectorAll(".product[data-reveal]");
   if (!head || !products.length) return;

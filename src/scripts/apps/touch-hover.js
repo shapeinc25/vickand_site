@@ -20,7 +20,7 @@
         tOn = es[es.length - 1].isIntersecting;
         if (tOn && tIdle) {
           tIdle = false;
-          requestAnimationFrame(tick);
+          window.vkRaf(tick);
         }
       },
       { rootMargin: "100px" },
@@ -30,7 +30,7 @@
       tIdle = true;
       return;
     }
-    requestAnimationFrame(tick);
+    window.vkRaf(tick);
     if (++frame % 4) return;
     if (!mq.matches) {
       setActive(null);
@@ -54,5 +54,5 @@
     }
     setActive(bestD < best.getBoundingClientRect().width * 0.6 ? best : null);
   }
-  requestAnimationFrame(tick);
+  window.vkRaf(tick);
 })();

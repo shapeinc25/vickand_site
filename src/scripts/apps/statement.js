@@ -1,6 +1,3 @@
-import { vkFly } from "./fly-dots.js";
-import { reducedMotion } from "../common/motion.js";
-
 // Statement screen: slides over Coming Soon (which stays pinned) and types its sentences like code.
 // Coloured words start white; dots in the word's colour fly to them like to a magnet, leaving traces, and light the letters up.
 (function () {
@@ -10,9 +7,9 @@ import { reducedMotion } from "../common/motion.js";
   var soon = document.getElementById("coming-soon"),
     section = document.getElementById("statement");
   var fx = section.querySelector(".statement-fx");
-  var reduce = reducedMotion;
+  var reduce = window.__reduced;
   var COL = { "c-purple": "#bca3e9", "c-yellow": "#efe96f", "c-green": "#69dc7c", "c-orange": "#ff8a47" };
-  var SENTENCES = [
+  var SENTENCES = (window.__SENT && window.__SENT[window.__lang]) || [
     [
       ["Building", "c-purple"],
       [" software is ", ""],
@@ -126,7 +123,7 @@ import { reducedMotion } from "../common/motion.js";
   }
 
   function launch(seg) {
-    return vkFly(seg, fx, section, later);
+    return window.vkFly(seg, fx, section, later);
   }
   var gen = 0,
     TYPE_MS = [250, 300]; // typing time per sentence: the first 250ms, the three-line one 300ms
@@ -147,7 +144,7 @@ import { reducedMotion } from "../common/motion.js";
         n = Math.ceil(p * len);
       show(n);
       setCaret(n, p >= 1);
-      if (p < 1) return requestAnimationFrame(step);
+      if (p < 1) return window.vkRaf(step);
       later((300 * Math.max(0, segs.length - 1) + 1800 + 2200) / 2, function () {
         eraseOut(chars.length);
       }); // wait between two sentences (halved)

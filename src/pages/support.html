@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="{{lang}}" data-theme="light" data-page="support">
+<head><!-- @include layout/head.html --></head>
+<body><a class="skip-link" href="#main">Skip to content</a>
+<!-- @include layout/header-legal.html -->
+<div class="view" data-view="apps"><main id="main" class="legal reading-page"><div class="container"><h1>Let’s sort it out.</h1><p class="reading-lead">A question about one of our products, a bug, or a design project? Choose where to start.</p><article>
+<h2>App and game support</h2><ul class="product-support-links"><li><a href="https://shapes-privacy.netlify.app/">Shape Mania</a></li><li><a href="https://daydraft.vickand.com/support">DayDraft</a></li><li><a href="https://flyingladders.vickand.com/support/">Flying Ladders</a></li><li><a href="https://kinetwo.vickand.com/support/">Kinetwo</a></li></ul>
+<h2>Tell us what happened</h2><p>Include the product name, your device, app version, and what you expected to happen. Never send passwords, access tokens or full payment details.</p><p><a class="btn btn-primary" href="mailto:{{supportEmail}}" data-support-dialog><span>Contact support team</span></a></p><p><a href="mailto:{{supportEmail}}">{{supportEmail}}</a></p>
+<h2>Have a design project in mind?</h2><p>Initial scoping is free. We agree on the scope, deliverables and price before paid work starts.</p><p><a class="btn btn-secondary" href="{{uxUrl}}#ux-req"><span>Request Free Scoping</span></a></p>
+<h2>Privacy and email requests</h2><p>To request access, correction, deletion or withdrawal of release-news permission, email {{supportEmail}}. Tell us which website or app your request concerns so we can direct it to the right process.</p><p><a href="/privacy/">Read the Website Privacy Policy</a> · <a href="/email-preferences/">Withdraw a release-news request</a></p>
+</article></div></main></div>
+<!-- @include layout/footer.html -->
+<!-- @include components/support-dialog.html -->
+<script type="module" src="@/scripts/entries/legal.js"></script>
+</body></html>

@@ -111,7 +111,65 @@ test("retries keep an idempotency key; edited messages get a different one", asy
 });
 test("waitlist notifications use their own published template and fixed recipient", async () => {
   const { handler, calls } = fixture();
-  assert.equal((await handler(request({ kind: "waitlist", email: valid.email }))).status, 200);
+  assert.equal(
+    (
+      await handler(
+        request({
+          kind: "waitlist",
+          email: valid.email,
+          launchConsent: true,
+          consentVersion: "launch-2026-11-27",
+          locale: "en",
+        }),
+      )
+    ).status,
+    200,
+  );
   assert.equal(calls[0][0].template.id, config.RESEND_WAITLIST_TEMPLATE_ID);
   assert.deepEqual(calls[0][0].template.variables, { SENDER_EMAIL: valid.email });
+});
+
+test("support requests use a fixed recipient and validated issue without requiring a new template", async () => {
+  const { handler, calls } = fixture();
+  const body = {
+    kind: "support",
+    name: "Website visitor",
+    email: valid.email,
+    issue: "Email preferences",
+    details: "Please stop release news.",
+    locale: "uk",
+    to: "attacker@example.invalid",
+  };
+  assert.equal((await handler(request(body))).status, 200);
+  assert.deepEqual(calls[0][0].to, [config.CONTACT_TO_EMAIL]);
+  assert.equal(calls[0][0].template.id, config.RESEND_CONTACT_TEMPLATE_ID);
+  assert.equal(calls[0][0].template.variables.HELP, "Support: Email preferences");
+  assert.equal((await handler(request({ ...body, issue: "untrusted" }))).status, 400);
+  assert.equal((await handler(request({ ...body, details: "" }))).status, 400);
+  assert.equal(calls.length, 1);
+});
+test("release news requires an explicit current consent choice and keeps receipt evidence stable on retries", async () => {
+  const { handler, calls } = fixture();
+  const body = {
+    kind: "waitlist",
+    email: valid.email,
+    launchConsent: true,
+    consentVersion: "launch-2026-11-27",
+    locale: "ru",
+  };
+  for (const invalid of [
+    { ...body, launchConsent: false },
+    { ...body, launchConsent: "true" },
+    { ...body, consentVersion: "old" },
+    { ...body, locale: "unknown" },
+  ])
+    assert.equal((await handler(request(invalid))).status, 400);
+  assert.equal(calls.length, 0);
+  await handler(request(body));
+  await handler(request(body));
+  assert.equal(calls.length, 2);
+  assert.deepEqual(calls[0][0], calls[1][0]);
+  assert.equal(calls[0][0].headers["X-Vickand-Consent-Version"], body.consentVersion);
+  assert.equal(calls[0][0].headers["X-Vickand-Consent-Choice"], "explicit opt-in");
+  assert.equal(calls[0][1].idempotencyKey, calls[1][1].idempotencyKey);
 });

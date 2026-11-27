@@ -1,0 +1,43 @@
+{
+  "origin": "https://vickand.com",
+  "publisher": {
+    "name": "Andrii Plashevskyi",
+    "postalAddress": "Bulgaria, Varna, bul. Vladislav Varnenchik 36a, 9000",
+    "email": "support@vickand.com"
+  },
+  "apps": [
+    {
+      "name": "Shape Mania",
+      "privacy": "https://shapes-privacy.netlify.app/"
+    },
+    {
+      "name": "DayDraft",
+      "privacy": "https://daydraft.vickand.com/legal?tab=privacy"
+    },
+    {
+      "name": "Flying Ladders",
+      "privacy": "https://flyingladders.vickand.com/privacy/"
+    },
+    {
+      "name": "Kinetwo",
+      "privacy": "https://kinetwo.vickand.com/privacy/"
+    }
+  ],
+  "copy": {
+    "en": {},
+    "ru": {
+      "appsTitle": "Vickand — приложения, игры и продуманный дизайн",
+      "uxTitle": "UX и дизайн приложений и игр — Vickand",
+      "appsDescription": "Shape Mania, DayDraft, Flying Ladders и Kinetwo: независимые приложения, игры и дизайн цифровых продуктов от Vickand.",
+      "uxDescription": "UX-аудит, пользовательские сценарии, интерфейсы и брендинг приложений и игр. Бесплатная первичная оценка и согласованная стоимость до начала платной работы.",
+      "legalUpdated": "Обновлено: 27 ноября 2026 года"
+    },
+    "uk": {
+      "appsTitle": "Vickand — застосунки, ігри та продуманий дизайн",
+      "uxTitle": "UX і дизайн застосунків та ігор — Vickand",
+      "appsDescription": "Shape Mania, DayDraft, Flying Ladders і Kinetwo: незалежні застосунки, ігри та дизайн цифрових продуктів від Vickand.",
+      "uxDescription": "UX-аудит, користувацькі сценарії, інтерфейси та брендинг застосунків та ігор. Безкоштовна первинна оцінка й узгоджена вартість до початку платної роботи.",
+      "legalUpdated": "Оновлено: 27 листопада 2026 року"
+    }
+  }
+}

@@ -1,6 +1,3 @@
-import { vkFly } from "./fly-dots.js";
-import { reducedMotion } from "../common/motion.js";
-
 // Story section (one section, driven by scrolling): the stage is pinned; the sentence is typed on the dark screen, then a white dot grows
 // from the centre as an overlay (a soft-edged mask, clip-path where masks are unsupported) and turns the screen light. The CTA text sits
 // inside the overlay, so the same circle reveals it. When the dot has grown a little the CTA sequence plays by itself (time, not scroll):
@@ -11,12 +8,28 @@ import { reducedMotion } from "../common/motion.js";
   if (!story || !sec) return;
   var fx = sec.querySelector(".cta-fx");
   var text = sec.querySelector(".cta-text");
-  var reduce = reducedMotion;
+  var reduce = window.__reduced;
   var COL = { blue: "#298ac6", green: "#219535" };
 
   // ----- "smart animate": every word is one element that moves, scales and changes colour from its place in state A to its place in state B -----
   var L1 = ["You've built an app or a", "game using AI-assistant."],
-    L2 = ["We help improve the UX", "of your product."]; // the same line breaks in both sizes
+    L2 = ["We help improve the UX", "of your product."],
+    CTAT = {
+      ru: [
+        ["Вы создали приложение или", "игру с помощью ИИ."],
+        ["Мы поможем улучшить UX", "вашего продукта."],
+        "Вы создали приложение или игру с помощью ИИ. Мы поможем улучшить UX вашего продукта.",
+      ],
+      ua: [
+        ["Ви створили застосунок або", "гру за допомогою ШІ."],
+        ["Ми допоможемо покращити UX", "вашого продукту."],
+        "Ви створили застосунок або гру за допомогою ШІ. Ми допоможемо покращити UX вашого продукту.",
+      ],
+    }[window.__lang];
+  if (CTAT) {
+    L1 = CTAT[0];
+    L2 = CTAT[1];
+  } // the same line breaks in both sizes
   // the same line breaks in both sizes: the small copy is the large one scaled down, so its box is narrower by the same factor
   var SENT = [
     { A: L1, B: L1, hi: 2, col: "blue", bigIn: "A" },
@@ -25,6 +38,10 @@ import { reducedMotion } from "../common/motion.js";
   var words = [],
     segs = [];
   text.textContent = "";
+  text.setAttribute(
+    "aria-label",
+    CTAT ? CTAT[2] : "You've built an app or a game using AI-assistant. We help improve the UX of your product.",
+  );
   SENT.forEach(function (S, si) {
     var toks = S.A.join(" ").split(" "),
       mine = [],
@@ -32,6 +49,7 @@ import { reducedMotion } from "../common/motion.js";
     toks.forEach(function (tk, i) {
       var w = document.createElement("span");
       w.className = "cta-w cta-w" + (si + 1);
+      w.setAttribute("aria-hidden", "true");
       tk.split("").forEach(function (ch) {
         var c = document.createElement("span");
         c.className = "cta-ch";
@@ -51,7 +69,9 @@ import { reducedMotion } from "../common/motion.js";
   });
   var sr = document.createElement("span");
   sr.className = "sr-only";
-  sr.textContent = "You've built an app or a game using AI-assistant. We help improve the UX of your product.";
+  sr.textContent = CTAT
+    ? CTAT[2]
+    : "You've built an app or a game using AI-assistant. We help improve the UX of your product.";
   text.appendChild(sr);
 
   var metrics = null;
@@ -182,7 +202,21 @@ import { reducedMotion } from "../common/motion.js";
   mo.observe(sec, { attributes: true, attributeFilter: ["class"] });
   relayout();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
+  // re-measure when a late (unicode-range) font file arrives
+  if (document.fonts && document.fonts.addEventListener) document.fonts.addEventListener("loadingdone", relayout);
   window.addEventListener("resize", relayout);
+  // the Apps view is display:none while the page is opened on #ux, so the first measurement is all zeros;
+  // measure again whenever the section gets a real width (view switch, rotation, window resize)
+  if (window.ResizeObserver) {
+    var lastW = 0;
+    new ResizeObserver(function () {
+      var w = sec.clientWidth;
+      if (w && w !== lastW) {
+        lastW = w;
+        relayout();
+      }
+    }).observe(sec);
+  }
 
   function lit(seg, on) {
     seg.chars.forEach(function (c) {
@@ -250,7 +284,7 @@ import { reducedMotion } from "../common/motion.js";
     state = "playing";
     var g = gen;
     later(100, function () {
-      vkFly(segs[0], fx, sec, later, 2.2);
+      window.vkFly(segs[0], fx, sec, later, 2.2);
     }); // first sentence is large: its words are lit (fast flight)
     later(300, function () {
       sec.classList.add("is-btn");
@@ -260,7 +294,7 @@ import { reducedMotion } from "../common/motion.js";
       lit(segs[0], false);
     }); // the second grows past the first
     later(1550, function () {
-      vkFly(segs[1], fx, sec, later, 2.2);
+      window.vkFly(segs[1], fx, sec, later, 2.2);
     });
     later(2700, function () {
       if (g === gen) {
@@ -317,7 +351,7 @@ import { reducedMotion } from "../common/motion.js";
   function onScroll() {
     if (!ticking) {
       ticking = true;
-      requestAnimationFrame(update);
+      window.vkRaf(update);
     }
   }
   window.addEventListener("scroll", onScroll, { passive: true });

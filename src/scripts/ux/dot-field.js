@@ -1,5 +1,3 @@
-import { reducedMotion, lowPower } from "../common/motion.js";
-
 /* Dot-field background for the UX story stage (rewritten from "Heavy Dots" by Nick Sheffield, MIT).
    Dots fill the whole stage; they lean toward the pointer and grow near it; large active dots take colours from the brand gradient. */
 (function () {
@@ -8,7 +6,7 @@ import { reducedMotion, lowPower } from "../common/motion.js";
   if (!cv) return;
   var stage = cv.parentNode,
     ctx = cv.getContext("2d");
-  var still = reducedMotion || lowPower; // one static frame instead of the animation
+  var still = window.__reduced;
   var GRAD = [
     [46, 207, 73],
     [233, 224, 55],
@@ -119,17 +117,17 @@ import { reducedMotion, lowPower } from "../common/motion.js";
       }
       ctx.fill();
     }
-    raf = requestAnimationFrame(frame);
+    raf = window.vkRaf(frame);
   }
   function start() {
     if (!running) {
       running = true;
-      raf = requestAnimationFrame(frame);
+      raf = window.vkRaf(frame);
     }
   }
   function stop() {
     running = false;
-    if (raf) cancelAnimationFrame(raf);
+    if (raf) window.vkCancelRaf(raf);
     raf = 0;
   }
 
@@ -147,12 +145,19 @@ import { reducedMotion, lowPower } from "../common/motion.js";
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(
       function (es) {
-        if (es[es.length - 1].isIntersecting) {
+        if (es[es.length - 1].isIntersecting && document.documentElement.dataset.page === "ux") {
           resize();
           start();
         } else stop();
       },
       { threshold: 0 },
     ).observe(stage);
+    window.addEventListener("hashchange", function () {
+      if (document.documentElement.dataset.page !== "ux") stop();
+      else {
+        resize();
+        start();
+      }
+    });
   } else start();
 })();

@@ -1,0 +1,27 @@
+/* ---------- Store section ---------- */
+.split {
+  display: grid;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+.mockup {
+  justify-self: center;
+  width: min(300px, 80vw);
+  aspect-ratio: 9 / 19;
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--border-default);
+  background: linear-gradient(160deg, var(--primary-default), var(--purple-500) 55%, var(--orange-500));
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-family: var(--font-body);
+  font-weight: 600;
+}
+
+.store-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}

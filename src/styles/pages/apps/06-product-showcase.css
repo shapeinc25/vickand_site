@@ -1,0 +1,56 @@
+/* ---------- Product showcase ---------- */
+.showcase-track {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-6);
+}
+
+.showcase-card {
+  position: relative;
+  aspect-ratio: 9 / 19;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  /* hook for the flying / auto-scroll animation */
+  will-change: transform;
+}
+
+.showcase-card .shot {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, var(--primary-default), var(--purple-500) 55%, var(--orange-500));
+}
+
+.showcase-card .shot-label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: #fff;
+  opacity: 0.9;
+  text-align: center;
+  padding: 0 var(--space-4);
+}
+
+.showcase-card .overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: end center;
+  padding: var(--space-6);
+  background: rgba(44, 41, 41, 0.45);
+  opacity: 0;
+  transition: opacity var(--motion-base) var(--ease-standard);
+}
+
+.showcase-card:focus-within .overlay {
+  opacity: 1;
+}
+@media (hover: hover) {
+  .showcase-card:hover .overlay {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "kinetwo": {
+    "en": [
+      "assets/img/shots/kinetwo-en-1.webp",
+      "assets/img/shots/kinetwo-en-2.webp",
+      "assets/img/shots/kinetwo-en-3.webp"
+    ],
+    "ru": [
+      "assets/img/shots/kinetwo-ru-1.webp",
+      "assets/img/shots/kinetwo-ru-2.webp",
+      "assets/img/shots/kinetwo-ru-3.webp"
+    ],
+    "ua": [
+      "assets/img/shots/kinetwo-ua-1.webp",
+      "assets/img/shots/kinetwo-ua-2.webp",
+      "assets/img/shots/kinetwo-ua-3.webp"
+    ]
+  },
+  "flying": {
+    "en": [
+      "assets/img/shots/flying-en-1.webp",
+      "assets/img/shots/flying-en-2.webp",
+      "assets/img/shots/flying-en-3.webp"
+    ],
+    "ru": [
+      "assets/img/shots/flying-ru-1.webp",
+      "assets/img/shots/flying-ru-2.webp",
+      "assets/img/shots/flying-ru-3.webp"
+    ],
+    "ua": [
+      "assets/img/shots/flying-ua-1.webp",
+      "assets/img/shots/flying-ua-2.webp",
+      "assets/img/shots/flying-ua-3.webp"
+    ]
+  }
+}

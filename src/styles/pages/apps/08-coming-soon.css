@@ -1,0 +1,47 @@
+/* ---------- Coming soon ---------- */
+.counter {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.counter strong {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 1;
+  color: var(--primary-default);
+}
+
+.subscribe {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.field {
+  flex: 1 1 240px;
+  height: 48px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--border-default);
+  background: var(--surface-raised);
+  color: var(--text-primary);
+  font: inherit;
+  transition: border-color var(--motion-fast) var(--ease-standard);
+}
+
+.field::placeholder {
+  color: var(--text-secondary);
+}
+@media (hover: hover) {
+  .field:hover {
+    border-color: var(--input-stroke-hover);
+  }
+}
+.field:focus {
+  outline: none;
+  border-color: var(--primary-default);
+}

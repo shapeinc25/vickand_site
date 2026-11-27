@@ -1,207 +1,113 @@
-# Vickand — сайт
+# Vickand — рабочий сайт
 
-Сайт Vickand: приложения и игры (`/`) и услуги UX & Design (`/ux/`).
-Статический многостраничный сайт на чистых HTML / CSS / JavaScript, собирается [Vite](https://vite.dev).
+Локальный исходный проект: `/Users/andrew/Desktop/vickand-site`. Репозиторий: [shapeinc25/vickand_site](https://github.com/shapeinc25/vickand_site).
 
-## Быстрый старт
+Сайт перенесён из предоставленного HTML в статические страницы с общей разметкой и модулями. Оформление, четыре продукта, иллюстрации, сравнения интерфейсов и мини-игры взяты из исходного макета. Архив handoff использован как источник подходящих ресурсов и поведения. Неподключённые старые заглушки и модули вынесены из рабочей структуры в `.reference/previous-scaffold/`; предыдущая версия также остаётся в истории Git.
 
-Нужен [Node.js](https://nodejs.org) 20.19+ (рекомендуется 22 LTS, см. `.nvmrc`).
+**Основной vickand.com должен оставаться под Vercel Authentication.** В этом обновлении защита не менялась. Исходники и сборка подготовлены локально. Владелец отдельно разрешил загрузку этого обновления в GitHub и production-деплой с сохранением защиты.
 
-```bash
-npm install
-```
+## Запуск
 
-```bash
+Нужен Node.js 22 LTS (`.nvmrc`), поддерживается 20.19+.
+
+```sh
+cd /Users/andrew/Desktop/vickand-site
+npm ci
 npm run dev
 ```
 
-Откроется http://localhost:5173 с автообновлением при правках.
+Vite покажет локальный адрес. Для проверки именно готовых файлов:
 
-| Команда           | Что делает                                                                                   |
-| ----------------- | -------------------------------------------------------------------------------------------- |
-| `npm run dev`     | dev-сервер с hot reload                                                                      |
-| `npm run build`   | production-сборка в `dist/` (минификация, хеши в именах файлов, `sitemap.xml`, `robots.txt`) |
-| `npm run preview` | локально открыть собранный `dist/`                                                           |
-| `npm run lint`    | ESLint (JS) + Stylelint (CSS)                                                                |
-| `npm run format`  | отформатировать JS / CSS / JSON / MD через Prettier                                          |
+```sh
+npm run build
+npm run preview
+```
+
+Для проверки форм без настоящих писем после сборки:
+
+```sh
+npm run qa
+```
+
+Откройте `http://127.0.0.1:4179/`. Этот сервер использует реальный обработчик проверки формы и локальный имитатор почты: он не читает настоящие ключи и не отправляет письма. `POST /__qa/scenario?mode=failure` включает отказ сервиса, `mode=offline` — ошибку транспорта, `mode=success` возвращает успешный ответ. `GET /__qa/status` показывает только типы запросов и ключи повторной отправки. Это средство локальной проверки; production API не подменяется.
+
+Не открывайте `src/pages/*.html` двойным щелчком: это шаблоны. Готовый сайт находится в `dist/` и должен обслуживаться HTTP-сервером. Python и Pillow при установке или сборке не требуются.
 
 ## Страницы
 
-Страницы лежат в `src/pages/`, их адреса повторяют папки.
+| Назначение               | Английский            | Русский                  | Украинский               |
+| ------------------------ | --------------------- | ------------------------ | ------------------------ |
+| Приложения и игры        | `/`                   | `/ru/`                   | `/uk/`                   |
+| UX и дизайн              | `/ux/`                | `/ru/ux/`                | `/uk/ux/`                |
+| Конфиденциальность сайта | `/privacy/`           | `/ru/privacy/`           | `/uk/privacy/`           |
+| Условия сайта            | `/terms/`             | `/ru/terms/`             | `/uk/terms/`             |
+| Поддержка                | `/support/`           | `/ru/support/`           | `/uk/support/`           |
+| Отказ от новостей        | `/email-preferences/` | `/ru/email-preferences/` | `/uk/email-preferences/` |
+| Ошибка 404               | `/404/`               | `/ru/404/`               | `/uk/404/`               |
 
-| URL            | Файл (в `src/pages/`)   | Скрипт (в `src/scripts/entries/`) | Стили (в `src/styles/`) |
-| -------------- | ----------------------- | --------------------------------- | ----------------------- |
-| `/`            | `index.html`            | `apps.js`                         | `apps.css`              |
-| `/ux/`         | `ux/index.html`         | `ux.js`                           | `ux.css`                |
-| `/terms/`      | `terms/index.html`      | `legal.js`                        | `legal.css`             |
-| `/privacy/`    | `privacy/index.html`    | `legal.js`                        | `legal.css`             |
-| `/styleguide/` | `styleguide/index.html` | `styleguide.js`                   | `styleguide.css`        |
-| 404            | `404.html`              | `legal.js`                        | `legal.css`             |
+Всего 21 HTML-страница. В sitemap входят 15 содержательных страниц; 404 и настройки писем имеют `noindex,follow`. Корневой `404.html` — копия английской страницы ошибки для хостинга.
 
-`/styleguide/` — библиотека компонентов (кнопки, поля, дропдауны, иконки), закрыта от индексации.
+## Где редактировать
 
-Старые ссылки однофайловой версии (`/#ux`, `/#terms`, `/#privacy`) перенаправляются на новые страницы.
+- `src/pages/` — шесть общих шаблонов и отдельная UX-страница. Общие элементы подключаются комментариями `<!-- @include layout/header.html -->`.
+- `src/partials/layout/` — метаданные, шапки, меню и подвал. `src/partials/components/support-dialog.html` — форма поддержки.
+- `src/data/site.json` — оператор, основной домен, приложения, адреса политик, SEO-тексты.
+- `src/data/translations.json` — переводы исходного макета; `interface-copy.json` — дополнения. Ключ — точный английский текст. Текст составных элементов переводится по отдельным текстовым узлам.
+- `src/data/legal.json` — юридические документы на EN/RU/UK. Три подтверждённых поля оператора подставляются из `site.json`.
+- `src/data/screenshots.json`, `sentences.json` — наборы экранов и анимированные фразы.
+- `src/styles/reference.css` — упорядоченный список частей CSS исходного макета; порядок обеспечивает тот же каскад. `reference-late.css` — поздние авторские уточнения; `production.css` — адаптация, доступность, формы и документы.
+- `src/scripts/entries/` — точки входа Apps, UX и документов; `common/`, `apps/`, `ux/` — поведение отдельных частей.
+- `scripts/generate-pages.mjs` — построение локализованных страниц, SEO и sitemap при запуске Vite. Переводы уже находятся в HTML, JavaScript для чтения не нужен.
+- `server/`, `api/` — серверные формы и существующая пересылка входящей поддержки через Resend.
+- `public/` — фавиконки, локализованные социальные превью и лицензии шрифтов.
+- `.reference/` — сохранённые предоставленные HTML и handoff; исключены из Git и сайта. `.generated/` и `dist/` пересоздаются; вручную их не редактируют.
+- `Reports/` — локальные результаты проверок; исключены из Git. Отчёты и снимки текущей проверки хранятся здесь, без секретов.
 
-## Структура
+Новая страница добавляется в список `pages` генератора. Адреса, canonical и языковые альтернативы формируются из него. Изображения/скрипты исходников используют префикс `@/`; Vite выпускает файлы с хешами. Для dev и build используются разные каталоги генерации, чтобы сборка не ломала открытый dev-сервер.
 
-```
-├─ src/
-│  ├─ pages/              HTML-страницы (index.html, ux/, terms/, privacy/, styleguide/, 404.html)
-│  ├─ partials/
-│  │  ├─ layout/          head (SEO-мета), header, header-legal, footer
-│  │  ├─ components/      повторяющиеся блоки: карточка карусели, блок игры, искорка
-│  │  └─ icons/           иконки (стрелки, галочка) и SVG-спрайт
-│  ├─ styles/
-│  │  ├─ apps.css, ux.css, legal.css, styleguide.css   набор стилей каждой страницы
-│  │  ├─ base/            шрифты, токены (цвета тем), база, общие анимации, адаптив
-│  │  ├─ components/      шапка, футер, переключатель, hero, макет телефона, кнопки, поля, дропдаун
-│  │  └─ pages/apps/, pages/ux/   по файлу на секцию страницы
-│  ├─ scripts/
-│  │  ├─ entries/         по файлу на страницу: подключает её стили и модули
-│  │  ├─ common/          общее поведение (переключатель страниц, шапка, пауза анимаций вне экрана)
-│  │  ├─ apps/            секции главной; counter-card/ — карточка Coming Soon и три мини-игры
-│  │  └─ ux/              секции UX & Design; tangled-flows/ — анимация первого экрана
-│  └─ assets/             шрифты, картинки, логотипы (Vite хеширует и оптимизирует)
-├─ public/                копируется как есть: favicon, og-cover.png, manifest
-├─ design/                исходники из Figma, скриншоты, прототипы — на сайт не попадают
-└─ .github/workflows/     Проверки CI
-```
+## Формы
 
-### Partials
+Все формы отправляют JSON на `POST /api/forms`. Фиксированный получатель задаётся только на сервере. Есть проверка размера/формата/полей, honeypot, проверка origin, экранирование данных для шаблонов и стабильный ключ повторной отправки. Ошибка сохраняет введённые данные; успешное сообщение появляется после принятия запроса почтовым сервисом, а не означает прочтение письма человеком.
 
-Общий HTML вставляется в страницы комментарием:
+Конфигурация — `.env.example`, реальные значения хранятся только в Vercel или локальном игнорируемом `.env.local`. Не используйте `VITE_*` для секретов.
 
-```html
-<!-- @include layout/header.html {"toggleLabel": "Go to UX &amp; Design"} -->
-<!-- @include components/product.html {"title": "Flying Ladders", "description": "…", "appStore": "https://…"} -->
-```
+- `RESEND_API_KEY` — sending-only ключ подтверждённого домена.
+- `RESEND_FROM_EMAIL`, `CONTACT_TO_EMAIL` — подтверждённый отправитель и действующий получатель.
+- `RESEND_CONTACT_TEMPLATE_ID` — опубликованный шаблон с `NAME`, `SENDER_EMAIL`, `HELP`, `LINK`, `MESSAGE`.
+- `RESEND_WAITLIST_TEMPLATE_ID` — опубликованный шаблон с `SENDER_EMAIL`.
+- `RESEND_SUPPORT_TEMPLATE_ID` — необязательный отдельный шаблон с теми же полями, что contact. Иначе используется contact.
+- `SITE_URL` — серверный origin; должен совпадать с `src/data/site.json`.
 
-Файл берётся из `src/partials/`, `{{имя}}` заменяется переданным значением. Значения по умолчанию partial
-объявляет в первой строке: `<!-- @defaults {"title": "[Title]"} -->`. Partials могут включать другие partials.
-Всегда доступны `{{base}}` (путь сайта, обычно `/`) и `{{siteUrl}}` (полный адрес сайта).
-Пути к файлам из `src/` пишутся как `src="@/assets/images/имя.webp"` — с любой страницы.
-Реализация — плагин `partials()` в `vite.config.js`, без внешних зависимостей.
+**Локальная отправка писем выключена по умолчанию**, даже если ключ есть в окружении. `VICKAND_ENABLE_LOCAL_EMAIL=true` включают только для отдельно разрешённого тестового письма. Проверки `npm test` используют подставной клиент, настоящие письма не отправляют. Vite preview обслуживает только статические файлы: API форм проверяют через dev или Vercel.
 
-### Стили
+Release-news форма передаёт владельцу запрос с явным согласием, версией формулировки и языком. Она не создаёт подтверждённого подписчика в маркетинговой базе и не запускает рассылку. Дата принятия письма фиксируется почтовым провайдером. Страница `/email-preferences/` объясняет, как отозвать запрос через поддержку; открытие страницы само по себе ничего не отменяет.
 
-У каждой страницы свой набор: `src/styles/apps.css` и т. д. Это список `@import` в порядке каскада:
-база → общие компоненты → секции страницы сверху вниз. Порядок важен: правило ниже перекрывает правило выше
-при равной специфичности. Новый файл секции ставится в набор на место, соответствующее секции на странице.
+Входящая поддержка: существующий `/api/resend-inbound` принимает подписанные `email.received`, получает письмо через отдельные `RESEND_RECEIVING_API_KEY` и `RESEND_RECEIVING_WEBHOOK_SECRET` и пересылает только почту support@vickand.com фиксированному получателю. Ключ приёма не должен попадать в браузер.
 
-### Как добавить страницу
+## SEO и доступ
 
-1. Создать `src/pages/about/index.html` по образцу `src/pages/terms/index.html` (head, header, footer через `@include`).
-2. Создать `src/styles/about.css` (набор `@import`) и `src/scripts/entries/about.js`, который подключает этот CSS и нужные модули.
-3. Добавить строку в `PAGES` в `vite.config.js` — страница попадёт в сборку и в `sitemap.xml`.
+У страниц отдельные title/description, canonical, Open Graph, JSON-LD и `hreflang` EN/RU/UK/x-default. Основной origin — `https://vickand.com`. Старые hash-ссылки открывают реальные страницы; устаревшие `/ua/` и языковые `.html` настроены в `vercel.json`.
 
-### Как добавить секцию
+В исходном `robots.txt` страницы разрешены к обходу, но **защита Vercel All Deployments подменяет публичный ответ и закрывает сайт**. Это намеренное решение владельца. SEO-подготовка не означает, что закрытый сайт будет проиндексирован. Не отправляйте Google запросы на проверку «исправления» защиты, пока решение об открытии не изменилось.
 
-- Разметка — в HTML страницы; повторяющиеся блоки — partial в `src/partials/components/`.
-- Стили — файл в `src/styles/pages/<страница>/` и `@import` в набор страницы.
-- Поведение — модуль в `src/scripts/apps/` или `src/scripts/ux/` и `import` в entry страницы.
+## Производительность и проверка
 
-### Как добавить игру на главную
+Шрифты хранятся локально. Изображения — WebP/AVIF, экраны ниже первого блока загружаются отложенно. Для телефонов подготовлены варианты шириной 360 px; полноразмерные исходники сохранены и выбираются на плотных экранах. Хешированные ресурсы рассчитаны на длительное кеширование. Декоративные циклы останавливаются в скрытой вкладке, есть системное уменьшение движения и переключатель в меню. Игры остаются управляемыми.
 
-Блоки игр — partial `src/partials/components/product.html`. В `src/pages/index.html` заменить заглушку на:
-
-```html
-<!-- @include components/product.html {"title": "Flying Ladders", "description": "…", "googlePlay": "https://…", "appStore": "https://…"} -->
+```sh
+npm test
+npm run lint
+npm run format:check
+npm run build
+npm run check
 ```
 
-## Скорость
+`npm run check` проверяет готовый `dist/`: метаданные и языки, внутренние ссылки/якоря, JSON-LD, уникальные id, отсутствие заглушек, методы форм и явный выбор согласия. Он не заменяет проверку поведения и изображений в браузере. Отдельный ручной протокол — `docs/VALIDATION.md`.
 
-- Картинки в WebP и под размер показа; всё, что ниже первого экрана, грузится лениво (`loading="lazy"`).
-- Шрифты — подмножества: основная латиница (~28 КБ на начертание) и отдельный файл расширенной латиницы,
-  который браузер скачивает, только если такие буквы есть на странице. Два шрифта первого экрана и баннер
-  hero предзагружаются (`<link rel="preload">`).
-- У каждой страницы свой CSS и JS; файлы с хешем в имени можно кэшировать навсегда.
-- Слабые устройства и медленная или экономная сеть (`navigator.connection.saveData`, 2G, ≤ 2 ГБ памяти, ≤ 2 ядер):
-  самые тяжёлые эффекты (частицы логотипа, поле точек) отключаются, как и при «уменьшить движение» в системе —
-  см. `src/scripts/common/motion.js`.
-- Анимации вне экрана ставятся на паузу (`src/scripts/common/pause-offscreen.js`).
+## Юридические документы и выпуск
 
-Проверка: `npm run build`, `npm run preview`, затем Lighthouse в Chrome DevTools (вкладка Lighthouse, режим Mobile).
+Подтверждённый оператор: Andrii Plashevskyi, Bulgaria, Varna, bul. Vladislav Varnenchik 36a, 9000, support@vickand.com. Документы описывают именно сайт и реальные формы; у приложений остаются отдельные политики.
 
-## SEO
+Перед эксплуатацией необходимо выполнить операционные пункты в `docs/OPERATIONS.md`: проверить фактические договоры провайдеров и обработку запросов, доставку форм и правила доступа webhook. Тексты не являются юридическим заключением или гарантией отсутствия претензий.
 
-- У каждой страницы свои `title`, `description`, `canonical`, Open Graph и Twitter-карточка
-  (`src/partials/layout/head.html`). Превью для соцсетей — `public/og-image.png` 1200×630,
-  исходник — `design/og-image.html`.
-- Иконки: SVG, PNG 48×48 (для выдачи Google), `apple-touch-icon` 180×180, 192/512 в манифесте.
-- JSON-LD: `Organization` и `WebSite` на главной, `Service` на `/ux/`.
-- `sitemap.xml` и `robots.txt` генерируются при сборке. Из выдачи убраны (`noindex`) 404, `/styleguide/`
-  и пока что `/terms/` и `/privacy/` — у них ещё нет текста. Когда текст появится, верните их в `PAGES`
-  в `vite.config.js` и уберите `"robots"` из их `@include layout/head.html`.
-- Адрес сайта для canonical и sitemap задаётся переменной `SITE_URL` в Vercel: `https://vickand.com/`.
-
-### Чтобы сайт находили в Google
-
-1. **Свой домен.** Сайт опубликован на `https://vickand.com/` через Vercel; `www` перенаправляет на основной адрес.
-2. **Google Search Console** (search.google.com/search-console): добавить сайт, подтвердить владение,
-   отправить `sitemap.xml`. То же — в Bing Webmaster Tools.
-3. **Тексты.** Главное для позиций — содержание: реальные названия и описания игр вместо `[Title]`,
-   описания услуг и кейсов на `/ux/`, ссылки на сторы. Заголовок и описание каждой страницы задаются
-   в её `@include layout/head.html`.
-
-## Деплой на Vercel
-
-Сайт публикуется через Git-интеграцию проекта `vickand-site` в Vercel.
-Пуш в `main` запускает production-сборку для `https://vickand.com/`.
-Другие ветки получают preview-деплой. Проверки кода находятся в `ci.yml`.
-
-GitHub Pages не используется; workflow его публикации удалён.
-Серверные обработчики форм и пересылки поддержки выполняются в Vercel.
-Переменные окружения, включая секреты Resend, задаются в Vercel → Settings → Environment Variables.
-
-## Что ещё не подключено
-
-- Тексты Terms of Use и Privacy Policy — заглушки.
-- Блоки игр на главной — заглушки (`[Title]`, `[Description]`, ссылки на сторы `#`).
-
-## Формы сайта: Vercel + Resend
-
-Обе формы отправляют `POST /api/forms`. Сервер проверяет поля и отправляет уведомление на
-фиксированный адрес команды. Посетитель не может изменить получателя. Адрес посетителя
-передаётся в Reply-To. Подписка на уведомление сохраняется как письмо команде; это не
-автоматическая маркетинговая рассылка и не отдельная база подписчиков.
-
-В Vercel → Settings → Environment Variables задайте серверные переменные из `.env.example`:
-
-- `RESEND_API_KEY` — sending-only ключ, ограниченный подтверждённым доменом;
-- `RESEND_FROM_EMAIL` — отправитель на этом домене;
-- `CONTACT_TO_EMAIL` — действующий адрес команды;
-- `RESEND_CONTACT_TEMPLATE_ID` — опубликованный шаблон заявки с переменными
-  `NAME`, `SENDER_EMAIL`, `HELP`, `LINK`, `MESSAGE`;
-- `RESEND_WAITLIST_TEMPLATE_ID` — опубликованный шаблон уведомления о подписке с переменной `SENDER_EMAIL`.
-
-Сами шаблоны хранятся в Resend. Сервер экранирует пользовательский текст перед подстановкой.
-Не добавляйте секреты в `VITE_*`: эти переменные попадают в браузер.
-После изменения переменных нужен новый деплой. Существующий основной домен — `https://vickand.com/`.
-
-В интерфейсе успешная отправка показывается только после подтверждения сервера. При ошибке
-введённые данные сохраняются. Повторная попытка использует тот же ключ идемпотентности,
-чтобы сетевой сбой не приводил к повторным письмам.
-
-Проверки: `npm test`, `npm run lint`, `npm run format:check`, `npm run build`. Тесты работают без настоящих ключей
-и не отправляют письма. Перед вводом в эксплуатацию необходимо проверить обе формы через
-опубликованный сайт и статус доставки в Resend.
-
-### Support inbox forwarding
-
-`api/resend-inbound.js` accepts signed `email.received` callbacks and forwards only
-mail addressed to `support@vickand.com` to the fixed `CONTACT_TO_EMAIL`. The official
-SDK retrieves the original message and attachments. Forwarded mail includes the
-original sender and a Reply-To address, so the owner can reply directly from Gmail. Retries use a stable idempotency
-key per received email (subject to Resend's idempotency retention). Invalid signatures,
-other recipients and unrelated events cannot trigger forwarding.
-
-This route needs **separate** `RESEND_RECEIVING_API_KEY` and
-`RESEND_RECEIVING_WEBHOOK_SECRET` secrets. Resend's sending-only key cannot read
-received mail. Its current API key model requires full access for this operation.
-The owner explicitly approved a separate server-only receiving credential for this
-integration. Store it as a sensitive production secret; never expose it in browser code.
-The website forms continue to use their domain-restricted sending-only key.
-
-For deployment, configure the Resend webhook at
-`https://vickand.com/api/resend-inbound` for `email.received`, save its signing secret
-in Vercel, redeploy, then test inbound delivery and forwarding to the fixed mailbox.
+Проект уже связан с Vercel через GitHub: push в `main` может запустить production-деплой. Публикация должна быть отдельным осознанным действием с сохранением действующей защиты.

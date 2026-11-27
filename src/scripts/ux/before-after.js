@@ -1,5 +1,3 @@
-import { reducedMotion } from "../common/motion.js";
-
 /* Before / After slider: drag anywhere on it, use the arrow buttons or the keyboard. One gentle sweep hints at it the first time it is seen. */
 (function () {
   "use strict";
@@ -7,7 +5,7 @@ import { reducedMotion } from "../common/motion.js";
     box = document.getElementById("ux-cmp-box"),
     handle = document.getElementById("ux-cmp-handle");
   if (!sec || !box || !handle) return;
-  var reduce = reducedMotion;
+  var reduce = window.__reduced;
   var pos = 50,
     dragging = false,
     tween = 0,
@@ -21,7 +19,7 @@ import { reducedMotion } from "../common/motion.js";
     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   }
   function go(to, ms) {
-    cancelAnimationFrame(tween);
+    window.vkCancelRaf(tween);
     to = Math.max(0, Math.min(100, to));
     if (reduce) {
       set(to);
@@ -32,7 +30,7 @@ import { reducedMotion } from "../common/motion.js";
     (function step(now) {
       var k = Math.min(1, (now - t0) / ms);
       set(from + (to - from) * ease(k));
-      if (k < 1) tween = requestAnimationFrame(step);
+      if (k < 1) tween = window.vkRaf(step);
     })(t0);
   }
   function fromX(x) {
@@ -42,7 +40,7 @@ import { reducedMotion } from "../common/motion.js";
   box.addEventListener("pointerdown", function (e) {
     if (e.pointerType === "mouse" && e.button !== 0) return;
     touched = true;
-    cancelAnimationFrame(tween);
+    window.vkCancelRaf(tween);
     dragging = true;
     box.classList.add("is-dragging");
     fromX(e.clientX);
@@ -79,11 +77,15 @@ import { reducedMotion } from "../common/motion.js";
       inn = slides[n];
     dir = dir || (n > cur ? 1 : -1);
     cur = n;
+    sec.querySelectorAll("[data-comparison-note]").forEach((note, i) => {
+      note.hidden = i !== cur;
+    });
     for (var i = 0; i < slides.length; i++) {
       slides[i].classList.toggle("is-on", i === cur);
       slides[i].setAttribute("aria-hidden", i === cur ? "false" : "true");
       dots[i].classList.toggle("is-on", i === cur);
       dots[i].setAttribute("aria-selected", i === cur);
+      dots[i].tabIndex = i === cur ? 0 : -1;
     }
     touched = true;
     go(50, 400);
@@ -112,6 +114,20 @@ import { reducedMotion } from "../common/motion.js";
         show(n);
       });
     })(d);
+  dots.forEach((dot, index) =>
+    dot.addEventListener("keydown", (event) => {
+      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      const next =
+        event.key === "Home"
+          ? 0
+          : event.key === "End"
+            ? slides.length - 1
+            : (index + (event.key === "ArrowRight" ? 1 : -1) + slides.length) % slides.length;
+      show(next);
+      dots[next].focus();
+    }),
+  );
   handle.addEventListener("keydown", function (e) {
     var d =
       e.key === "ArrowLeft" || e.key === "ArrowDown"
@@ -126,7 +142,7 @@ import { reducedMotion } from "../common/motion.js";
     if (!d) return;
     e.preventDefault();
     touched = true;
-    cancelAnimationFrame(tween);
+    window.vkCancelRaf(tween);
     set(pos + d);
   });
   // hint: a small sweep to both sides the first time half of the section is in view

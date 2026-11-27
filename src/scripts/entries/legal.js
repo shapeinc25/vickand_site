@@ -1,5 +1,6 @@
-// Terms of Use, Privacy Policy and the 404 page.
-import "../../styles/legal.css";
-
+import "../../styles/reference.css";
+import "../../styles/reference-late.css";
+import "../common/runtime.js";
 import "../common/header-scroll.js";
-import "../common/scroll-restoration.js";
+import "../common/forms.js";
+import "../common/support-dialog.js";

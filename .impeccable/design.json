@@ -1,0 +1,753 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-27T14:20:27.989426+00:00",
+  "title": "Design System: Vickand",
+  "extensions": {
+    "colorMeta": {
+      "primary-button": {
+        "role": "primary",
+        "displayName": "Primary Button",
+        "tonalRamp": [
+          "oklch(15% 0.14639 269.47)",
+          "oklch(26% 0.14639 269.47)",
+          "oklch(38% 0.14639 269.47)",
+          "oklch(49% 0.14639 269.47)",
+          "oklch(61% 0.14639 269.47)",
+          "oklch(72% 0.14639 269.47)",
+          "oklch(84% 0.14639 269.47)",
+          "oklch(95% 0.14639 269.47)"
+        ]
+      },
+      "primary-token": {
+        "role": "primary",
+        "displayName": "Primary Token",
+        "tonalRamp": [
+          "oklch(15% 0.16185 269.18)",
+          "oklch(26% 0.16185 269.18)",
+          "oklch(38% 0.16185 269.18)",
+          "oklch(49% 0.16185 269.18)",
+          "oklch(61% 0.16185 269.18)",
+          "oklch(72% 0.16185 269.18)",
+          "oklch(84% 0.16185 269.18)",
+          "oklch(95% 0.16185 269.18)"
+        ]
+      },
+      "accent-light": {
+        "role": "primary",
+        "displayName": "Accent Light",
+        "tonalRamp": [
+          "oklch(15% 0.12396 269.32)",
+          "oklch(26% 0.12396 269.32)",
+          "oklch(38% 0.12396 269.32)",
+          "oklch(49% 0.12396 269.32)",
+          "oklch(61% 0.12396 269.32)",
+          "oklch(72% 0.12396 269.32)",
+          "oklch(84% 0.12396 269.32)",
+          "oklch(95% 0.12396 269.32)"
+        ]
+      },
+      "accent-pressed-light": {
+        "role": "primary",
+        "displayName": "Accent Pressed Light",
+        "tonalRamp": [
+          "oklch(15% 0.09741 269.37)",
+          "oklch(26% 0.09741 269.37)",
+          "oklch(38% 0.09741 269.37)",
+          "oklch(49% 0.09741 269.37)",
+          "oklch(61% 0.09741 269.37)",
+          "oklch(72% 0.09741 269.37)",
+          "oklch(84% 0.09741 269.37)",
+          "oklch(95% 0.09741 269.37)"
+        ]
+      },
+      "accent-subtle-light": {
+        "role": "primary",
+        "displayName": "Accent Subtle Light",
+        "tonalRamp": [
+          "oklch(15% 0.02337 275.35)",
+          "oklch(26% 0.02337 275.35)",
+          "oklch(38% 0.02337 275.35)",
+          "oklch(49% 0.02337 275.35)",
+          "oklch(61% 0.02337 275.35)",
+          "oklch(72% 0.02337 275.35)",
+          "oklch(84% 0.02337 275.35)",
+          "oklch(95% 0.02337 275.35)"
+        ]
+      },
+      "secondary-pressed-light": {
+        "role": "primary",
+        "displayName": "Secondary Pressed Light",
+        "tonalRamp": [
+          "oklch(15% 0.04113 271.87)",
+          "oklch(26% 0.04113 271.87)",
+          "oklch(38% 0.04113 271.87)",
+          "oklch(49% 0.04113 271.87)",
+          "oklch(61% 0.04113 271.87)",
+          "oklch(72% 0.04113 271.87)",
+          "oklch(84% 0.04113 271.87)",
+          "oklch(95% 0.04113 271.87)"
+        ]
+      },
+      "accent-dark": {
+        "role": "primary",
+        "displayName": "Accent Dark",
+        "tonalRamp": [
+          "oklch(15% 0.11277 271.84)",
+          "oklch(26% 0.11277 271.84)",
+          "oklch(38% 0.11277 271.84)",
+          "oklch(49% 0.11277 271.84)",
+          "oklch(61% 0.11277 271.84)",
+          "oklch(72% 0.11277 271.84)",
+          "oklch(84% 0.11277 271.84)",
+          "oklch(95% 0.11277 271.84)"
+        ]
+      },
+      "accent-hover-dark": {
+        "role": "primary",
+        "displayName": "Accent Hover Dark",
+        "tonalRamp": [
+          "oklch(15% 0.07576 272.86)",
+          "oklch(26% 0.07576 272.86)",
+          "oklch(38% 0.07576 272.86)",
+          "oklch(49% 0.07576 272.86)",
+          "oklch(61% 0.07576 272.86)",
+          "oklch(72% 0.07576 272.86)",
+          "oklch(84% 0.07576 272.86)",
+          "oklch(95% 0.07576 272.86)"
+        ]
+      },
+      "accent-pressed-dark": {
+        "role": "primary",
+        "displayName": "Accent Pressed Dark",
+        "tonalRamp": [
+          "oklch(15% 0.14011 270.01)",
+          "oklch(26% 0.14011 270.01)",
+          "oklch(38% 0.14011 270.01)",
+          "oklch(49% 0.14011 270.01)",
+          "oklch(61% 0.14011 270.01)",
+          "oklch(72% 0.14011 270.01)",
+          "oklch(84% 0.14011 270.01)",
+          "oklch(95% 0.14011 270.01)"
+        ]
+      },
+      "accent-subtle-dark": {
+        "role": "primary",
+        "displayName": "Accent Subtle Dark",
+        "tonalRamp": [
+          "oklch(15% 0.06875 270.32)",
+          "oklch(26% 0.06875 270.32)",
+          "oklch(38% 0.06875 270.32)",
+          "oklch(49% 0.06875 270.32)",
+          "oklch(61% 0.06875 270.32)",
+          "oklch(72% 0.06875 270.32)",
+          "oklch(84% 0.06875 270.32)",
+          "oklch(95% 0.06875 270.32)"
+        ]
+      },
+      "surface-light": {
+        "role": "neutral",
+        "displayName": "Surface Light",
+        "tonalRamp": [
+          "oklch(15% 0.00521 67.76)",
+          "oklch(26% 0.00521 67.76)",
+          "oklch(38% 0.00521 67.76)",
+          "oklch(49% 0.00521 67.76)",
+          "oklch(61% 0.00521 67.76)",
+          "oklch(72% 0.00521 67.76)",
+          "oklch(84% 0.00521 67.76)",
+          "oklch(95% 0.00521 67.76)"
+        ]
+      },
+      "surface-raised-light": {
+        "role": "neutral",
+        "displayName": "Surface Raised Light",
+        "tonalRamp": [
+          "oklch(15% 0.00000 89.88)",
+          "oklch(26% 0.00000 89.88)",
+          "oklch(38% 0.00000 89.88)",
+          "oklch(49% 0.00000 89.88)",
+          "oklch(61% 0.00000 89.88)",
+          "oklch(72% 0.00000 89.88)",
+          "oklch(84% 0.00000 89.88)",
+          "oklch(95% 0.00000 89.88)"
+        ]
+      },
+      "text-light": {
+        "role": "neutral",
+        "displayName": "Text Light",
+        "tonalRamp": [
+          "oklch(15% 0.00441 17.42)",
+          "oklch(26% 0.00441 17.42)",
+          "oklch(38% 0.00441 17.42)",
+          "oklch(49% 0.00441 17.42)",
+          "oklch(61% 0.00441 17.42)",
+          "oklch(72% 0.00441 17.42)",
+          "oklch(84% 0.00441 17.42)",
+          "oklch(95% 0.00441 17.42)"
+        ]
+      },
+      "text-secondary-light": {
+        "role": "neutral",
+        "displayName": "Text Secondary Light",
+        "tonalRamp": [
+          "oklch(15% 0.00786 17.45)",
+          "oklch(26% 0.00786 17.45)",
+          "oklch(38% 0.00786 17.45)",
+          "oklch(49% 0.00786 17.45)",
+          "oklch(61% 0.00786 17.45)",
+          "oklch(72% 0.00786 17.45)",
+          "oklch(84% 0.00786 17.45)",
+          "oklch(95% 0.00786 17.45)"
+        ]
+      },
+      "border-light": {
+        "role": "neutral",
+        "displayName": "Border Light",
+        "tonalRamp": [
+          "oklch(15% 0.00442 17.24)",
+          "oklch(26% 0.00442 17.24)",
+          "oklch(38% 0.00442 17.24)",
+          "oklch(49% 0.00442 17.24)",
+          "oklch(61% 0.00442 17.24)",
+          "oklch(72% 0.00442 17.24)",
+          "oklch(84% 0.00442 17.24)",
+          "oklch(95% 0.00442 17.24)"
+        ]
+      },
+      "surface-raised-dark": {
+        "role": "neutral",
+        "displayName": "Surface Raised Dark",
+        "tonalRamp": [
+          "oklch(15% 0.00555 17.42)",
+          "oklch(26% 0.00555 17.42)",
+          "oklch(38% 0.00555 17.42)",
+          "oklch(49% 0.00555 17.42)",
+          "oklch(61% 0.00555 17.42)",
+          "oklch(72% 0.00555 17.42)",
+          "oklch(84% 0.00555 17.42)",
+          "oklch(95% 0.00555 17.42)"
+        ]
+      },
+      "auxiliary-light": {
+        "role": "neutral",
+        "displayName": "Auxiliary Light",
+        "tonalRamp": [
+          "oklch(15% 0.00107 17.18)",
+          "oklch(26% 0.00107 17.18)",
+          "oklch(38% 0.00107 17.18)",
+          "oklch(49% 0.00107 17.18)",
+          "oklch(61% 0.00107 17.18)",
+          "oklch(72% 0.00107 17.18)",
+          "oklch(84% 0.00107 17.18)",
+          "oklch(95% 0.00107 17.18)"
+        ]
+      },
+      "auxiliary-hover-light": {
+        "role": "neutral",
+        "displayName": "Auxiliary Hover Light",
+        "tonalRamp": [
+          "oklch(15% 0.00108 17.18)",
+          "oklch(26% 0.00108 17.18)",
+          "oklch(38% 0.00108 17.18)",
+          "oklch(49% 0.00108 17.18)",
+          "oklch(61% 0.00108 17.18)",
+          "oklch(72% 0.00108 17.18)",
+          "oklch(84% 0.00108 17.18)",
+          "oklch(95% 0.00108 17.18)"
+        ]
+      },
+      "input-hover-light": {
+        "role": "neutral",
+        "displayName": "Input Hover Light",
+        "tonalRamp": [
+          "oklch(15% 0.00995 17.46)",
+          "oklch(26% 0.00995 17.46)",
+          "oklch(38% 0.00995 17.46)",
+          "oklch(49% 0.00995 17.46)",
+          "oklch(61% 0.00995 17.46)",
+          "oklch(72% 0.00995 17.46)",
+          "oklch(84% 0.00995 17.46)",
+          "oklch(95% 0.00995 17.46)"
+        ]
+      },
+      "input-hover-dark": {
+        "role": "neutral",
+        "displayName": "Input Hover Dark",
+        "tonalRamp": [
+          "oklch(15% 0.00568 17.28)",
+          "oklch(26% 0.00568 17.28)",
+          "oklch(38% 0.00568 17.28)",
+          "oklch(49% 0.00568 17.28)",
+          "oklch(61% 0.00568 17.28)",
+          "oklch(72% 0.00568 17.28)",
+          "oklch(84% 0.00568 17.28)",
+          "oklch(95% 0.00568 17.28)"
+        ]
+      },
+      "brand-orange": {
+        "role": "secondary",
+        "displayName": "Brand Orange",
+        "tonalRamp": [
+          "oklch(15% 0.21203 40.59)",
+          "oklch(26% 0.21203 40.59)",
+          "oklch(38% 0.21203 40.59)",
+          "oklch(49% 0.21203 40.59)",
+          "oklch(61% 0.21203 40.59)",
+          "oklch(72% 0.21203 40.59)",
+          "oklch(84% 0.21203 40.59)",
+          "oklch(95% 0.21203 40.59)"
+        ]
+      },
+      "brand-yellow": {
+        "role": "secondary",
+        "displayName": "Brand Yellow",
+        "tonalRamp": [
+          "oklch(15% 0.17523 106.28)",
+          "oklch(26% 0.17523 106.28)",
+          "oklch(38% 0.17523 106.28)",
+          "oklch(49% 0.17523 106.28)",
+          "oklch(61% 0.17523 106.28)",
+          "oklch(72% 0.17523 106.28)",
+          "oklch(84% 0.17523 106.28)",
+          "oklch(95% 0.17523 106.28)"
+        ]
+      },
+      "brand-green": {
+        "role": "secondary",
+        "displayName": "Brand Green",
+        "tonalRamp": [
+          "oklch(15% 0.21769 145.19)",
+          "oklch(26% 0.21769 145.19)",
+          "oklch(38% 0.21769 145.19)",
+          "oklch(49% 0.21769 145.19)",
+          "oklch(61% 0.21769 145.19)",
+          "oklch(72% 0.21769 145.19)",
+          "oklch(84% 0.21769 145.19)",
+          "oklch(95% 0.21769 145.19)"
+        ]
+      },
+      "brand-blue": {
+        "role": "secondary",
+        "displayName": "Brand Blue",
+        "tonalRamp": [
+          "oklch(15% 0.13898 241.32)",
+          "oklch(26% 0.13898 241.32)",
+          "oklch(38% 0.13898 241.32)",
+          "oklch(49% 0.13898 241.32)",
+          "oklch(61% 0.13898 241.32)",
+          "oklch(72% 0.13898 241.32)",
+          "oklch(84% 0.13898 241.32)",
+          "oklch(95% 0.13898 241.32)"
+        ]
+      },
+      "brand-purple": {
+        "role": "secondary",
+        "displayName": "Brand Purple",
+        "tonalRamp": [
+          "oklch(15% 0.20381 295.35)",
+          "oklch(26% 0.20381 295.35)",
+          "oklch(38% 0.20381 295.35)",
+          "oklch(49% 0.20381 295.35)",
+          "oklch(61% 0.20381 295.35)",
+          "oklch(72% 0.20381 295.35)",
+          "oklch(84% 0.20381 295.35)",
+          "oklch(95% 0.20381 295.35)"
+        ]
+      },
+      "error-light": {
+        "role": "secondary",
+        "displayName": "Error Light",
+        "tonalRamp": [
+          "oklch(15% 0.16140 25.02)",
+          "oklch(26% 0.16140 25.02)",
+          "oklch(38% 0.16140 25.02)",
+          "oklch(49% 0.16140 25.02)",
+          "oklch(61% 0.16140 25.02)",
+          "oklch(72% 0.16140 25.02)",
+          "oklch(84% 0.16140 25.02)",
+          "oklch(95% 0.16140 25.02)"
+        ]
+      },
+      "error-dark": {
+        "role": "secondary",
+        "displayName": "Error Dark",
+        "tonalRamp": [
+          "oklch(15% 0.18795 23.07)",
+          "oklch(26% 0.18795 23.07)",
+          "oklch(38% 0.18795 23.07)",
+          "oklch(49% 0.18795 23.07)",
+          "oklch(61% 0.18795 23.07)",
+          "oklch(72% 0.18795 23.07)",
+          "oklch(84% 0.18795 23.07)",
+          "oklch(95% 0.18795 23.07)"
+        ]
+      },
+      "success-light": {
+        "role": "secondary",
+        "displayName": "Success Light",
+        "tonalRamp": [
+          "oklch(15% 0.11350 153.10)",
+          "oklch(26% 0.11350 153.10)",
+          "oklch(38% 0.11350 153.10)",
+          "oklch(49% 0.11350 153.10)",
+          "oklch(61% 0.11350 153.10)",
+          "oklch(72% 0.11350 153.10)",
+          "oklch(84% 0.11350 153.10)",
+          "oklch(95% 0.11350 153.10)"
+        ]
+      },
+      "success-fill-light": {
+        "role": "secondary",
+        "displayName": "Success Fill Light",
+        "tonalRamp": [
+          "oklch(15% 0.13562 152.56)",
+          "oklch(26% 0.13562 152.56)",
+          "oklch(38% 0.13562 152.56)",
+          "oklch(49% 0.13562 152.56)",
+          "oklch(61% 0.13562 152.56)",
+          "oklch(72% 0.13562 152.56)",
+          "oklch(84% 0.13562 152.56)",
+          "oklch(95% 0.13562 152.56)"
+        ]
+      },
+      "success-dark": {
+        "role": "secondary",
+        "displayName": "Success Dark",
+        "tonalRamp": [
+          "oklch(15% 0.13860 154.25)",
+          "oklch(26% 0.13860 154.25)",
+          "oklch(38% 0.13860 154.25)",
+          "oklch(49% 0.13860 154.25)",
+          "oklch(61% 0.13860 154.25)",
+          "oklch(72% 0.13860 154.25)",
+          "oklch(84% 0.13860 154.25)",
+          "oklch(95% 0.13860 154.25)"
+        ]
+      },
+      "success-fill-dark": {
+        "role": "secondary",
+        "displayName": "Success Fill Dark",
+        "tonalRamp": [
+          "oklch(15% 0.15036 152.29)",
+          "oklch(26% 0.15036 152.29)",
+          "oklch(38% 0.15036 152.29)",
+          "oklch(49% 0.15036 152.29)",
+          "oklch(61% 0.15036 152.29)",
+          "oklch(72% 0.15036 152.29)",
+          "oklch(84% 0.15036 152.29)",
+          "oklch(95% 0.15036 152.29)"
+        ]
+      },
+      "form-error-light": {
+        "role": "secondary",
+        "displayName": "Form Error Light",
+        "tonalRamp": [
+          "oklch(15% 0.17230 34.61)",
+          "oklch(26% 0.17230 34.61)",
+          "oklch(38% 0.17230 34.61)",
+          "oklch(49% 0.17230 34.61)",
+          "oklch(61% 0.17230 34.61)",
+          "oklch(72% 0.17230 34.61)",
+          "oklch(84% 0.17230 34.61)",
+          "oklch(95% 0.17230 34.61)"
+        ]
+      },
+      "form-error-dark": {
+        "role": "secondary",
+        "displayName": "Form Error Dark",
+        "tonalRamp": [
+          "oklch(15% 0.10040 39.65)",
+          "oklch(26% 0.10040 39.65)",
+          "oklch(38% 0.10040 39.65)",
+          "oklch(49% 0.10040 39.65)",
+          "oklch(61% 0.10040 39.65)",
+          "oklch(72% 0.10040 39.65)",
+          "oklch(84% 0.10040 39.65)",
+          "oklch(95% 0.10040 39.65)"
+        ]
+      },
+      "process-purple": {
+        "role": "secondary",
+        "displayName": "Process Purple",
+        "tonalRamp": [
+          "oklch(15% 0.18155 297.36)",
+          "oklch(26% 0.18155 297.36)",
+          "oklch(38% 0.18155 297.36)",
+          "oklch(49% 0.18155 297.36)",
+          "oklch(61% 0.18155 297.36)",
+          "oklch(72% 0.18155 297.36)",
+          "oklch(84% 0.18155 297.36)",
+          "oklch(95% 0.18155 297.36)"
+        ]
+      },
+      "process-green": {
+        "role": "secondary",
+        "displayName": "Process Green",
+        "tonalRamp": [
+          "oklch(15% 0.19523 132.60)",
+          "oklch(26% 0.19523 132.60)",
+          "oklch(38% 0.19523 132.60)",
+          "oklch(49% 0.19523 132.60)",
+          "oklch(61% 0.19523 132.60)",
+          "oklch(72% 0.19523 132.60)",
+          "oklch(84% 0.19523 132.60)",
+          "oklch(95% 0.19523 132.60)"
+        ]
+      },
+      "process-yellow": {
+        "role": "secondary",
+        "displayName": "Process Yellow",
+        "tonalRamp": [
+          "oklch(15% 0.10506 105.32)",
+          "oklch(26% 0.10506 105.32)",
+          "oklch(38% 0.10506 105.32)",
+          "oklch(49% 0.10506 105.32)",
+          "oklch(61% 0.10506 105.32)",
+          "oklch(72% 0.10506 105.32)",
+          "oklch(84% 0.10506 105.32)",
+          "oklch(95% 0.10506 105.32)"
+        ]
+      },
+      "process-blue": {
+        "role": "secondary",
+        "displayName": "Process Blue",
+        "tonalRamp": [
+          "oklch(15% 0.12595 239.38)",
+          "oklch(26% 0.12595 239.38)",
+          "oklch(38% 0.12595 239.38)",
+          "oklch(49% 0.12595 239.38)",
+          "oklch(61% 0.12595 239.38)",
+          "oklch(72% 0.12595 239.38)",
+          "oklch(84% 0.12595 239.38)",
+          "oklch(95% 0.12595 239.38)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Dominant UX hero line."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Repeated section headings."
+      },
+      "product-title": {
+        "displayName": "Product Title",
+        "purpose": "Product names."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Repeated section copy."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Medium action labels."
+      },
+      "label-small": {
+        "displayName": "Label Small",
+        "purpose": "Compact controls."
+      },
+      "process-title": {
+        "displayName": "Process Title",
+        "purpose": "UX stage card headings."
+      },
+      "field-label": {
+        "displayName": "Field Label",
+        "purpose": "UX request field labels."
+      },
+      "reading-body": {
+        "displayName": "Reading Body",
+        "purpose": "Legal and support article copy."
+      }
+    },
+    "shadows": [
+      {
+        "name": "header-menu",
+        "value": "0 12px 32px rgba(0, 0, 0, 0.18)",
+        "purpose": "Floating raised navigation panel."
+      },
+      {
+        "name": "support-dialog",
+        "value": "0 24px 64px rgba(44, 41, 41, 0.35)",
+        "purpose": "Always-light support dialog above the scrim."
+      },
+      {
+        "name": "secondary-stroke",
+        "value": "0 0 0 1px var(--btn-stroke)",
+        "purpose": "Exterior outline of secondary buttons."
+      },
+      {
+        "name": "input-stroke",
+        "value": "inset 0 0 0 var(--in-w) var(--in-ring)",
+        "purpose": "Field boundary; local accent and thickness in focus/error states."
+      }
+    ],
+    "motion": [
+      {
+        "name": "motion-fast",
+        "value": "150ms",
+        "purpose": "Shared short state timing."
+      },
+      {
+        "name": "motion-base",
+        "value": "300ms",
+        "purpose": "Shared surface/text transitions."
+      },
+      {
+        "name": "motion-slow",
+        "value": "600ms",
+        "purpose": "Shared slower animation primitive."
+      },
+      {
+        "name": "ease-standard",
+        "value": "cubic-bezier(0.2, 0, 0, 1)",
+        "purpose": "Shared standard curve."
+      },
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0, 0, 0.2, 1)",
+        "purpose": "Shared outgoing curve."
+      },
+      {
+        "name": "mock-image-late",
+        "value": "opacity 0.35s ease, transform 1000ms cubic-bezier(0.25, 0.1, 0.25, 1) 140ms",
+        "purpose": "Active reference-late.css image transition. Authored sequences retain further local values."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "ux-tablet",
+        "value": "1184px"
+      },
+      {
+        "name": "phone-gallery",
+        "value": "1100px"
+      },
+      {
+        "name": "compact-form",
+        "value": "1024px"
+      },
+      {
+        "name": "soon-stack",
+        "value": "900px"
+      },
+      {
+        "name": "narrow",
+        "value": "760px"
+      },
+      {
+        "name": "compact-header-dialog",
+        "value": "520px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Existing medium source skin; production gap and final primary fill retained.",
+      "html": "<button class=\"ds-btn-primary\"><span>Request free scoping</span><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:var(--control-label-gap,4px);padding:10px 16px;border:0;border-radius:12px;font:400 18px/28px var(--font-body,\"Zilla Slab\",serif);text-decoration:none;cursor:pointer;transition:background-color .15s ease,color .15s ease,box-shadow .15s ease;background:#4b64c0;color:#fff;}.ds-btn-primary>svg{flex:none}.ds-btn-primary:hover{background-color:#4b64c0;}.ds-btn-primary:active{background-color:#4b64c0;}.ds-btn-primary:focus-visible{outline:2px solid var(--c-focus,#3d529d);outline-offset:3px;}.ds-btn-primary:disabled{opacity:.7;cursor:wait;pointer-events:none}@media(max-width:760px){.ds-btn-primary{box-sizing:border-box;max-width:100%;min-width:0;min-height:44px;white-space:normal;text-align:center}}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Existing medium source skin; production gap and final primary fill retained.",
+      "html": "<button class=\"ds-btn-secondary\"><span>Request free scoping</span><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button>",
+      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:var(--control-label-gap,4px);padding:10px 16px;border:0;border-radius:12px;font:400 18px/28px var(--font-body,\"Zilla Slab\",serif);text-decoration:none;cursor:pointer;transition:background-color .15s ease,color .15s ease,box-shadow .15s ease;background:var(--c-surface,#fff);color:var(--c-text,#2c2929);box-shadow:0 0 0 1px var(--c-border,#d3cfcf);margin:1px;}.ds-btn-secondary>svg{flex:none}.ds-btn-secondary:hover{background:var(--c-sec-fill-hover,#e4e8f9);color:var(--c-sec-text-hover,#3d529d);box-shadow:0 0 0 1px var(--c-sec-stroke-hover,#5572da);}.ds-btn-secondary:active{background:var(--c-sec-fill-pressed,#cfd8f5);color:var(--c-sec-text-pressed,#2e3e76);box-shadow:0 0 0 1px var(--c-sec-stroke-pressed,#3d529d);}.ds-btn-secondary:focus-visible{outline:2px solid var(--c-focus,#3d529d);outline-offset:3px;}.ds-btn-secondary:disabled{opacity:.7;cursor:wait;pointer-events:none}@media(max-width:760px){.ds-btn-secondary{box-sizing:border-box;max-width:100%;min-width:0;min-height:44px;white-space:normal;text-align:center}}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Existing medium source skin; production gap and final primary fill retained.",
+      "html": "<button class=\"ds-btn-ghost\"><span>Request free scoping</span><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button>",
+      "css": ".ds-btn-ghost{display:inline-flex;align-items:center;justify-content:center;gap:var(--control-label-gap,4px);padding:10px 16px;border:0;border-radius:12px;font:400 18px/28px var(--font-body,\"Zilla Slab\",serif);text-decoration:none;cursor:pointer;transition:background-color .15s ease,color .15s ease,box-shadow .15s ease;background:transparent;color:var(--c-accent,#3d529d);}.ds-btn-ghost>svg{flex:none}.ds-btn-ghost:hover{background:var(--c-accent-subtle,#e4e8f9);color:var(--c-accent-hover,#3d529d);}.ds-btn-ghost:active{background:var(--c-accent-subtle,#e4e8f9);color:var(--c-ghost-pressed,#2e3e76);}.ds-btn-ghost:focus-visible{outline:2px solid var(--c-focus,#3d529d);outline-offset:3px;}.ds-btn-ghost:disabled{opacity:.7;cursor:wait;pointer-events:none}@media(max-width:760px){.ds-btn-ghost{box-sizing:border-box;max-width:100%;min-width:0;min-height:44px;white-space:normal;text-align:center}}"
+    },
+    {
+      "name": "Auxiliary Button",
+      "kind": "button",
+      "refersTo": "button-auxiliary",
+      "description": "Existing medium source skin; production gap and final primary fill retained.",
+      "html": "<button class=\"ds-btn-auxiliary\"><span>Request free scoping</span><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button>",
+      "css": ".ds-btn-auxiliary{display:inline-flex;align-items:center;justify-content:center;gap:var(--control-label-gap,4px);padding:10px 16px;border:0;border-radius:12px;font:400 18px/28px var(--font-body,\"Zilla Slab\",serif);text-decoration:none;cursor:pointer;transition:background-color .15s ease,color .15s ease,box-shadow .15s ease;background:var(--c-aux-fill,#f3f2f2);color:var(--c-aux-text,#2c2929);}.ds-btn-auxiliary>svg{flex:none}.ds-btn-auxiliary:hover{background:var(--c-aux-hover,#e6e5e5);}.ds-btn-auxiliary:active{background:var(--c-aux-pressed,#d3cfcf);}.ds-btn-auxiliary:focus-visible{outline:2px solid var(--c-focus,#3d529d);outline-offset:3px;}.ds-btn-auxiliary:disabled{opacity:.7;cursor:wait;pointer-events:none}@media(max-width:760px){.ds-btn-auxiliary{box-sizing:border-box;max-width:100%;min-width:0;min-height:44px;white-space:normal;text-align:center}}"
+    },
+    {
+      "name": "Label Button",
+      "kind": "button",
+      "refersTo": "button-label",
+      "description": "Existing medium source skin; production gap and final primary fill retained.",
+      "html": "<button class=\"ds-btn-label\"><span>Request free scoping</span><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button>",
+      "css": ".ds-btn-label{display:inline-flex;align-items:center;justify-content:center;gap:var(--control-label-gap,4px);padding:10px 16px;border:0;border-radius:12px;font:400 18px/28px var(--font-body,\"Zilla Slab\",serif);text-decoration:none;cursor:pointer;transition:background-color .15s ease,color .15s ease,box-shadow .15s ease;background:transparent;color:var(--c-text,#2c2929);}.ds-btn-label>svg{flex:none}.ds-btn-label:hover{color:var(--c-label-hover,#3d529d);}.ds-btn-label:active{color:var(--c-label-pressed,#2e3e76);}.ds-btn-label:focus-visible{outline:2px solid var(--c-focus,#3d529d);outline-offset:3px;}.ds-btn-label:disabled{opacity:.7;cursor:wait;pointer-events:none}@media(max-width:760px){.ds-btn-label{box-sizing:border-box;max-width:100%;min-width:0;min-height:44px;white-space:normal;text-align:center}}"
+    },
+    {
+      "name": "Email Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Shared input shell with local raised surface and inset focus/error stroke.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">Email</span><span class=\"ds-field-shell\"><input class=\"ds-field-control\" type=\"email\" placeholder=\"Your email\" autocomplete=\"email\"></span></label>",
+      "css": ".ds-field{display:flex;flex-direction:column;gap:6px;width:320px;max-width:100%;font-family:var(--font-body,\"Zilla Slab\",serif);color:var(--c-text,#2c2929)}.ds-field-label{font:600 12px/16px var(--font-body,\"Zilla Slab\",serif)}.ds-field-shell{height:48px;padding:0 16px;display:flex;align-items:center;gap:4px;background:var(--surface-raised,#fff);border-radius:8px;box-shadow:inset 0 0 0 1px var(--c-border,#d3cfcf);transition:box-shadow .15s ease}.ds-field-shell:hover{box-shadow:inset 0 0 0 1px var(--c-input-hover,#797171)}.ds-field-shell:focus-within{box-shadow:inset 0 0 0 2px var(--c-accent,#3d529d)}.ds-field-control{width:100%;min-width:0;border:0;padding:0;background:transparent;color:var(--c-text,#2c2929);font:400 18px/28px var(--font-body,\"Zilla Slab\",serif)}.ds-field-control:focus-visible{outline:0}.ds-field-control::placeholder{color:var(--c-text-2,#5a5454);opacity:1}.ds-field:has([aria-invalid=\"true\"]) .ds-field-shell{box-shadow:inset 0 0 0 2px var(--c-error,#a5282a)}"
+    },
+    {
+      "name": "Raised Site Menu",
+      "kind": "nav",
+      "description": "Header menu item and language selection; the separate branded pill retains its source artwork in the site.",
+      "html": "<nav class=\"ds-menu\" aria-label=\"Site menu\"><a class=\"ds-menu-item\" href=\"/ux/\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" aria-hidden=\"true\"><path d=\"M21 7.52V13.4C21 13.74 20.67 13.98 20.35 13.88L16.42 12.66C15.34 12.33 14.18 12.61 13.39 13.4C12.59 14.2 12.3 15.37 12.64 16.45L13.85 20.35C13.95 20.67 13.71 21 13.37 21H7.52C4.07 21 2 18.94 2 15.48V7.52C2 4.06 4.07 2 7.52 2H15.48C18.93 2 21 4.06 21 7.52Z\" fill=\"currentColor\"></path><path d=\"M21.96 18.84L20.33 19.39C19.88 19.54 19.52 19.89 19.37 20.35L18.82 21.98C18.35 23.39 16.37 23.36 15.93 21.95L14.08 16C13.72 14.82 14.81 13.72 15.98 14.09L21.94 15.94C23.34 16.38 23.36 18.37 21.96 18.84Z\" fill=\"currentColor\"></path></svg><span>UX &amp; Design</span></a><div class=\"ds-menu-languages\"><a class=\"ds-menu-language\" href=\"/\" aria-current=\"page\">EN</a><a class=\"ds-menu-language\" href=\"/ru/\">RU</a><a class=\"ds-menu-language\" href=\"/uk/\">UK</a></div></nav>",
+      "css": ".ds-menu{display:flex;flex-direction:column;gap:4px;width:256px;max-width:100%;padding:8px;background:var(--surface-raised,#fff);color:var(--text-primary,#2c2929);border:1px solid var(--border-default,#d3cfcf);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.18)}.ds-menu-item{display:flex;align-items:center;gap:8px;min-height:44px;padding:8px 12px;border-radius:8px;color:inherit;text-decoration:none;font:400 16px/24px var(--font-body,\"Zilla Slab\",serif)}.ds-menu-item svg{flex:none;width:24px;height:24px}.ds-menu-item:hover,.ds-menu-item:focus-visible{background:var(--accent-subtle,#e4e8f9);color:var(--accent-default,#3d529d)}.ds-menu-languages{display:flex;gap:4px;margin-top:4px;padding-top:8px;border-top:1px solid var(--border-default,#d3cfcf)}.ds-menu-language{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:8px 10px;border-radius:8px;text-decoration:none;color:inherit;font:400 16px/24px var(--font-body,\"Zilla Slab\",serif)}.ds-menu-language[aria-current=\"page\"]{background:#e9e037;color:#242121}.ds-menu-language:hover{background:var(--accent-subtle,#e4e8f9)}.ds-menu-language:focus-visible{outline:2px solid #7a47d3;outline-offset:4px}"
+    },
+    {
+      "name": "Process Card",
+      "kind": "card",
+      "refersTo": "process-card",
+      "description": "First stage at its active, readable resting state; source tint, stroke and content hierarchy.",
+      "html": "<div class=\"ds-process-stage\"><article class=\"ds-process\" tabindex=\"0\"><svg viewBox=\"0 0 44 44\" fill=\"none\" aria-hidden=\"true\"><path d=\"M30.1034 14.575C34.5767 19.0483 34.5767 26.3083 30.1034 30.7816C25.6301 35.255 18.3701 35.255 13.8967 30.7816C9.42341 26.3083 9.42341 19.0483 13.8967 14.575C18.3701 10.1016 25.6301 10.1016 30.1034 14.575Z\" fill=\"#8A5DD8\"></path><path d=\"M15.1249 41.0484C14.9599 41.0484 14.7766 41.0117 14.6116 40.9567C10.4866 39.3067 7.14989 36.3917 4.91323 32.5417C2.74989 28.7834 1.88823 24.5301 2.45656 20.2034C2.54823 19.4517 3.26323 18.9201 3.99656 19.0117C4.74823 19.1034 5.27989 19.8001 5.18823 20.5517C4.71156 24.2734 5.44489 27.9401 7.29656 31.1667C9.20323 34.4667 12.0816 36.9784 15.6199 38.3901C16.3166 38.6834 16.6649 39.4717 16.3899 40.1867C16.1882 40.7184 15.6566 41.0484 15.1249 41.0484Z\" fill=\"#8A5DD8\"></path><path d=\"M10.725 9.58833C10.3217 9.58833 9.91836 9.40499 9.64336 9.05666C9.1667 8.46999 9.2767 7.60833 9.8817 7.13166C13.365 4.39999 17.5634 2.95166 22 2.95166C26.3267 2.95166 30.4517 4.34499 33.9167 6.98499C34.5217 7.44333 34.6317 8.30499 34.1734 8.90999C33.715 9.51499 32.8534 9.62499 32.2484 9.16666C29.26 6.89333 25.7217 5.70166 22 5.70166C18.1867 5.70166 14.575 6.94833 11.5684 9.29499C11.3117 9.49666 11.0184 9.58833 10.725 9.58833Z\" fill=\"#8A5DD8\"></path><path d=\"M28.875 41.0484C28.325 41.0484 27.8116 40.7184 27.5916 40.1867C27.3166 39.4901 27.6466 38.6834 28.3616 38.3901C31.9 36.9601 34.7783 34.4667 36.685 31.1667C38.555 27.9401 39.2883 24.2734 38.7933 20.5701C38.7016 19.8184 39.2333 19.1217 39.985 19.0301C40.7183 18.9384 41.4333 19.4701 41.525 20.2217C42.075 24.5301 41.2316 28.8017 39.0683 32.5601C36.85 36.4101 33.495 39.3067 29.37 40.9751C29.2233 41.0117 29.0583 41.0484 28.875 41.0484Z\" fill=\"#8A5DD8\"></path></svg><div class=\"ds-process-copy\"><h3>01. Tell us about your product</h3><p>Share your app, game, prototype, or screenshots. Explain what you’re trying to improve.</p></div></article></div>",
+      "css": ".ds-process{display:flex;flex-direction:column;gap:24px;max-width:280px;padding:24px;border:1px solid #8a5dd8;border-radius:12px;background:linear-gradient(180deg,rgba(66,38,114,.2),rgba(66,38,114,0));color:#fff}.ds-process-copy{display:flex;flex-direction:column;gap:4px}.ds-process:focus-visible{outline:2px solid #e9e037;outline-offset:4px}.ds-process h3{margin:0;font:400 22px/30px var(--font-display,\"Changa One\",sans-serif)}.ds-process p{margin:0;font:400 16px/24px var(--font-body,\"Zilla Slab\",serif)}.ds-process-stage{display:inline-block;background:#2c2929}.ds-process svg{flex:none;width:44px;height:44px}"
+    },
+    {
+      "name": "Coming Soon Chip",
+      "kind": "chip",
+      "refersTo": "soon-chip",
+      "description": "Unavailable-store label; light source treatment, not an enabled action.",
+      "html": "<span class=\"ds-soon-chip\">Coming soon</span>",
+      "css": ".ds-soon-chip{display:inline-block;white-space:nowrap;padding:2px 9px;border-radius:999px;font:500 11px/15px var(--font-body,\"Zilla Slab\",serif);color:var(--text-primary,#2c2929);background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(255,255,255,.42));border:1px solid rgba(255,255,255,.8);backdrop-filter:blur(8px) saturate(1.4);box-shadow:0 2px 8px rgba(44,41,41,.16),inset 0 1px 0 rgba(255,255,255,.7)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Playful Product Studio",
+    "overview": "Vickand pairs playful, oversized display lettering with warm slab-serif copy. The Apps & Games path uses a light stone canvas; the UX & Design path uses a charcoal canvas. The shared palette, circular brand mark, pill navigation and framed product screens connect both paths.\n\nThe supplied HTML and handoff assets are the visual authority. This record extracts that incumbent system; its descriptive language is a documentation shorthand, not a new identity proposal. Owner-provided product screens, comparison artwork, logos and self-hosted fonts remain the imagery source.",
+    "keyCharacteristics": [
+      "Two deliberate light and dark visitor paths.",
+      "Changa One headlines paired with Zilla Slab reading and controls.",
+      "Authored phone framing, colorful diagram motion and playable details.",
+      "Centered information groups with responsive, fully readable static alternatives."
+    ],
+    "rules": [
+      {
+        "name": "Source Order",
+        "body": "Read the complete active cascade before changing a token or component; later production and reference overrides are part of the design authority.",
+        "section": "colors"
+      },
+      {
+        "name": "Readable Motion",
+        "body": "Pause and reduced-motion states must retain every passage in a content-sized static layout. Motion must never be required to read or act.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "Do reuse matching handoff assets, existing button skins and shared layouts.",
+      "Do center the combined action icon and label horizontally and vertically, with a 4 logical-pixel gap. Center information-board and card illustrations deliberately.",
+      "Do preserve the explicitly authored brand-navigation geometry, including its theme-specific mark order and gaps.",
+      "Do verify English, Russian and Ukrainian at desktop and narrow phone widths, including 320px.",
+      "Do preserve visible keyboard focus, readable contrast and full text in paused, reduced-motion and no-JavaScript reading layouts."
+    ],
+    "donts": [
+      "Don't replace the supplied light/dark identity, fonts or artwork with a new visual concept.",
+      "Don't force translated labels into fixed-height or non-wrapping action controls.",
+      "Don't infer a rendered component's color from its earliest token declaration.",
+      "Don't use decorative motion, clipping or diagram overlays to conceal copy or comparison explanations."
+    ]
+  }
+}
