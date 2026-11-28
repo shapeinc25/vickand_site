@@ -66,14 +66,15 @@ export function createFormsHandler({ env = process.env, client = (key) => new Re
       const name = field("name", 120),
         issue = field("issue", 80),
         details = field("details", 1800);
-      if (!name || /[\r\n]/.test(name) || !SUPPORT_ISSUES.has(issue) || !details)
-        return json({ error: "Enter your name, choose an issue and describe your request." }, 400);
+      if (!SUPPORT_ISSUES.has(issue)) return json({ error: "Choose an issue." }, 400);
+      if ((body.name && !name) || /[\r\n]/.test(name) || (body.details && !details))
+        return json({ error: "Please check the name and details." }, 400);
       variables = {
-        NAME: name,
+        NAME: name || "Not provided",
         SENDER_EMAIL: email,
         HELP: `Support: ${issue}`,
         LINK: new URL("/support/", env.SITE_URL || "https://vickand.com").href,
-        MESSAGE: details,
+        MESSAGE: details || "Not provided",
       };
       templateId = env.RESEND_SUPPORT_TEMPLATE_ID || env.RESEND_CONTACT_TEMPLATE_ID;
     } else if (kind === "contact") {

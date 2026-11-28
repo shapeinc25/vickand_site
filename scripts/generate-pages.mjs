@@ -276,20 +276,6 @@ export function generatePages(root, { development = false } = {}) {
             .attr("sizes", "(max-width:760px) 240px, 280px");
       });
       $(".hero-track .mock-default").attr("fetchpriority", "high");
-      $(".product-more").each((_, n) => {
-        const link = $(n),
-          name = link.closest(".product").find("h3").text().split(".")[0];
-        link
-          .contents()
-          .filter((_, node) => node.type === "text")
-          .first()
-          .replaceWith(html(t("Explore")) + " " + html(name) + " ");
-      });
-      $(".cta-btn-wrap a")
-        .contents()
-        .filter((_, node) => node.type === "text")
-        .first()
-        .replaceWith(html(t("UX & Design")) + " ");
       $(".soon-front").attr("aria-label", t("Three mini games. Play while you wait"));
       $("img").each((_, n) => {
         const image = $(n);

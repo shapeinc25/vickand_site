@@ -11,7 +11,11 @@ window.__lang = language === "uk" ? "ua" : language;
 window.__SENT = { ru: sentences.ru, ua: sentences.uk };
 window.__SHOTS = screenshots;
 const imported = import.meta.glob(
-  ["../../assets/img/shots/**/*.{webp,avif,png,jpg,jpeg}", "../../assets/img/raster-*.webp"],
+  [
+    "../../assets/img/shots/**/*.{webp,avif,png,jpg,jpeg}",
+    "../../assets/img/raster-*.webp",
+    "!../../assets/img/shots/**/daydraft-[456].webp",
+  ],
   { eager: true, query: "?url", import: "default" },
 );
 const urls = Object.fromEntries(
@@ -83,15 +87,79 @@ document.addEventListener("visibilitychange", () => {
     );
   }
 });
+// Preserve the reader's place between real locale URLs. Each tab consumes its own handoff.
+const localeScrollKey = "vickand-language-scroll";
 document.querySelectorAll("a[data-language]").forEach((link) =>
-  link.addEventListener("click", () => {
+  link.addEventListener("click", (event) => {
+    if (
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    )
+      return;
+    if (link.dataset.language === language) {
+      event.preventDefault();
+      return;
+    }
     try {
       localStorage.setItem("vickand-lang", link.dataset.language);
     } catch {
       /* Locale links work without storage. */
     }
+    try {
+      const readingLine = Math.min(80, window.innerHeight / 5);
+      let sectionId = "";
+      let offset = 0;
+      for (const section of document.querySelectorAll("main :is(section, article)[id]")) {
+        const bounds = section.getBoundingClientRect();
+        if (bounds.top <= readingLine && bounds.bottom > readingLine) {
+          sectionId = section.id;
+          offset = -bounds.top;
+        }
+      }
+      sessionStorage.setItem(
+        localeScrollKey,
+        JSON.stringify({ path: link.pathname, top: window.scrollY, sectionId, offset }),
+      );
+    } catch {
+      /* Native navigation still works if session storage is unavailable. */
+    }
   }),
 );
+
+let localeScroll;
+try {
+  localeScroll = JSON.parse(sessionStorage.getItem(localeScrollKey));
+  sessionStorage.removeItem(localeScrollKey);
+} catch {
+  /* An absent or invalid position needs no restoration. */
+}
+if (
+  localeScroll?.path === location.pathname &&
+  Number.isFinite(localeScroll.top) &&
+  performance.getEntriesByType("navigation")[0]?.type !== "back_forward"
+) {
+  const restore = () => {
+    const section = document.getElementById(localeScroll.sectionId);
+    let top = localeScroll.top;
+    if (section && Number.isFinite(localeScroll.offset)) {
+      const bounds = section.getBoundingClientRect();
+      top = window.scrollY + bounds.top + Math.min(localeScroll.offset, Math.max(0, bounds.height - 1));
+    }
+    window.scrollTo({ top: Math.max(0, top), behavior: "instant" });
+  };
+  requestAnimationFrame(() => {
+    restore();
+    const restoredTop = window.scrollY;
+    // The translated section may move when its font finishes loading.
+    document.fonts?.ready.then(() => {
+      if (Math.abs(window.scrollY - restoredTop) < 1) restore();
+    });
+  });
+}
 
 // Old single-document links remain useful, while each real page has its own address.
 if (["#ux", "#terms", "#privacy", "#apps"].includes(location.hash)) {

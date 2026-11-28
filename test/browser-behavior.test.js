@@ -118,6 +118,7 @@ test("retryable network failure preserves values and reuses its idempotency key"
 });
 test("missing or incomplete release email shows the reference error and cannot reach the API", (t) => {
   const { w, d, run } = fixture(t);
+  w.__reduced = false;
   let calls = 0;
   w.fetch = () => {
     calls++;
@@ -151,6 +152,71 @@ test("choosing a valid custom option clears the previous invalid state", (t) => 
   option.click();
   assert.equal(select.hasAttribute("aria-invalid"), false);
   assert.equal(d.querySelector("#ux-req-help-v").value, option.dataset.v);
+});
+test("UX request restores the reference error and confirmation states around the real response", async (t) => {
+  const { w, d, run } = fixture(t, ux);
+  w.__reduced = false;
+  let complete;
+  let sends = 0;
+  w.fetch = () => {
+    sends++;
+    return new Promise((resolve) => (complete = resolve));
+  };
+  const form = d.querySelector("#ux-req-form");
+  const name = form.elements.namedItem("name");
+  const email = form.elements.namedItem("email");
+  const message = form.querySelector(".ux-req-ok");
+  run("src/scripts/common/forms.js");
+  submit(w, form);
+  assert.ok(form.classList.contains("is-shake"));
+  assert.equal(form.querySelector(".form-status").textContent, "");
+  assert.equal(d.activeElement, name);
+  assert.equal(sends, 0);
+  name.value = "QA";
+  email.value = "qa@example.invalid";
+  form.querySelector("#ux-req-help").click();
+  form.querySelector("#ux-req-list [data-v]").click();
+  submit(w, form);
+  assert.equal(message.hidden, true);
+  complete({ ok: true, json: async () => ({ ok: true }) });
+  await settle();
+  assert.ok(form.classList.contains("is-done"));
+  assert.equal(message.hidden, false);
+  assert.equal(name.readOnly, true);
+  assert.equal(name.value, "");
+  submit(w, form);
+  assert.equal(sends, 1);
+  name.focus();
+  assert.equal(name.readOnly, false);
+  assert.equal(message.hidden, true);
+  assert.equal(form.querySelector(".ux-req-label").textContent, "Request Free Scoping");
+});
+test("closing and reopening support clears the draft and ignores a response for the old dialog", async (t) => {
+  const { w, d, run } = fixture(t, '<button id="open" data-support-dialog>Support</button>' + support);
+  w.__reduced = false;
+  const advance = clock(w);
+  let complete;
+  w.fetch = () => new Promise((resolve) => (complete = resolve));
+  run("src/scripts/common/forms.js");
+  run("src/scripts/common/support-dialog.js");
+  const modal = d.querySelector("#sup-modal");
+  const form = d.querySelector("#sup-form");
+  const open = d.querySelector("#open");
+  open.click();
+  advance(70);
+  form.elements.namedItem("name").value = "Old draft";
+  form.elements.namedItem("email").value = "qa@example.invalid";
+  form.querySelector("#sup-issue").click();
+  form.querySelector("#sup-list [data-v]").click();
+  submit(w, form);
+  modal.querySelector(".sup-close").click();
+  open.click();
+  assert.equal(form.elements.namedItem("name").value, "");
+  assert.equal(form.elements.namedItem("issue").value, "");
+  complete({ ok: true, json: async () => ({ ok: true }) });
+  await settle();
+  assert.equal(modal.classList.contains("is-sent"), false);
+  assert.equal(form.elements.namedItem("email").disabled, false);
 });
 test("navigation can reopen during its closing transition and Tab can traverse links", (t) => {
   const { w, d, run } = fixture(t, source("src/partials/layout/header.html") + "<button id=outside>Outside</button>");
@@ -193,7 +259,7 @@ test("closing support before its opening animation cannot steal focus back", (t)
   assert.equal(d.activeElement, trigger);
   assert.equal(d.querySelector(".view").inert, false);
   trigger.click();
-  advance(40);
+  advance(70);
   assert.equal(d.activeElement.id, "sup-name");
 });
 test("comparison keyboard tabs keep selected panel, focus and tab stop together", (t) => {

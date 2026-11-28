@@ -1,6 +1,7 @@
 const modal = document.getElementById("sup-modal");
 if (modal) {
   const card = modal.querySelector(".sup-card");
+  const form = modal.querySelector("#sup-form");
   let opener, hideTimer, focusTimer, openingFrame;
   const background = new Map();
   const focusables = () =>
@@ -10,6 +11,7 @@ if (modal) {
   const close = () => {
     clearTimeout(focusTimer);
     cancelAnimationFrame(openingFrame);
+    form?.dispatchEvent(new Event("vickand:close-support"));
     modal.classList.remove("is-open");
     document.documentElement.classList.remove("sup-lock");
     background.forEach((wasInert, item) => (item.inert = wasInert));
@@ -17,6 +19,8 @@ if (modal) {
     hideTimer = setTimeout(
       () => {
         modal.hidden = true;
+        modal.classList.remove("is-sent");
+        form?.reset();
       },
       window.__reduced ? 0 : 280,
     );
@@ -28,6 +32,7 @@ if (modal) {
     event.preventDefault();
     clearTimeout(hideTimer);
     opener = trigger;
+    form?.reset();
     modal.classList.remove("is-sent");
     modal.hidden = false;
     openingFrame = requestAnimationFrame(() => {
@@ -49,7 +54,7 @@ if (modal) {
     focusTimer = setTimeout(() => {
       if (!modal.hidden && modal.classList.contains("is-open"))
         modal.querySelector("#sup-name")?.focus({ preventScroll: true });
-    }, 30);
+    }, 60);
   });
   modal.querySelector(".sup-close")?.addEventListener("click", close);
   modal.querySelector(".sup-ok")?.addEventListener("click", close);

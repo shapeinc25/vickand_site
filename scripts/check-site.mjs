@@ -37,9 +37,18 @@ for (const page of pages) {
       .includes(page.noindex ? "noindex" : "index"),
     "incorrect search rule",
   );
+  assert(!/\{\{\w+\}\}|Content to be added|href="undefined"/.test(source), "unresolved placeholder");
+  const demoCounter = $('#soon-count[data-count-source="demo"]');
+  const expectedDemoCount = page.kind === "apps" ? 1 : 0;
   assert(
-    !/\{\{\w+\}\}|Content to be added|1,240|href="undefined"/.test(source),
-    "unresolved placeholder or demonstration subscriber claim",
+    (source.match(/\b1,240\b/g)?.length || 0) === expectedDemoCount &&
+      demoCounter.length === expectedDemoCount &&
+      (expectedDemoCount === 0 ||
+        (demoCounter.text() === "1,240" &&
+          demoCounter.attr("data-count") === "1240" &&
+          $('.soon-front[aria-describedby="soon-count-note"]').length === 1 &&
+          $("#soon-count-note").text().trim())),
+    "demonstration count must be marked and limited to the signup card",
   );
   const ids = new Set();
   $("[id]").each((_, element) => {

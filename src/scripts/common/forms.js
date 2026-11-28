@@ -155,10 +155,13 @@ function configureForm(form, kind) {
   if (!form) return;
   let previous = "",
     requestId = "",
-    sending = false;
+    sending = false,
+    supportSession = 0;
   const submit = form.querySelector('button[type="submit"]'),
     label = submit?.querySelector(".soon-btn-label,.ux-req-label,span") || submit;
   const original = label?.textContent;
+  const contactConfirmation = form.querySelector(".ux-req-ok");
+  const supportModal = kind === "support" ? form.closest(".sup-modal") : null;
   let status = form.querySelector(".form-status");
   if (!status) {
     status = document.createElement("p");
@@ -216,41 +219,67 @@ function configureForm(form, kind) {
     if (!form.classList.contains("is-done")) return;
     clearTimeout(resetTimer);
     setWaitlistDone(false);
-    form.dataset.sent = "false";
   };
   if (waitlistEmail) {
     waitlistEmail.addEventListener("focus", resetWaitlist);
     waitlistEmail.addEventListener("pointerdown", resetWaitlist);
-    form.addEventListener("animationend", (event) => {
-      if (event.animationName === "soon-shake") form.classList.remove("is-shake");
+  }
+  form.addEventListener("animationend", (event) => {
+    if (event.animationName === "soon-shake") form.classList.remove("is-shake");
+  });
+
+  const setContactDone = (done) => {
+    form.classList.toggle("is-done", done);
+    label.textContent = done ? t("Request sent") : original;
+    contactConfirmation.hidden = !done;
+    form.querySelectorAll("input.input-control, textarea").forEach((field) => {
+      field.readOnly = done;
+    });
+    if (done) submit.setAttribute("aria-disabled", "true");
+    else submit.removeAttribute("aria-disabled");
+  };
+  if (contactConfirmation) {
+    const resetContact = () => {
+      if (form.classList.contains("is-done")) setContactDone(false);
+    };
+    form.addEventListener("focusin", resetContact);
+    form.addEventListener("pointerdown", (event) => {
+      if (!event.target.closest('button[type="submit"]')) resetContact();
     });
   }
-  const fieldError = (field) => {
-    const target = field.type === "hidden" ? document.getElementById(field.id.replace(/-v$/, "")) : field;
-    const wrapper = target?.closest(".input");
-    wrapper?.classList.add("is-error");
-    target?.setAttribute("aria-invalid", "true");
+
+  const setFieldError = (field, invalid) => {
+    const control = field.type === "hidden" ? document.getElementById(field.id.replace(/-v$/, "")) : field;
+    const wrapper = control?.closest(".input");
+    wrapper?.classList.toggle("is-error", invalid);
+    if (invalid) control?.setAttribute("aria-invalid", "true");
+    else control?.removeAttribute("aria-invalid");
     const message = wrapper?.querySelector(".input-message");
-    if (message) message.hidden = false;
-    return target;
+    if (message) message.hidden = !invalid;
+    return control;
   };
-  form.addEventListener("input", (event) => {
-    const field = event.target;
-    field.removeAttribute("aria-invalid");
-    const wrapper = field.closest(".input");
-    wrapper?.classList.remove("is-error");
-    wrapper?.querySelector(".input-message")?.setAttribute("hidden", "");
-    if (waitlistEmail) resetWaitlist();
-    if (form.dataset.sent === "true") {
-      form.dataset.sent = "false";
-      form.classList.remove("is-done");
-      if (label) label.textContent = original;
-      setStatus("");
+  form.addEventListener("reset", () => {
+    form.querySelectorAll("[aria-invalid]").forEach((field) => setFieldError(field, false));
+    form.classList.remove("is-shake");
+    setStatus("");
+    if (supportModal) {
+      supportSession++;
+      previous = "";
+      requestId = "";
+      label.textContent = original;
     }
+  });
+  form.addEventListener("vickand:close-support", () => {
+    supportSession++;
+  });
+
+  form.addEventListener("input", (event) => {
+    if (waitlistEmail) resetWaitlist();
+    setFieldError(event.target, false);
   });
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    if (sending || (waitlistEmail && form.classList.contains("is-done"))) return;
+    if (sending || form.classList.contains("is-done") || supportModal?.classList.contains("is-sent")) return;
     let firstInvalid;
     form.querySelectorAll("[required]").forEach((field) => {
       const valid =
@@ -259,18 +288,16 @@ function configureForm(form, kind) {
           : field.type === "email"
             ? field.validity.valid && /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(field.value.trim())
             : Boolean(field.value.trim());
-      if (!valid) {
-        const target = fieldError(field);
-        firstInvalid ||= target;
-      }
+      const target = setFieldError(field, !valid);
+      if (!valid) firstInvalid ||= target;
     });
     if (firstInvalid) {
-      if (waitlistEmail) {
-        setStatus("");
+      setStatus("");
+      if (!window.__reduced) {
         form.classList.remove("is-shake");
         void form.offsetWidth;
         form.classList.add("is-shake");
-      } else setStatus(t("Complete the highlighted fields."), true);
+      }
       firstInvalid.focus();
       return;
     }
@@ -295,6 +322,7 @@ function configureForm(form, kind) {
       requestId = crypto.randomUUID();
     }
     sending = true;
+    const openedSupportSession = supportSession;
     const controls = [...form.elements].map((control) => ({ control, disabled: control.disabled }));
     controls.forEach(({ control }) => {
       control.disabled = true;
@@ -319,24 +347,22 @@ function configureForm(form, kind) {
             ? t("Please check your details and try again.")
             : t("Your message was not sent. Please try again or email support@vickand.com."),
         );
+      if (openedSupportSession !== supportSession) return;
       previous = "";
       requestId = "";
       form.reset();
-      form.dataset.sent = "true";
       if (waitlistEmail) {
         setWaitlistDone(true);
         resetTimer = setTimeout(resetWaitlist, 10000);
-      } else {
-        form.classList.add("is-done");
-        if (label) label.textContent = t("Request sent");
-        if (kind === "support") {
-          const modal = form.closest(".sup-modal");
-          modal?.classList.add("is-sent");
-          modal?.querySelector(".sup-ok")?.focus({ preventScroll: true });
-        }
-        setStatus(t("Your request reached us. We’ll reply by email."));
+      } else if (contactConfirmation) {
+        setContactDone(true);
+      } else if (supportModal) {
+        supportModal.classList.add("is-sent");
+        supportModal.scrollTop = 0;
+        supportModal.querySelector(".sup-ok")?.focus({ preventScroll: true });
       }
     } catch (error) {
+      if (openedSupportSession !== supportSession) return;
       if (label) label.textContent = original;
       setStatus(
         error.name === "AbortError" || error instanceof TypeError
@@ -352,7 +378,10 @@ function configureForm(form, kind) {
       });
       form.removeAttribute("aria-busy");
     }
-    if (waitlistEmail && form.classList.contains("is-done")) celebrateSubscription(submit);
+    if (waitlistEmail && form.classList.contains("is-done")) {
+      celebrateSubscription(submit);
+      document.dispatchEvent(new Event("vickand:subscribed"));
+    }
   });
 }
 configureForm(document.getElementById("subscribe-form"), "waitlist");

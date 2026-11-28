@@ -145,8 +145,11 @@ test("support requests use a fixed recipient and validated issue without requiri
   assert.equal(calls[0][0].template.id, config.RESEND_CONTACT_TEMPLATE_ID);
   assert.equal(calls[0][0].template.variables.HELP, "Support: Email preferences");
   assert.equal((await handler(request({ ...body, issue: "untrusted" }))).status, 400);
-  assert.equal((await handler(request({ ...body, details: "" }))).status, 400);
-  assert.equal(calls.length, 1);
+  assert.equal((await handler(request({ ...body, name: "", details: "" }))).status, 200);
+  assert.equal(calls[1][0].template.variables.NAME, "Not provided");
+  assert.equal(calls[1][0].template.variables.MESSAGE, "Not provided");
+  assert.equal((await handler(request({ ...body, details: "a".repeat(1801) }))).status, 400);
+  assert.equal(calls.length, 2);
 });
 test("release news requires an explicit current consent choice and keeps receipt evidence stable on retries", async () => {
   const { handler, calls } = fixture();

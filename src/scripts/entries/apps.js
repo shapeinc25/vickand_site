@@ -14,6 +14,7 @@ import "../apps/products-dots.js";
 import "../apps/touch-hover.js";
 import "../apps/products-reveal.js";
 import "../apps/soon-reveal.js";
+import "../apps/subscription-counter.js";
 import "../apps/counter-card/index.js";
 import "../apps/statement.js";
 import "../apps/hero-carousel.js";
