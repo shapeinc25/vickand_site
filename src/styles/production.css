@@ -167,7 +167,6 @@ form.is-done .form-submit .arrow {
   display: block;
   object-fit: cover;
   object-position: center top;
-  border-radius: inherit;
 }
 .mock-bg {
   background-image: none !important;
@@ -698,7 +697,7 @@ html[data-motion="paused"] .hero-morph {
   order: -1;
 }
 
-/* Mobile text panels share one measured stage; each passage has its own scroll interval. */
+/* The mobile panels share one sticky stage and trade places after a short swipe. */
 @media (max-width: 760px) {
   html.js[data-motion="running"] .ux-story {
     height: auto;
@@ -706,7 +705,7 @@ html[data-motion="paused"] .hero-morph {
   html.js[data-motion="running"] .ux-story::after {
     content: "";
     display: block;
-    height: 102svh;
+    height: 56svh;
   }
   html.js[data-motion="running"] .ux-story-stage {
     display: grid;
@@ -721,6 +720,27 @@ html[data-motion="paused"] .hero-morph {
   html.js[data-motion="running"] .ux-sp-inner {
     height: auto;
   }
+  .ux-story .ux-tb {
+    opacity: 0;
+    transform: translate3d(var(--story-slide), 0, 0);
+    transition:
+      opacity 160ms ease-in,
+      transform 240ms ease-in;
+  }
+  .ux-sp-a {
+    --story-slide: -56px;
+  }
+  .ux-sp-b {
+    --story-slide: 56px;
+  }
+  .ux-story:not([data-story-step="second"]) .ux-sp-a .ux-tb,
+  .ux-story[data-story-step="second"] .ux-sp-b .ux-tb {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition:
+      opacity 280ms ease-out 160ms,
+      transform 420ms cubic-bezier(0.16, 1, 0.3, 1) 160ms;
+  }
   .ux-next {
     margin-top: 0;
   }
@@ -734,8 +754,9 @@ html[data-motion="paused"] .hero-morph {
     position: relative;
     min-height: 0;
   }
-  html.js[data-motion="running"] .ux-tb {
+  html.js[data-motion="running"] .ux-story .ux-tb {
     opacity: 1;
     transform: none;
+    transition: none;
   }
 }

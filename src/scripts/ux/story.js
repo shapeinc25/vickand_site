@@ -9,6 +9,7 @@
     B = story.querySelector(".ux-sp-b .ux-tb");
   if (window.__reduced) return;
   var mobile = window.matchMedia("(max-width: 760px)");
+  var stage = story.querySelector(".ux-story-stage");
   var ticking = false;
   function clamp(v) {
     return v < 0 ? 0 : v > 1 ? 1 : v;
@@ -52,12 +53,21 @@
     if (!story.offsetParent) return; // page not showing
     var vh = window.innerHeight,
       r = story.getBoundingClientRect();
+    if (mobile.matches) {
+      var second = story.dataset.storyStep === "second";
+      // A small dead band keeps a settling swipe from changing panels twice.
+      var changeAt = stage.clientHeight * (second ? 0.13 : 0.17);
+      var step = -r.top >= changeAt ? "second" : "first";
+      if (step !== story.dataset.storyStep) story.dataset.storyStep = step;
+      return;
+    }
     var s = -r.top / vh;
-    var S = mobile.matches ? Math.min(window.innerWidth * 0.18, 64) : Math.min(window.innerWidth * 0.55, 640);
-    var aIn = slide(mobile.matches ? seg(s, -0.2, 0) : seg(s, 0, 0.7));
-    var aOut = ease(mobile.matches ? seg(s, 0.34, 0.5) : seg(s, 1.5, 2.6));
-    var bIn = slide(mobile.matches ? seg(s, 0.5, 0.7) : seg(s, 1.7, 2.7));
-    set(A, -S * (1 - aIn) + (mobile.matches ? S * aOut : 0), aIn * (1 - aOut));
+    var S = Math.min(window.innerWidth * 0.55, 640);
+    var aIn = slide(seg(s, 0, 0.7));
+    var narrow = window.innerWidth <= 1184;
+    var aOut = ease(seg(s, 1.5, narrow ? 1.9 : 2.6));
+    var bIn = slide(seg(s, narrow ? 1.9 : 1.7, 2.7));
+    set(A, -S * (1 - aIn) - (narrow ? 56 * aOut : 0), aIn * (1 - aOut));
     set(B, S * (1 - bIn), bIn);
   }
   function req() {

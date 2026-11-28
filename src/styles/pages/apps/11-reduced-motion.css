@@ -214,9 +214,17 @@
   top: calc(100% * 32 / 518);
   width: calc(100% * 208 / 280);
   height: calc(100% * 454 / 518);
-  border-radius: calc(100% * 16 / 208) / calc(100% * 16 / 454);
+  --screen-radius: calc(100% * 16 / 208) / calc(100% * 16 / 454);
+  border-radius: var(--screen-radius);
   overflow: hidden;
   pointer-events: none;
+}
+/* The shared outer clip keeps the zoomed and animated screenshots within the same curve. */
+@supports (clip-path: inset(0 round 8px)) {
+  .mock-screen {
+    overflow: visible;
+    clip-path: inset(0 round var(--screen-radius));
+  }
 }
 .mock-screen::after {
   content: "";
@@ -370,8 +378,7 @@
   }
 }
 
-/* Logo / text morph: the logo and the headline take turns. main.js breaks each shape into particles
-   for the switch; the resting states are the real logo and headline. data-state is set by main.js. */
+/* The hero morph crossfades the particles into the real asset at the same size and position. */
 .hero-morph {
   position: absolute;
   inset: 0;
@@ -392,10 +399,6 @@
   width: min(300px, 70vw);
   height: auto;
   opacity: 0;
-  transform: scale(1.06); /* bigger when hidden: scales down as it appears, scales up as it leaves */
-  transition:
-    opacity 240ms var(--ease-standard),
-    transform 300ms var(--ease-standard);
 }
 
 .morph-text {
@@ -404,10 +407,6 @@
   font-size: clamp(44px, 7vw, 84px);
   line-height: 1.05;
   opacity: 0;
-  transform: scale(1.06);
-  transition:
-    opacity 240ms var(--ease-standard),
-    transform 300ms var(--ease-standard);
   text-wrap: balance;
 }
 
@@ -425,24 +424,23 @@
   width: 100%;
   height: 100%;
   opacity: 0;
-  transition: opacity 240ms var(--ease-standard);
   z-index: 3; /* particles sit above the logo and headline */
 }
 
 .hero-morph[data-state="logo"] .morph-logo {
   opacity: 1;
-  transform: scale(1);
 }
 .hero-morph[data-state="text"] .morph-text {
   opacity: 1;
-  transform: scale(1);
 }
-.hero-morph[data-state="to-text"] .morph-canvas,
-.hero-morph[data-state="to-logo"] .morph-canvas {
-  opacity: 1;
+.hero-morph[data-state^="to-"] .morph-logo {
+  opacity: var(--morph-logo, 0);
 }
-.morph-canvas.is-holding {
-  opacity: 1;
+.hero-morph[data-state^="to-"] .morph-text {
+  opacity: var(--morph-text, 0);
+}
+.hero-morph[data-state^="to-"] .morph-canvas {
+  opacity: var(--morph-particles, 0);
 }
 
 /* Reduced motion: no particles, show the logo, keep the heading for screen readers */

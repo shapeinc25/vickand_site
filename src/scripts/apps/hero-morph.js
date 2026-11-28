@@ -16,37 +16,37 @@
   rasters.light.src = __asset("img/raster-874fd651.webp");
   rasters.dark.src = __asset("img/raster-41abc27b.webp");
 
-  // Timeline (ms, loops every PERIOD): logo rests, breaks apart, headline rests, particles rebuild the logo
-  var PERIOD = 9000,
+  // Timeline: hold the logo, move to the title, hold the title, move back to the logo.
+  var MOVE = 2300,
     LOGO_END = 3000,
-    TO_TEXT_END = 5000,
-    TEXT_END = 7000,
-    TO_LOGO_END = 9000;
+    TO_TEXT_END = LOGO_END + MOVE,
+    TEXT_END = TO_TEXT_END + 2000,
+    PERIOD = TEXT_END + MOVE;
   var STAGGER = 400,
-    FLY = 1200,
+    FLY = 1320,
     MAX_PARTICLES = 2600,
     DOT = 3.1,
     TEXT_DOT = 1.8,
     STRAGGLERS = 5;
-  // Ms into a switch when the real asset takes over from the particles (they are still landing)
-  var DOM_SWITCH = 1200;
+  var DEPART = 280,
+    ARRIVE = 1650;
   // Particle headline offset (px, down) from the span centre, as set by the design check
   var TEXT_DY = 2;
 
   var current = "logo";
   var parts = [];
-  var start = 0;
+  var time = 0;
+  var lastFrame = null;
+  var frameId = 0;
+  var ready = false;
+  var canvasWidth = 0;
+  var canvasHeight = 0;
 
-  // Layout box of an element in morph coordinates; the centre comes from the screen rect, the size from layout
-  // (so a scaled element is sampled at its real size)
+  // Measure the same, unscaled box used by the real shape at the end of the morph.
   function relRect(el) {
     var m = morph.getBoundingClientRect(),
       r = el.getBoundingClientRect();
-    var w = el.offsetWidth || r.width,
-      h = el.offsetHeight || r.height;
-    var cx = r.left - m.left + r.width / 2,
-      cy = r.top - m.top + r.height / 2;
-    return { x: cx - w / 2, y: cy - h / 2, width: w, height: h };
+    return { x: r.left - m.left, y: r.top - m.top, width: r.width, height: r.height };
   }
 
   function visibleLogo() {
@@ -162,9 +162,13 @@
 
   function sizeCanvas() {
     var m = morph.getBoundingClientRect(),
-      dpr = window.devicePixelRatio || 1;
-    canvas.width = Math.round(m.width * dpr);
-    canvas.height = Math.round(m.height * dpr);
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvasWidth = m.width;
+    canvasHeight = m.height;
+    var w = Math.round(m.width * dpr),
+      h = Math.round(m.height * dpr);
+    if (canvas.width !== w) canvas.width = w;
+    if (canvas.height !== h) canvas.height = h;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
@@ -179,13 +183,18 @@
     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   }
 
+  function smooth(t) {
+    t = Math.max(0, Math.min(1, t));
+    return t * t * (3 - 2 * t);
+  }
+
   function draw(elapsed) {
     clearCanvas();
     for (var i = 0; i < parts.length; i++) {
       var p = parts[i];
       var local = Math.min(1, Math.max(0, (elapsed - p.d) / FLY));
       var e = ease(local),
-        bump = Math.sin(Math.PI * local);
+        bump = Math.sin(Math.PI * local) ** 2;
       var x = p.ax + (p.bx - p.ax) * e + p.sx * bump;
       var y = p.ay + (p.by - p.ay) * e + p.sy * bump;
       var r = Math.round(p.ac[0] + (p.bc[0] - p.ac[0]) * e);
@@ -193,7 +202,7 @@
       var b = Math.round(p.ac[2] + (p.bc[2] - p.ac[2]) * e);
       ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
       var sz = p.asz + (p.bsz - p.asz) * e; // logo dots and text dots differ in size
-      if (local > 0.6) sz *= 1 - (0.6 * (local - 0.6)) / 0.4; // the last part of the flight shrinks the dot to 40%
+      sz *= 1 - 0.6 * smooth((local - 0.6) / 0.4);
       ctx.fillRect(x - sz / 2, y - sz / 2, sz, sz);
     }
   }
@@ -206,7 +215,6 @@
   // Start of a switch: sample both shapes while they are still laid out
   function startMove(s) {
     parts = [];
-    canvas.classList.add("is-holding");
     try {
       sizeCanvas();
       parts = s === "to-text" ? build(sampleLogo(), sampleText()) : build(sampleText(), sampleLogo());
@@ -216,56 +224,61 @@
     setState(s);
   }
 
-  // Resting state: the particle layer is cleared and the real logo or headline is shown
-  function rest(s) {
-    canvas.classList.remove("is-holding"); // the particle layer fades out (styles.css), then is cleared
-    parts = [];
-    setState(s);
-    window.setTimeout(clearCanvas, 260);
+  function renderMove(elapsed) {
+    var depart = smooth(elapsed / DEPART);
+    var arrive = smooth((elapsed - ARRIVE) / (MOVE - ARRIVE));
+    if (parts.length) draw(elapsed);
+    else depart = arrive = smooth(elapsed / MOVE); // Keep both assets visible through a fallback crossfade.
+
+    var fromLogo = current === "to-text";
+    morph.style.setProperty("--morph-logo", fromLogo ? 1 - depart : arrive);
+    morph.style.setProperty("--morph-text", fromLogo ? arrive : 1 - depart);
+    morph.style.setProperty("--morph-particles", parts.length ? depart * (1 - arrive) : 0);
   }
 
-  var heroEl = document.querySelector(".hero"),
-    heroOn = true,
-    frameIdle = false;
-  if ("IntersectionObserver" in window && heroEl)
+  function rest(state) {
+    setState(state);
+    parts = [];
+    clearCanvas();
+  }
+
+  var hero = morph.closest(".hero"),
+    heroOn = true;
+  function schedule() {
+    if (heroOn && ready && !frameId) frameId = window.vkRaf(frame);
+  }
+  if ("IntersectionObserver" in window && hero) {
     new IntersectionObserver(
-      function (es) {
-        heroOn = es[es.length - 1].isIntersecting;
-        if (heroOn && frameIdle) {
-          frameIdle = false;
-          window.vkRaf(frame);
+      function ([entry]) {
+        heroOn = entry.isIntersecting;
+        if (heroOn) schedule();
+        else {
+          window.vkCancelRaf(frameId);
+          frameId = 0;
+          lastFrame = null;
         }
       },
       { rootMargin: "100px" },
-    ).observe(heroEl);
+    ).observe(hero);
+  }
+
   function frame(now) {
-    var t = (now - start) % PERIOD;
-    var seg =
-      t < LOGO_END
-        ? "logo"
-        : t < TO_TEXT_END
-          ? "to-text"
-          : t < TEXT_END
-            ? "text"
-            : t < TO_LOGO_END
-              ? "to-logo"
-              : "logo";
+    frameId = 0;
+    time = (time + (lastFrame === null ? 0 : Math.min(50, now - lastFrame))) % PERIOD;
+    lastFrame = now;
+    var seg = time < LOGO_END ? "logo" : time < TO_TEXT_END ? "to-text" : time < TEXT_END ? "text" : "to-logo";
     if (seg !== current) {
-      if (seg === "to-text" || seg === "to-logo") startMove(seg);
+      if (seg.startsWith("to-")) startMove(seg);
       else rest(seg);
     }
-    if (current === "to-text" || current === "to-logo") {
-      var elapsed = current === "to-text" ? t - LOGO_END : t - TEXT_END;
-      var shown = elapsed >= DOM_SWITCH ? (current === "to-text" ? "text" : "logo") : current;
-      if (morph.getAttribute("data-state") !== shown) morph.setAttribute("data-state", shown);
-      draw(elapsed);
-    }
-    if (heroOn) window.vkRaf(frame);
-    else frameIdle = true;
+    if (seg.startsWith("to-")) renderMove(time - (seg === "to-text" ? LOGO_END : TEXT_END));
+    schedule();
   }
 
   window.addEventListener("resize", function () {
-    if (current === "to-text" || current === "to-logo") sizeCanvas();
+    if (!current.startsWith("to-")) return;
+    var bounds = morph.getBoundingClientRect();
+    if (bounds.width !== canvasWidth || bounds.height !== canvasHeight) startMove(current);
   });
 
   var fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
@@ -280,7 +293,7 @@
     }),
   );
   Promise.all([fontsReady, rastersReady]).then(function () {
-    start = performance.now();
-    window.vkRaf(frame);
+    ready = true;
+    schedule();
   });
 })();

@@ -1,163 +1,136 @@
-/* Dot-field background for the UX story stage (rewritten from "Heavy Dots" by Nick Sheffield, MIT).
-   Dots fill the whole stage; they lean toward the pointer and grow near it; large active dots take colours from the brand gradient. */
-(function () {
-  "use strict";
-  var cv = document.getElementById("ux-dots");
-  if (!cv) return;
-  var stage = cv.parentNode,
-    ctx = cv.getContext("2d");
-  var still = window.__reduced;
-  var GRAD = [
-    [46, 207, 73],
-    [233, 224, 55],
-    [255, 92, 0],
-    [122, 71, 211],
-  ]; // green-500, yellow-500, orange-500, purple-500
-  var SPACING = 52,
-    REACH = 230,
-    PULL = 20,
-    MAXR = 11;
-  var dots = [],
-    W = 0,
-    H = 0,
-    dpr = 1,
-    running = false,
-    raf = 0;
-  var mouse = { x: -9999, y: -9999, seen: 0 };
+// The UX story's dot field follows one slowly moving centre, with softer motion farther away.
+const canvas = document.getElementById("ux-dots");
+const stage = canvas?.parentElement;
+const ctx = canvas?.getContext("2d");
+const palette = [
+  [46, 207, 73],
+  [233, 224, 55],
+  [255, 92, 0],
+  [122, 71, 211],
+];
+const spacing = 52;
+const reach = 230;
+const pull = 20;
+const dots = [];
+const centre = { x: 0.5, y: 0.63 };
+let pointer;
+let width = 0;
+let height = 0;
+let dpr = 1;
+let frameId = 0;
+let previousTime;
+let elapsed = 0;
 
-  function grad(t) {
-    // t 0..1 (wraps) -> rgb along the brand gradient
-    t = (((t % 1) + 1) % 1) * (GRAD.length - 1);
-    var i = Math.min(GRAD.length - 2, Math.floor(t)),
-      f = t - i,
-      a = GRAD[i],
-      b = GRAD[i + 1];
-    return (
-      "rgb(" +
-      Math.round(a[0] + (b[0] - a[0]) * f) +
-      "," +
-      Math.round(a[1] + (b[1] - a[1]) * f) +
-      "," +
-      Math.round(a[2] + (b[2] - a[2]) * f) +
-      ")"
-    );
-  }
-  function resize() {
-    var r = stage.getBoundingClientRect();
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    W = Math.max(1, r.width);
-    H = Math.max(1, r.height);
-    cv.width = Math.round(W * dpr);
-    cv.height = Math.round(H * dpr);
-    // fill the whole stage edge to edge, evenly spaced
-    var cols = Math.max(2, Math.round(W / SPACING) + 1),
-      rows = Math.max(2, Math.round(H / SPACING) + 1);
-    dots = [];
-    for (var i = 0; i < cols; i++)
-      for (var j = 0; j < rows; j++) dots.push({ x: (W * i) / (cols - 1), y: (H * j) / (rows - 1) });
-  }
-  function onMove(e) {
-    var r = stage.getBoundingClientRect();
-    mouse.x = e.clientX - r.left;
-    mouse.y = e.clientY - r.top;
-    mouse.seen = performance.now();
-  }
-  function frame(now) {
-    raf = 0;
-    if (!running) return;
-    // with no pointer (touch / idle) a soft virtual pointer wanders across the whole field
-    var px = mouse.x,
-      py = mouse.y;
-    if (now - mouse.seen > 2500) {
-      px = W * (0.5 + 0.42 * Math.sin(now / 2600));
-      py = H * (0.5 + 0.4 * Math.sin(now / 1900 + 1));
+const clamp = (value) => Math.max(0, Math.min(1, value));
+const ease = (t) => t * t * (3 - 2 * t);
+const mix = (a, b, t) => a + (b - a) * t;
+
+function draw() {
+  const cx = centre.x * width;
+  const cy = centre.y * height;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, width, height);
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = "rgba(255,255,255,.07)";
+  ctx.beginPath();
+  for (const dot of dots) {
+    const x = dot.x + 6 * Math.sin(elapsed / 2600 + dot.phase);
+    const y = dot.y + 5 * Math.cos(elapsed / 3100 + dot.phase);
+    const dx = cx - x;
+    const dy = cy - y;
+    const distance = Math.hypot(dx, dy);
+    dot.energy = ease(clamp(1 - distance / reach));
+    const offset = (pull * dot.energy) / Math.max(pull, distance);
+    dot.px = x + dx * offset;
+    dot.py = y + dy * offset;
+    if (dot.energy > 0.01) {
+      ctx.moveTo(x, y);
+      ctx.lineTo(dot.px, dot.py);
     }
-    var tShift = now / 9000;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, W, H);
-    var n = dots.length,
-      i,
-      d,
-      dx,
-      dy,
-      dist,
-      k,
-      ox,
-      oy,
-      pos = new Array(n);
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = "rgba(255,255,255,.09)";
+  }
+  ctx.stroke();
+
+  for (const dot of dots) {
+    const strength = dot.energy;
+    if (strength) {
+      const phase = elapsed / 4200 + dot.phase * 0.7 + strength;
+      const band = (0.5 - 0.5 * Math.cos(phase)) * (palette.length - 1);
+      const index = Math.min(palette.length - 2, Math.floor(band));
+      const tone = ease(strength);
+      const [r, g, b] = palette[index].map((channel, i) =>
+        Math.round(mix(211, mix(channel, palette[index + 1][i], band - index), tone)),
+      );
+      ctx.fillStyle = `rgba(${r},${g},${b},${0.21 + 0.58 * strength})`;
+    } else ctx.fillStyle = "rgba(211,211,211,.21)";
     ctx.beginPath();
-    for (i = 0; i < n; i++) {
-      d = dots[i];
-      dx = px - d.x;
-      dy = py - d.y;
-      dist = Math.sqrt(dx * dx + dy * dy);
-      k = Math.min(PULL, dist) / (dist || 1);
-      ox = d.x + dx * k;
-      oy = d.y + dy * k;
-      pos[i] = [ox, oy, dist];
-      if (dist < REACH) {
-        ctx.moveTo(d.x, d.y);
-        ctx.lineTo(ox, oy);
-      }
-    }
-    ctx.stroke();
-    for (i = 0; i < n; i++) {
-      var p = pos[i],
-        near = Math.max(0, 1 - p[2] / REACH),
-        r = 1.4 + near * near * MAXR;
-      ctx.beginPath();
-      ctx.arc(p[0], p[1], r, 0, 6.2832);
-      if (r > 3.2) {
-        // large, active dot: colour moves through the brand gradient with distance, position and time
-        ctx.fillStyle = grad((1 - near) * 1.1 + (dots[i].x / W) * 0.2 + tShift);
-      } else {
-        ctx.fillStyle = "rgba(211,207,207," + (0.22 + near * 0.5).toFixed(2) + ")";
-      }
-      ctx.fill();
-    }
-    raf = window.vkRaf(frame);
+    ctx.arc(dot.px, dot.py, 1.35 + 8.5 * strength * strength, 0, Math.PI * 2);
+    ctx.fill();
   }
-  function start() {
-    if (!running) {
-      running = true;
-      raf = window.vkRaf(frame);
-    }
-  }
-  function stop() {
-    running = false;
-    if (raf) window.vkCancelRaf(raf);
-    raf = 0;
-  }
+}
 
-  resize();
-  window.addEventListener("resize", resize);
-  window.addEventListener("pointermove", onMove, { passive: true });
-  if (still) {
-    // reduced motion: one static frame
-    mouse.seen = 0;
-    running = true;
-    frame(6000);
-    running = false;
-    return;
+function resize() {
+  const bounds = stage.getBoundingClientRect();
+  const nextDpr = Math.min(window.devicePixelRatio || 1, 2);
+  if (bounds.width === width && bounds.height === height && nextDpr === dpr) return;
+  width = bounds.width;
+  height = bounds.height;
+  dpr = nextDpr;
+  canvas.width = Math.max(1, Math.round(width * dpr));
+  canvas.height = Math.max(1, Math.round(height * dpr));
+
+  const cols = Math.max(2, Math.round(width / spacing));
+  const rows = Math.max(2, Math.round(height / spacing));
+  dots.length = 0;
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      dots.push({ x: (width * (i + 0.5)) / cols, y: (height * (j + 0.5)) / rows, phase: i * 0.71 + j * 0.52 });
+    }
   }
-  if ("IntersectionObserver" in window) {
-    new IntersectionObserver(
-      function (es) {
-        if (es[es.length - 1].isIntersecting && document.documentElement.dataset.page === "ux") {
-          resize();
-          start();
-        } else stop();
-      },
-      { threshold: 0 },
-    ).observe(stage);
-    window.addEventListener("hashchange", function () {
-      if (document.documentElement.dataset.page !== "ux") stop();
-      else {
-        resize();
-        start();
-      }
-    });
-  } else start();
-})();
+  draw();
+}
+
+function point(event) {
+  if (!event.isPrimary || !width || !height) return;
+  const bounds = stage.getBoundingClientRect();
+  pointer = {
+    x: clamp((event.clientX - bounds.left) / width),
+    y: clamp((event.clientY - bounds.top) / height),
+    at: performance.now(),
+  };
+}
+
+function frame(now) {
+  // Cap the delta when a tab resumes so the visible cloud never jumps ahead.
+  const dt = previousTime === undefined ? 16 : Math.min(32, now - previousTime);
+  previousTime = now;
+  elapsed += dt;
+  const x = 0.5 + 0.34 * Math.sin(elapsed / 4900);
+  const y = 0.51 + 0.28 * Math.sin(elapsed / 5900 + 0.55);
+  const follow = pointer ? 1 - ease(clamp((now - pointer.at - 1250) / 1400)) : 0;
+  const decay = 1 - Math.exp(-dt / 310);
+  centre.x = mix(centre.x, mix(x, pointer?.x ?? x, follow), decay);
+  centre.y = mix(centre.y, mix(y, pointer?.y ?? y, follow), decay);
+  draw();
+  frameId = window.vkRaf(frame);
+}
+
+if (ctx && stage) {
+  resize();
+  if ("ResizeObserver" in window) new ResizeObserver(resize).observe(stage);
+  else window.addEventListener("resize", resize);
+  if (!window.__reduced) {
+    stage.addEventListener("pointerdown", point, { passive: true });
+    stage.addEventListener("pointermove", point, { passive: true });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          if (!frameId) frameId = window.vkRaf(frame);
+        } else {
+          window.vkCancelRaf(frameId);
+          frameId = 0;
+          previousTime = undefined;
+        }
+      }).observe(stage);
+    } else frameId = window.vkRaf(frame);
+  }
+}
