@@ -1,34 +1,43 @@
-document.querySelectorAll("a.page-toggle").forEach((link) => {
-  const container = link.parentElement;
-  let timer;
-  link.addEventListener("click", (event) => {
+const alternate = document.querySelector("a.page-toggle");
+
+if (alternate) {
+  // Animate the arriving control, while the new document stays interactive.
+  if (document.referrer && performance.getEntriesByType("navigation")[0]?.type === "navigate") {
+    const previous = new URL(document.referrer);
+    if (previous.origin === location.origin && previous.pathname === alternate.pathname && !location.hash)
+      alternate.classList.add("mode-arriving");
+  }
+
+  let warmed = false;
+  function warmAlternate() {
     if (
-      event.defaultPrevented ||
-      event.button !== 0 ||
-      event.metaKey ||
-      event.ctrlKey ||
-      event.shiftKey ||
-      event.altKey ||
-      window.__reduced
+      warmed ||
+      document.hidden ||
+      navigator.connection?.saveData ||
+      /(^|-)2g$/.test(navigator.connection?.effectiveType || "")
     )
       return;
-    event.preventDefault();
-    if (timer !== undefined) return;
+    warmed = true;
+    if (window.HTMLScriptElement.supports?.("speculationrules")) {
+      const rules = document.createElement("script");
+      rules.type = "speculationrules";
+      rules.textContent = JSON.stringify({ prefetch: [{ urls: [alternate.href], eagerness: "immediate" }] });
+      document.head.append(rules);
+    } else {
+      const hint = document.createElement("link");
+      if (!hint.relList.supports("prefetch")) return;
+      hint.rel = "prefetch";
+      hint.href = alternate.href;
+      document.head.append(hint);
+    }
+  }
 
-    const target = document.documentElement.dataset.page === "ux" ? "light" : "dark";
-    container.dataset.theme = target;
-    link.classList.add(`to-${target}`);
-    timer = setTimeout(() => location.assign(link.href), 420);
-  });
-
-  // A page returned from history should show its own pill, rather than the outgoing animation.
-  window.addEventListener("pagehide", () => clearTimeout(timer));
-  window.addEventListener("pageshow", (event) => {
-    if (!event.persisted) return;
-    timer = undefined;
-    delete container.dataset.theme;
-    link.classList.remove("to-dark", "to-light");
-  });
-});
-// With no script, a closed navigation still needs a usable way to reach the other pages.
-document.documentElement.classList.add("nav-ready");
+  const afterLoad = () => {
+    if (window.requestIdleCallback) window.requestIdleCallback(warmAlternate);
+    else window.setTimeout(warmAlternate, 300);
+  };
+  if (document.readyState === "complete") afterLoad();
+  else window.addEventListener("load", afterLoad, { once: true });
+  alternate.addEventListener("pointerenter", warmAlternate, { once: true, passive: true });
+  alternate.addEventListener("focus", warmAlternate, { once: true });
+}

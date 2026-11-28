@@ -180,7 +180,7 @@ export function generatePages(root, { development = false } = {}) {
       $(".hdr-lang button").each((_, n) => {
         const l = $(n).attr("data-lang") === "ua" ? "uk" : $(n).attr("data-lang");
         $(n).replaceWith(
-          `<a href="${routeFor(page.route, l)}" hreflang="${l}" lang="${l}" data-language="${l}"${l === lang ? ' aria-current="page"' : ""}>${l === "uk" ? "UK" : l.toUpperCase()}</a>`,
+          `<a href="${routeFor(page.route, l)}" hreflang="${l}" lang="${l}" data-language="${l}"${l === lang ? ' aria-current="page"' : ""}>${l === "uk" ? "UA" : l.toUpperCase()}</a>`,
         );
       });
       $(".legal-languages").html(
@@ -257,9 +257,7 @@ export function generatePages(root, { development = false } = {}) {
         let value = $(n)
           .attr("data-banner")
           .replace(/^assets\//, "");
-        const eager =
-          ($(n).closest(".hero-track").length > 0 && $(n).closest(".mock").index() < 2) ||
-          $(n).closest(".product-mock").is(":first-child");
+        const eager = $(n).closest(".hero-track").length > 0 && $(n).closest(".mock").index() < 2;
         const style = ($(n).attr("style") || "").replace(/--banner\s*:[^;]+;?/g, "");
         $(n).attr("style", style).attr("data-banner", value);
         if (!$(n).find(".screen-image").length)
@@ -275,7 +273,6 @@ export function generatePages(root, { development = false } = {}) {
             .attr("srcset", `${src.replace("/shots/", "/shots/responsive/")} 360w, ${src} 624w`)
             .attr("sizes", "(max-width:760px) 240px, 280px");
       });
-      $(".hero-track .mock-default").attr("fetchpriority", "high");
       $(".soon-front").attr("aria-label", t("Three mini games. Play while you wait"));
       $("img").each((_, n) => {
         const image = $(n);

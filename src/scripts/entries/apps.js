@@ -1,9 +1,10 @@
 import "../../styles/reference.css";
 import "../../styles/reference-late.css";
-import "../common/runtime.js";
+import "../../styles/mode-transition.css";
 import "../common/header-scroll.js";
 import "../common/header-menu.js";
 import "../common/page-navigation.js";
+import "../common/runtime.js";
 import "../common/forms.js";
 import "../common/support-dialog.js";
 import "../common/pause-offscreen.js";
@@ -18,4 +19,6 @@ import "../apps/subscription-counter.js";
 import "../apps/counter-card/index.js";
 import "../apps/statement.js";
 import "../apps/hero-carousel.js";
-import "../apps/story.js";
+import { loadNearViewport } from "../common/near-viewport.js";
+
+loadNearViewport(document.getElementById("story"), () => import("../apps/story.js"), "480px");

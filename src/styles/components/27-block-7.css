@@ -4,10 +4,10 @@
   right: 24px;
   top: 42px;
   z-index: 3;
-  transition: top 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: translate var(--motion-base) var(--ease-standard);
 }
 .is-scrolled .site-header .hdr-menu {
-  top: 10px;
+  translate: 0 -32px;
 }
 .hdr-menu-btn {
   box-sizing: border-box;
@@ -88,21 +88,31 @@
   border-radius: 12px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
   opacity: 0;
-  transform: translateY(-6px);
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-8px) scale(0.97);
+  transform-origin: top right;
   transition:
-    opacity 0.15s ease,
-    transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    opacity 140ms ease-in,
+    transform 180ms var(--ease-standard),
+    visibility 0s linear 180ms;
 }
 .hdr-menu-panel.is-open {
   opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
   transform: none;
+  transition:
+    opacity 170ms ease-out,
+    transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0s;
 }
 .hdr-menu-panel[hidden] {
   display: none;
 }
 .hdr-menu-panel a {
   box-sizing: border-box;
-  height: 40px;
+  min-height: 44px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -124,53 +134,39 @@
   padding-top: 8px;
   border-top: 1px solid var(--border-default);
 }
-.hdr-lang button {
+.hdr-lang a {
   flex: 1;
-  box-sizing: border-box;
-  height: 36px;
-  padding: 0;
-  border: 0;
-  border-radius: 8px;
-  background: transparent;
-  cursor: pointer;
-  font: 400 16px/24px var(--font-body);
+  justify-content: center;
+  min-width: 44px;
+  padding-inline: 4px;
   color: var(--text-secondary);
-  outline: none;
-  transition:
-    background-color 0.15s ease,
-    color 0.15s ease;
-}
-.hdr-lang button:hover,
-.hdr-lang button:focus-visible,
-.hdr-lang button.is-hl {
-  background: var(--accent-subtle);
-  color: var(--accent-default);
-}
-.hdr-lang button[aria-checked="true"] {
-  background: var(--accent-subtle);
-  color: var(--accent-default);
-}
-[data-theme="dark"] .hdr-lang button:hover,
-[data-theme="dark"] .hdr-lang button:focus-visible,
-[data-theme="dark"] .hdr-lang button.is-hl,
-[data-theme="dark"] .hdr-lang button[aria-checked="true"] {
-  background: var(--pill-fg, #2c2929);
 }
 .hdr-menu-panel a svg {
   flex: none;
   width: 24px;
   height: 24px;
 }
-.hdr-menu-panel a:hover,
+.hdr-menu-panel {
+  --menu-highlight: var(--accent-subtle);
+}
+[data-theme="dark"] .hdr-menu-panel {
+  --menu-highlight: var(--surface-default);
+}
+.hdr-lang a[aria-current="page"],
 .hdr-menu-panel a:focus-visible,
-.hdr-menu-panel a.is-hl {
-  background: var(--accent-subtle);
+.hdr-menu-panel a:active {
+  background: var(--menu-highlight);
   color: var(--accent-default);
 }
-[data-theme="dark"] .hdr-menu-panel a:hover,
-[data-theme="dark"] .hdr-menu-panel a:focus-visible,
-[data-theme="dark"] .hdr-menu-panel a.is-hl {
-  background: var(--pill-fg, #2c2929);
+.hdr-menu-panel a:focus-visible {
+  outline: 2px solid var(--c-focus);
+  outline-offset: -2px;
+}
+@media (hover: hover) {
+  .hdr-menu-panel a:hover {
+    background: var(--menu-highlight);
+    color: var(--accent-default);
+  }
 }
 @media (max-width: 520px) {
   .hdr-menu {

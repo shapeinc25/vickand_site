@@ -31,7 +31,7 @@ if (modal) {
     if (!trigger) return;
     event.preventDefault();
     clearTimeout(hideTimer);
-    opener = trigger;
+    opener = trigger.closest(".hdr-menu")?.querySelector(".hdr-menu-btn") || trigger;
     form?.reset();
     modal.classList.remove("is-sent");
     modal.hidden = false;

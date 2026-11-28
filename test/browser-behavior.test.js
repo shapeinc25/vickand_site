@@ -251,30 +251,30 @@ test("support uses the shared success button before showing its confirmation", a
   assert.ok(modal.classList.contains("is-sent"));
   assert.equal(d.activeElement, modal.querySelector(".sup-ok"));
 });
-test("navigation can reopen during its closing transition and Tab can traverse links", (t) => {
+test("navigation reopens immediately and excludes closed links from keyboard focus", (t) => {
   const { w, d, run } = fixture(t, source("src/partials/layout/header.html") + "<button id=outside>Outside</button>");
-  w.__reduced = false;
-  const advance = clock(w);
   run("src/scripts/common/header-menu.js");
-  const button = d.querySelector(".hdr-menu-btn"),
-    panel = d.querySelector(".hdr-menu-panel");
+  const button = d.querySelector(".hdr-menu-btn");
+  const panel = d.querySelector(".hdr-menu-panel");
+  assert.equal(panel.inert, true);
   button.click();
-  advance(16);
   button.click();
   button.click();
-  advance(300);
   assert.equal(button.getAttribute("aria-expanded"), "true");
-  assert.equal(panel.hidden, false);
-  assert.equal(panel.classList.contains("is-open"), true);
+  assert.equal(panel.inert, false);
+  assert.ok(panel.classList.contains("is-open"));
   const links = panel.querySelectorAll("a");
   links[0].focus();
-  links[0].dispatchEvent(new w.KeyboardEvent("keydown", { key: "Tab", bubbles: true }));
   links[1].focus();
-  advance(250);
-  assert.equal(panel.hidden, false);
+  assert.equal(panel.inert, false);
+  links[1].dispatchEvent(new w.KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+  assert.equal(panel.inert, true);
+  assert.equal(d.activeElement, button);
+  button.dispatchEvent(new w.KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
+  assert.equal(d.activeElement, links[0]);
   d.querySelector("#outside").focus();
-  advance(250);
-  assert.equal(panel.hidden, true);
+  assert.equal(panel.inert, true);
+  assert.equal(panel.classList.contains("is-open"), false);
 });
 test("closing support before its opening animation cannot steal focus back", (t) => {
   const { w, d, run } = fixture(

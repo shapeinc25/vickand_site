@@ -1,13 +1,13 @@
 import "../../styles/reference.css";
 import "../../styles/reference-late.css";
-import "../common/runtime.js";
+import "../../styles/mode-transition.css";
 import "../common/header-scroll.js";
 import "../common/header-menu.js";
 import "../common/page-navigation.js";
+import "../common/runtime.js";
 import "../common/forms.js";
 import "../common/support-dialog.js";
 import "../common/pause-offscreen.js";
-import "../ux/tangled-flows/index.js";
 import "../ux/story.js";
 import "../ux/dot-field.js";
 import "../ux/bubbles.js";
@@ -16,3 +16,6 @@ import "../ux/services-carousel.js";
 import "../ux/before-after.js";
 import "../ux/reveal.js";
 import "../ux/about-phones.js";
+import { loadNearViewport } from "../common/near-viewport.js";
+
+loadNearViewport(document.getElementById("ux-stage"), () => import("../ux/tangled-flows/index.js"), "160px");
