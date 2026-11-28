@@ -176,6 +176,15 @@ test("UX request restores the reference error and confirmation states around the
   email.value = "qa@example.invalid";
   form.querySelector("#ux-req-help").click();
   form.querySelector("#ux-req-list [data-v]").click();
+  const project = form.elements.namedItem("message");
+  project.value = "   ";
+  submit(w, form);
+  assert.equal(sends, 0);
+  assert.equal(d.activeElement, project);
+  assert.equal(project.getAttribute("aria-invalid"), "true");
+  assert.equal(d.querySelector("#ux-req-msg-error").hidden, false);
+  project.value = "Please review the onboarding.";
+  // The product link may be left blank.
   submit(w, form);
   assert.equal(message.hidden, true);
   complete({ ok: true, json: async () => ({ ok: true }) });
@@ -217,6 +226,30 @@ test("closing and reopening support clears the draft and ignores a response for 
   await settle();
   assert.equal(modal.classList.contains("is-sent"), false);
   assert.equal(form.elements.namedItem("email").disabled, false);
+});
+test("support uses the shared success button before showing its confirmation", async (t) => {
+  const { w, d, run } = fixture(t, '<button id="open" data-support-dialog>Support</button>' + support);
+  w.__reduced = false;
+  const advance = clock(w);
+  w.fetch = async () => ({ ok: true, json: async () => ({ ok: true }) });
+  run("src/scripts/common/forms.js");
+  run("src/scripts/common/support-dialog.js");
+  d.querySelector("#open").click();
+  advance(70);
+  const form = d.querySelector("#sup-form");
+  const modal = d.querySelector("#sup-modal");
+  form.elements.namedItem("email").value = "qa@example.invalid";
+  form.querySelector("#sup-issue").click();
+  form.querySelector("#sup-list [data-v]").click();
+  submit(w, form);
+  assert.equal(form.classList.contains("is-done"), false);
+  await settle();
+  assert.ok(form.classList.contains("is-done"));
+  assert.equal(form.querySelector(".form-submit span").textContent, "Request sent");
+  assert.equal(modal.classList.contains("is-sent"), false);
+  advance(750);
+  assert.ok(modal.classList.contains("is-sent"));
+  assert.equal(d.activeElement, modal.querySelector(".sup-ok"));
 });
 test("navigation can reopen during its closing transition and Tab can traverse links", (t) => {
   const { w, d, run } = fixture(t, source("src/partials/layout/header.html") + "<button id=outside>Outside</button>");

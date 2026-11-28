@@ -98,7 +98,7 @@ function wireSelect(prefix) {
 wireSelect("ux-req-help");
 wireSelect("sup-issue");
 
-function celebrateSubscription(button) {
+function celebrateSubmission(button) {
   if (window.__reduced || typeof button.animate !== "function") return;
   const colors = ["#ff5c00", "#e9e037", "#2ecf49", "#2f9de1", "#7a47d3"];
   const bounds = button.getBoundingClientRect();
@@ -228,10 +228,10 @@ function configureForm(form, kind) {
     if (event.animationName === "soon-shake") form.classList.remove("is-shake");
   });
 
-  const setContactDone = (done) => {
+  const setMessageDone = (done) => {
     form.classList.toggle("is-done", done);
     label.textContent = done ? t("Request sent") : original;
-    contactConfirmation.hidden = !done;
+    if (contactConfirmation) contactConfirmation.hidden = !done;
     form.querySelectorAll("input.input-control, textarea").forEach((field) => {
       field.readOnly = done;
     });
@@ -240,7 +240,7 @@ function configureForm(form, kind) {
   };
   if (contactConfirmation) {
     const resetContact = () => {
-      if (form.classList.contains("is-done")) setContactDone(false);
+      if (form.classList.contains("is-done")) setMessageDone(false);
     };
     form.addEventListener("focusin", resetContact);
     form.addEventListener("pointerdown", (event) => {
@@ -263,15 +263,19 @@ function configureForm(form, kind) {
     form.classList.remove("is-shake");
     setStatus("");
     if (supportModal) {
+      clearTimeout(resetTimer);
       supportSession++;
       previous = "";
       requestId = "";
-      label.textContent = original;
+      setMessageDone(false);
     }
   });
-  form.addEventListener("vickand:close-support", () => {
-    supportSession++;
-  });
+  if (supportModal) {
+    form.addEventListener("vickand:close-support", () => {
+      clearTimeout(resetTimer);
+      supportSession++;
+    });
+  }
 
   form.addEventListener("input", (event) => {
     if (waitlistEmail) resetWaitlist();
@@ -354,12 +358,8 @@ function configureForm(form, kind) {
       if (waitlistEmail) {
         setWaitlistDone(true);
         resetTimer = setTimeout(resetWaitlist, 10000);
-      } else if (contactConfirmation) {
-        setContactDone(true);
-      } else if (supportModal) {
-        supportModal.classList.add("is-sent");
-        supportModal.scrollTop = 0;
-        supportModal.querySelector(".sup-ok")?.focus({ preventScroll: true });
+      } else {
+        setMessageDone(true);
       }
     } catch (error) {
       if (openedSupportSession !== supportSession) return;
@@ -378,9 +378,19 @@ function configureForm(form, kind) {
       });
       form.removeAttribute("aria-busy");
     }
-    if (waitlistEmail && form.classList.contains("is-done")) {
-      celebrateSubscription(submit);
-      document.dispatchEvent(new Event("vickand:subscribed"));
+    if (!form.classList.contains("is-done")) return;
+    celebrateSubmission(submit);
+    if (waitlistEmail) document.dispatchEvent(new Event("vickand:subscribed"));
+    if (supportModal) {
+      // Let the same button animation finish before showing the support confirmation.
+      resetTimer = setTimeout(
+        () => {
+          supportModal.classList.add("is-sent");
+          supportModal.scrollTop = 0;
+          supportModal.querySelector(".sup-ok")?.focus({ preventScroll: true });
+        },
+        window.__reduced ? 0 : 750,
+      );
     }
   });
 }

@@ -1,34 +1,4 @@
 /* ---------- Subscribe success ---------- */
-.soon-submit .tick {
-  width: 0;
-  margin-right: calc(-1 * var(--control-label-gap, 4px));
-  overflow: hidden;
-  flex: none;
-}
-.soon-submit .tick path {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-}
-.soon-form.is-done .soon-submit {
-  background-color: var(--c-success-fill);
-  color: #fff;
-  cursor: default;
-  pointer-events: none;
-}
-.soon-form.is-done .soon-submit .tick {
-  width: 20px;
-  margin-right: 0;
-  transition:
-    width 0.3s ease,
-    margin 0.3s ease;
-}
-.soon-submit {
-  transition: background-color 150ms ease;
-}
-.soon-form.is-done .soon-submit .tick path {
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset 0.45s ease-out 0.25s;
-}
 .soon-form .input.is-success .input-message {
   color: var(--c-success);
 }
@@ -47,11 +17,6 @@
   }
   100% {
     scale: 1;
-  }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .soon-form.is-done .soon-submit {
-    animation: soon-pop 520ms cubic-bezier(0.3, 1.2, 0.5, 1) 80ms;
   }
 }
 /* Mechanical counter: digit drums */

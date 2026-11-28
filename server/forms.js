@@ -84,8 +84,9 @@ export function createFormsHandler({ env = process.env, client = (key) => new Re
         message = field("message", 1800);
       if (!name || /[\r\n]/.test(name) || !HELP.has(help))
         return json({ error: "Enter your name and choose what you need help with." }, 400);
-      if ((body.link && !link) || (body.message && !message))
-        return json({ error: "Please shorten your link or message." }, 400);
+      if (!message) return json({ error: "Describe your project in up to 1800 characters." }, 400);
+      if (body.link !== undefined && (typeof body.link !== "string" || body.link.trim().length > 1000))
+        return json({ error: "Please shorten your product link." }, 400);
       if (link) {
         try {
           if (!["http:", "https:"].includes(new URL(link).protocol)) throw new Error();
@@ -98,7 +99,7 @@ export function createFormsHandler({ env = process.env, client = (key) => new Re
         SENDER_EMAIL: email,
         HELP: help,
         LINK: link || "Not provided",
-        MESSAGE: message || "Not provided",
+        MESSAGE: message,
       };
       templateId = env.RESEND_CONTACT_TEMPLATE_ID;
     } else if (kind === "waitlist") {

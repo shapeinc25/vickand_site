@@ -56,6 +56,7 @@ test("accepts a contact form, fixes the recipient and escapes template content",
   assert.equal(calls[0][0].replyTo, valid.email);
   assert.equal(calls[0][0].template.variables.NAME, "&lt;script&gt;alert(1)&lt;/script&gt;");
   assert.equal(calls[0][0].template.variables.SENDER_EMAIL, valid.email);
+  assert.equal(calls[0][0].template.variables.LINK, "Not provided");
   assert.equal(calls[0][0].template.variables.EMAIL, undefined);
   assert.equal(calls[0][0].html, undefined);
 });
@@ -68,6 +69,8 @@ test("rejects malformed, oversized and cross-origin submissions without sending"
     [request(valid, { "content-type": "text/plain" }), 415],
     [request({ ...valid, message: "x".repeat(17000) }), 413],
     [request({ ...valid, help: "unknown" }), 400],
+    [request({ ...valid, message: undefined }), 400],
+    [request({ ...valid, message: "   " }), 400],
     [request({ ...valid, link: "javascript:alert(1)" }), 400],
     [request(valid, { "idempotency-key": "" }), 400],
     [request(undefined, {}, "GET"), 405],

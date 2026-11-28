@@ -1386,35 +1386,6 @@
   width: auto;
   flex: none;
 }
-.ux-req-form .tick {
-  width: 0;
-  margin-right: -8px;
-  overflow: hidden;
-  flex: none;
-}
-.ux-req-form .tick path {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-}
-.ux-req-form.is-done .btn {
-  --btn-bg: var(--c-success-fill);
-  cursor: default;
-  pointer-events: none;
-}
-.ux-req-form.is-done .tick {
-  width: 20px;
-  margin-right: 0;
-  transition:
-    width 0.3s ease,
-    margin 0.3s ease;
-}
-.ux-req-form.is-done .tick path {
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset 0.45s ease-out 0.25s;
-}
-.ux-req-form.is-done .arrow {
-  display: none;
-}
 .ux-req-ok {
   margin: 0;
   font: 500 14px/20px var(--font-body);
@@ -1425,11 +1396,7 @@
   display: none;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .ux-req-form.is-done .btn {
-    animation: soon-pop 520ms cubic-bezier(0.3, 1.2, 0.5, 1) 80ms;
-  }
-  .ux-req-form.is-shake .input-field,
-  .ux-req-form.is-shake .btn {
+  :is(.ux-req-form, .sup-form).is-shake :is(.input-field, .form-submit) {
     animation: soon-shake 480ms cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   }
 }
