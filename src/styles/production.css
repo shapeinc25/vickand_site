@@ -670,7 +670,7 @@ html[data-motion="paused"] .hero-morph {
   order: -1;
 }
 
-/* The mobile panels share one sticky stage and trade places after a short swipe. */
+/* Narrow screens share a measured stage, including resized desktop windows. */
 @media (max-width: 760px) {
   html.js[data-motion="running"] .ux-story {
     height: auto;
@@ -678,7 +678,7 @@ html[data-motion="paused"] .hero-morph {
   html.js[data-motion="running"] .ux-story::after {
     content: "";
     display: block;
-    height: 56svh;
+    height: 102svh;
   }
   html.js[data-motion="running"] .ux-story-stage {
     display: grid;
@@ -693,7 +693,16 @@ html[data-motion="paused"] .hero-morph {
   html.js[data-motion="running"] .ux-sp-inner {
     height: auto;
   }
-  .ux-story .ux-tb {
+  .ux-next {
+    margin-top: 0;
+  }
+}
+/* A short swipe switches the story only on compact touch screens. */
+@media (max-width: 760px) and (min-height: 641px) and (pointer: coarse) {
+  html.js[data-motion="running"] .ux-story::after {
+    height: 56svh;
+  }
+  html.js[data-motion="running"] .ux-story .ux-tb {
     opacity: 0;
     transform: translate3d(var(--story-slide), 0, 0);
     transition:
@@ -706,16 +715,13 @@ html[data-motion="paused"] .hero-morph {
   .ux-sp-b {
     --story-slide: 56px;
   }
-  .ux-story:not([data-story-step="second"]) .ux-sp-a .ux-tb,
-  .ux-story[data-story-step="second"] .ux-sp-b .ux-tb {
+  html.js[data-motion="running"] .ux-story:not([data-story-step="second"]) .ux-sp-a .ux-tb,
+  html.js[data-motion="running"] .ux-story[data-story-step="second"] .ux-sp-b .ux-tb {
     opacity: 1;
     transform: translate3d(0, 0, 0);
     transition:
       opacity 280ms ease-out 160ms,
       transform 420ms cubic-bezier(0.16, 1, 0.3, 1) 160ms;
-  }
-  .ux-next {
-    margin-top: 0;
   }
 }
 @media (max-width: 760px) and (max-height: 640px) {

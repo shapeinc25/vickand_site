@@ -251,6 +251,49 @@ test("support uses the shared success button before showing its confirmation", a
   assert.ok(modal.classList.contains("is-sent"));
   assert.equal(d.activeElement, modal.querySelector(".sup-ok"));
 });
+test("the short UX story swipe is exclusive to compact touch screens", (t) => {
+  const { w, d, run } = fixture(t, ux);
+  const advance = clock(w);
+  const story = d.querySelector("#ux-story");
+  const stage = story.querySelector(".ux-story-stage");
+  const first = story.querySelector(".ux-sp-a .ux-tb");
+  const second = story.querySelector(".ux-sp-b .ux-tb");
+  let width = 390;
+  let touch = false;
+  let top = -156;
+  w.__reduced = false;
+  Object.defineProperty(w, "innerWidth", { get: () => width });
+  Object.defineProperty(w, "innerHeight", { value: 780 });
+  Object.defineProperty(stage, "clientHeight", { value: 780 });
+  Object.defineProperty(story, "offsetParent", { value: d.body });
+  story.getBoundingClientRect = () => ({ top });
+  w.matchMedia = (query) => ({
+    get matches() {
+      return width <= 760 && (!query.includes("pointer: coarse") || touch);
+    },
+    addEventListener() {},
+  });
+  const update = () => {
+    w.dispatchEvent(new w.Event("resize"));
+    advance(16);
+  };
+  run("src/scripts/ux/story.js");
+  assert.equal(story.dataset.storyStep, undefined);
+  assert.equal(first.style.getPropertyValue("--o"), "1.000");
+  assert.equal(second.style.getPropertyValue("--o"), "0.000");
+  touch = true;
+  update();
+  assert.equal(story.dataset.storyStep, "second");
+  top = 0;
+  update();
+  assert.equal(story.dataset.storyStep, "first");
+  width = 1280;
+  top = -1560;
+  update();
+  assert.equal(story.dataset.storyStep, undefined);
+  assert.ok(Number(second.style.getPropertyValue("--o")) > 0);
+});
+
 test("navigation reopens immediately and excludes closed links from keyboard focus", (t) => {
   const { w, d, run } = fixture(t, source("src/partials/layout/header.html") + "<button id=outside>Outside</button>");
   run("src/scripts/common/header-menu.js");
