@@ -55,6 +55,7 @@ function submit(w, form) {
 
 test("pending form locks its fields and ignores a second submit; accepted delivery restores controls", async (t) => {
   const { w, d, run } = fixture(t);
+  const advance = clock(w);
   let complete;
   const calls = [];
   w.fetch = (...args) => {
@@ -75,10 +76,27 @@ test("pending form locks its fields and ignores a second submit; accepted delive
   await settle();
   assert.equal(form.querySelector("[name=email]").disabled, false);
   assert.equal(form.querySelector("[name=email]").value, "");
-  assert.match(form.querySelector(".form-status").textContent, /request reached us/);
-  assert.equal(form.querySelector(".form-status").parentElement, form);
-  assert.equal(form.querySelector(".form-status").dataset.error, "false");
+  assert.equal(form.querySelector(".soon-btn-label").textContent, "Subscribed");
+  assert.equal(form.querySelector("#subscribe-msg").textContent, "Thank you for subscribing!");
+  assert.equal(form.querySelector("#subscribe-msg").hidden, false);
+  assert.equal(form.querySelector("[name=email]").readOnly, true);
+  assert.equal(form.classList.contains("is-done"), true);
   assert.equal(form.hasAttribute("aria-busy"), false);
+  submit(w, form);
+  assert.equal(calls.length, 1);
+  advance(9999);
+  assert.equal(form.classList.contains("is-done"), true);
+  advance(1);
+  assert.equal(form.classList.contains("is-done"), false);
+  assert.equal(form.querySelector(".soon-btn-label").textContent, "Subscribe");
+  assert.equal(form.querySelector("#subscribe-msg").hidden, true);
+  assert.equal(form.querySelector("[name=email]").readOnly, false);
+  submit(w, fillWaitlist(d));
+  complete({ ok: true, json: async () => ({ ok: true }) });
+  await settle();
+  form.querySelector("[name=email]").focus();
+  assert.equal(form.classList.contains("is-done"), false);
+  assert.equal(form.querySelector("[name=email]").readOnly, false);
 });
 test("retryable network failure preserves values and reuses its idempotency key", async (t) => {
   const { w, d, run } = fixture(t);
@@ -98,7 +116,7 @@ test("retryable network failure preserves values and reuses its idempotency key"
   assert.equal(calls[0][1].headers["Idempotency-Key"], calls[1][1].headers["Idempotency-Key"]);
   assert.match(form.querySelector(".form-status").textContent, /could not confirm delivery/);
 });
-test("missing release email cannot reach the API", (t) => {
+test("missing or incomplete release email shows the reference error and cannot reach the API", (t) => {
   const { w, d, run } = fixture(t);
   let calls = 0;
   w.fetch = () => {
@@ -106,10 +124,20 @@ test("missing release email cannot reach the API", (t) => {
   };
   run("src/scripts/common/forms.js");
   const form = fillWaitlist(d);
-  form.querySelector("[name=email]").value = "";
-  submit(w, form);
+  const email = form.querySelector("[name=email]");
+  for (const invalid of ["", "test", "test@example", "test@.invalid"]) {
+    email.value = invalid;
+    submit(w, form);
+    assert.equal(email.getAttribute("aria-invalid"), "true");
+    assert.equal(form.classList.contains("is-shake"), true);
+    assert.equal(form.querySelector("#subscribe-msg").hidden, false);
+    assert.equal(form.querySelector(".form-status").textContent, "");
+  }
   assert.equal(calls, 0);
-  assert.match(form.querySelector(".form-status").textContent, /valid email address/);
+  email.value = "qa@example.invalid";
+  email.dispatchEvent(new w.Event("input", { bubbles: true }));
+  assert.equal(email.hasAttribute("aria-invalid"), false);
+  assert.equal(form.querySelector("#subscribe-msg").hidden, true);
 });
 test("choosing a valid custom option clears the previous invalid state", (t) => {
   const { w, d, run } = fixture(t, ux);

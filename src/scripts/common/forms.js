@@ -98,6 +98,59 @@ function wireSelect(prefix) {
 wireSelect("ux-req-help");
 wireSelect("sup-issue");
 
+function celebrateSubscription(button) {
+  if (window.__reduced || typeof button.animate !== "function") return;
+  const colors = ["#ff5c00", "#e9e037", "#2ecf49", "#2f9de1", "#7a47d3"];
+  const bounds = button.getBoundingClientRect();
+  const layer = document.createElement("div");
+  layer.className = "subscribe-confetti";
+  layer.setAttribute("aria-hidden", "true");
+  document.body.append(layer);
+
+  const particleCount = 42;
+  const animations = [];
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement("span");
+    const size = 6 + Math.random() * 6;
+    Object.assign(particle.style, {
+      left: `${bounds.left + bounds.width / 2}px`,
+      top: `${bounds.top + bounds.height / 2}px`,
+      width: `${size}px`,
+      height: `${Math.random() < 0.5 ? size : size * 0.45}px`,
+      backgroundColor: colors[i % colors.length],
+      borderRadius: Math.random() < 0.4 ? "50%" : "2px",
+    });
+    layer.append(particle);
+    const angle = (i / particleCount) * Math.PI * 2 + Math.random() * 0.4;
+    const distance = 90 + Math.random() * 150;
+    const x = Math.cos(angle) * distance;
+    const y = Math.sin(angle) * distance * 0.8;
+    animations.push(
+      particle.animate(
+        [
+          { transform: "translate(-50%,-50%) scale(.3) rotate(0)", opacity: 1 },
+          {
+            transform: `translate(${x}px,${y}px) scale(1) rotate(${Math.random() * 540 - 270}deg)`,
+            opacity: 1,
+            offset: 0.3,
+          },
+          {
+            transform: `translate(${x * 1.1}px,${y + 160}px) scale(.9) rotate(${Math.random() * 720 - 360}deg)`,
+            opacity: 0,
+          },
+        ],
+        {
+          duration: 2400 + Math.random() * 1600,
+          delay: Math.random() * 120,
+          easing: "cubic-bezier(.15,.7,.3,1)",
+          fill: "forwards",
+        },
+      ).finished,
+    );
+  }
+  Promise.allSettled(animations).then(() => layer.remove());
+}
+
 function configureForm(form, kind) {
   if (!form) return;
   let previous = "",
@@ -122,6 +175,56 @@ function configureForm(form, kind) {
     status.hidden = false;
     status.dataset.error = String(error);
   };
+  const waitlistEmail = kind === "waitlist" ? form.querySelector('input[type="email"]') : null;
+  const waitlistBox = waitlistEmail?.closest(".input");
+  const waitlistMessage = waitlistBox?.querySelector(".input-message");
+  let resetTimer;
+  let buttonWidthAnimation;
+  const setWaitlistDone = (done) => {
+    const tick = submit.querySelector(".tick");
+    const animateWidth =
+      !window.__reduced && typeof submit.animate === "function" && getComputedStyle(form).flexDirection !== "column";
+    const previousWidth = animateWidth ? submit.getBoundingClientRect().width : 0;
+    buttonWidthAnimation?.cancel();
+    label.textContent = done ? t("Subscribed") : original;
+    if (animateWidth) {
+      // Measure the destination at its final icon width, then let the authored tick transition play.
+      tick.style.width = done ? "20px" : "0px";
+      tick.style.marginRight = done ? "0px" : "";
+      tick.style.transition = "none";
+      const targetWidth = submit.getBoundingClientRect().width;
+      tick.style.width = "";
+      tick.style.marginRight = "";
+      void tick.offsetWidth;
+      tick.style.transition = "";
+      if (previousWidth !== targetWidth) {
+        buttonWidthAnimation = submit.animate([{ width: `${previousWidth}px` }, { width: `${targetWidth}px` }], {
+          duration: done ? 350 : 300,
+          easing: done ? "cubic-bezier(.3,1.3,.5,1)" : "ease",
+        });
+      }
+    }
+    form.classList.toggle("is-done", done);
+    waitlistEmail.readOnly = done;
+    waitlistBox.classList.toggle("is-success", done);
+    waitlistMessage.textContent = t(done ? "Thank you for subscribing!" : "Enter a valid email address");
+    waitlistMessage.hidden = !done;
+    if (done) submit.setAttribute("aria-disabled", "true");
+    else submit.removeAttribute("aria-disabled");
+  };
+  const resetWaitlist = () => {
+    if (!form.classList.contains("is-done")) return;
+    clearTimeout(resetTimer);
+    setWaitlistDone(false);
+    form.dataset.sent = "false";
+  };
+  if (waitlistEmail) {
+    waitlistEmail.addEventListener("focus", resetWaitlist);
+    waitlistEmail.addEventListener("pointerdown", resetWaitlist);
+    form.addEventListener("animationend", (event) => {
+      if (event.animationName === "soon-shake") form.classList.remove("is-shake");
+    });
+  }
   const fieldError = (field) => {
     const target = field.type === "hidden" ? document.getElementById(field.id.replace(/-v$/, "")) : field;
     const wrapper = target?.closest(".input");
@@ -137,6 +240,7 @@ function configureForm(form, kind) {
     const wrapper = field.closest(".input");
     wrapper?.classList.remove("is-error");
     wrapper?.querySelector(".input-message")?.setAttribute("hidden", "");
+    if (waitlistEmail) resetWaitlist();
     if (form.dataset.sent === "true") {
       form.dataset.sent = "false";
       form.classList.remove("is-done");
@@ -146,14 +250,14 @@ function configureForm(form, kind) {
   });
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    if (sending) return;
+    if (sending || (waitlistEmail && form.classList.contains("is-done"))) return;
     let firstInvalid;
     form.querySelectorAll("[required]").forEach((field) => {
       const valid =
         field.type === "checkbox"
           ? field.checked
           : field.type === "email"
-            ? field.validity.valid && field.value.trim()
+            ? field.validity.valid && /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(field.value.trim())
             : Boolean(field.value.trim());
       if (!valid) {
         const target = fieldError(field);
@@ -161,7 +265,12 @@ function configureForm(form, kind) {
       }
     });
     if (firstInvalid) {
-      setStatus(t(kind === "waitlist" ? "Enter a valid email address" : "Complete the highlighted fields."), true);
+      if (waitlistEmail) {
+        setStatus("");
+        form.classList.remove("is-shake");
+        void form.offsetWidth;
+        form.classList.add("is-shake");
+      } else setStatus(t("Complete the highlighted fields."), true);
       firstInvalid.focus();
       return;
     }
@@ -192,7 +301,7 @@ function configureForm(form, kind) {
     });
     form.dispatchEvent(new Event("vickand:sending"));
     form.setAttribute("aria-busy", "true");
-    if (label) label.textContent = t("Sending…");
+    if (label && !waitlistEmail) label.textContent = t("Sending…");
     setStatus("");
     const controller = new AbortController(),
       timeout = setTimeout(() => controller.abort(), 20000);
@@ -212,22 +321,21 @@ function configureForm(form, kind) {
         );
       previous = "";
       requestId = "";
-      form.dataset.sent = "true";
-      form.classList.add("is-done");
-      if (label) label.textContent = t("Request sent");
-      if (kind === "support") {
-        const modal = form.closest(".sup-modal");
-        modal?.classList.add("is-sent");
-        modal?.querySelector(".sup-ok")?.focus({ preventScroll: true });
-      }
-      setStatus(
-        t(
-          kind === "waitlist"
-            ? "Your request reached us. You can withdraw it at any time."
-            : "Your request reached us. We’ll reply by email.",
-        ),
-      );
       form.reset();
+      form.dataset.sent = "true";
+      if (waitlistEmail) {
+        setWaitlistDone(true);
+        resetTimer = setTimeout(resetWaitlist, 10000);
+      } else {
+        form.classList.add("is-done");
+        if (label) label.textContent = t("Request sent");
+        if (kind === "support") {
+          const modal = form.closest(".sup-modal");
+          modal?.classList.add("is-sent");
+          modal?.querySelector(".sup-ok")?.focus({ preventScroll: true });
+        }
+        setStatus(t("Your request reached us. We’ll reply by email."));
+      }
     } catch (error) {
       if (label) label.textContent = original;
       setStatus(
@@ -244,6 +352,7 @@ function configureForm(form, kind) {
       });
       form.removeAttribute("aria-busy");
     }
+    if (waitlistEmail && form.classList.contains("is-done")) celebrateSubscription(submit);
   });
 }
 configureForm(document.getElementById("subscribe-form"), "waitlist");

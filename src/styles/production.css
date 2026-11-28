@@ -112,6 +112,19 @@ html[data-theme="dark"] .form-status[data-error="true"] {
 #subscribe-form .form-status {
   flex: 0 0 100%;
 }
+#subscribe-form .soon-submit {
+  gap: var(--control-label-gap);
+}
+.subscribe-confetti {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 1000;
+  pointer-events: none;
+}
+.subscribe-confetti > span {
+  position: absolute;
+}
 .input-field > .input-control:focus-visible {
   outline: none; /* The field wrapper supplies a single inset focus ring. */
 }
